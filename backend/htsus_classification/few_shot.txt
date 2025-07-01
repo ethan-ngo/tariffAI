@@ -1,0 +1,30 @@
+The following shows few shot examples that you should reference in classifying a product description by the 10-digit HTSUS code.
+
+Example 1:
+Description: "Men's 100% cotton denim jeans"
+HTSUS Code: 6203.42.4011
+Duty Tax: 16.6%
+
+Example 2:
+Description: "13-inch laptop computer with 512GB SSD and wireless connectivity"
+HTSUS Code: 8471.30.0100
+Duty Tax: 0%
+
+Example 3:
+Description: "Electronic Integrated Circuits, Processors & Controllers, Wh/not Combined W/memories, Converters, Logic Circuits, Amplifiers, Clock"
+HTSUS Code: 8542.31.0001
+Duty Tax: 0%
+
+Example 4:
+Description: "Leather handbag" 
+HTSUS Code: 4202.21.3000  
+Duty Tax: 5.3%  
+Reason: Use if made of reptile leather.  
+HTSUS Code: 4202.21.6000  
+Duty Tax: 10%  
+Reason: Use if not reptile leather and value is ≤ $20.  
+HTSUS Code: 4202.21.9000  
+Duty Tax: 9%  
+Reason: Use if not reptile leather and value is > $20.
+
+
