@@ -14,7 +14,7 @@ Search for a 301 description by HTSUS code
 Returns:
     tuple: (desc, note) or None if not found
 """
-def get301Desc(code: str) -> tuple[str, ...]:
+def get301Desc(code: str) -> tuple[str, str]:
     for item in data:
         if str(item['HTS_id']) == code:
             desc = item['action_description']
@@ -28,11 +28,11 @@ Search for a 301 tariff by HTSUS code
 Returns:
     str: percentage or 0.0% if not found/deleted
 """
-def get301Percent(code: str) -> str:
+def get301Percent(code: str) -> float:
     # Searches for code from API
     found = get301Desc(code)
     if not found:
-        return "0.0%"
+        return "0.0"
     
     # Checks to see if code was deleted
     desc, note = found[0], found[1]
@@ -43,7 +43,7 @@ def get301Percent(code: str) -> str:
 
     # Matches percentage from item string
     match = re.search(r'\d+(?:\.\d+)?%', desc)
-    return match.group()
+    return match.group().replace("%", "")
 
 # driver = webdriver.Chrome()
 # driver.get("https://ustr.gov/issue-areas/enforcement/section-301-investigations/search")
