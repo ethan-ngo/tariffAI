@@ -3,22 +3,18 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 import chromadb
 
 # setting the environment
-
 DATA_PATH = r"data/htsus_flattened.csv"
 CHROMA_PATH = r"chroma_db"
-
 chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
-
 collection = chroma_client.get_or_create_collection(name="htsus_codes")
 
-# loading the document
+print("Finish env setup.")
 
-# loader = CSVLoader(file_path=DATA_PATH)  
+# loading the document 
 loader = CSVLoader(file_path=DATA_PATH, encoding="utf-8-sig")
 raw_documents = loader.load()
 
-# splitting the document
-
+# splitting the documents into chunks
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=300,
     chunk_overlap=100,
@@ -28,20 +24,15 @@ text_splitter = RecursiveCharacterTextSplitter(
 
 chunks = text_splitter.split_documents(raw_documents)
 
-# preparing to be added in chromadb
+print("Successfully split documents into chunks.")
 
+# preparing to be added in chromadb
 documents = []
 metadata = []
 ids = []
-
 i = 0
 
-# for chunk in chunks:
-#     documents.append(chunk.page_content)
-#     ids.append("ID"+str(i))
-#     metadata.append(chunk.metadata)
-
-#     i += 1
+print("Starting to prepare documents...")
 
 for i, chunk in enumerate(chunks):
     # Optional: parse structured fields (if raw_documents[i] has metadata)
@@ -53,12 +44,21 @@ for i, chunk in enumerate(chunks):
         "row": i
     })
 
+print(f"Total chunks created: {len(documents)}")
+print("Adding to chromadb now...")
 
 # adding to chromadb
+BATCH_SIZE = 5000  # Safe value below ChromaDB's limit (5461)
 
+for i in range(0, len(documents), BATCH_SIZE):
+    batch_docs = documents[i:i + BATCH_SIZE]
+    batch_ids = ids[i:i + BATCH_SIZE]
+    batch_metadata = metadata[i:i + BATCH_SIZE]
 
-collection.upsert(
-    documents=documents,
-    metadatas=metadata,
-    ids=ids
-)
+    print(f"Upserting batch {i // BATCH_SIZE + 1}...")
+
+    collection.upsert(
+        documents=batch_docs,
+        metadatas=batch_metadata,
+        ids=batch_ids
+    )
