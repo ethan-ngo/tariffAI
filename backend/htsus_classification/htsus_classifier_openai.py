@@ -34,31 +34,62 @@ def classify_htsus(product_description):
     print("Successfully loaded few shot examples.")
 
     # Step 3: Retrieve relevant HTSUS codes from ChromaDB
-    results = collection.query(
-        query_texts=[product_description],
-        n_results=10  # get top 10 most relevant chunks
-    )
+    # results = collection.query(
+    #     query_texts=[product_description],
+    #     n_results=30  # get top 30 most relevant chunks
+    # )
+    results = collection.get()
     retrieved_docs = results['documents']
+    retrieved_ids = results['ids']
+    retrieved_metadatas = results['metadatas']
 
     # Flatten the list of lists into a single list of strings
     flat_retrieved_docs = [doc for sublist in retrieved_docs for doc in sublist]
+    flat_retrieved_ids = [id for sublist in retrieved_ids for id in sublist]
+    flat_retrieved_metadatas = [md for sublist in retrieved_metadatas for md in sublist]
 
     if not flat_retrieved_docs:
         print("No relevant HTSUS codes found.")
         return
     
     print("Successfully retrieved relevant HTSUS codes.")
-    print("First 3 retrieved HTSUS code entries:")
-    for i, doc in enumerate(flat_retrieved_docs[:3]):
-        print(f"{i+1}: {doc}\n")
 
-    
+    with open("combined_output.txt", "w", encoding="utf-8") as f:
+        f.write("IDs:\n")
+        for id_ in flat_retrieved_ids:
+            f.write(f"{id_}")
+
+        f.write("\nDocuments:\n")
+        for doc in flat_retrieved_docs:
+            f.write(f"{doc}")
+
+        f.write("\nMetadata:\n")
+        for meta in flat_retrieved_metadatas:
+            f.write(f"{meta}")
+
+
+    # combined_entries = []
+    # for i in range(len(flat_retrieved_docs)):
+    #     entry = (
+    #         f"ID: {flat_retrieved_ids[i]}\n"
+    #         f"Document: {flat_retrieved_docs[i]}\n"
+    #         f"Metadata: {flat_retrieved_metadatas[i]}"
+    #     )
+    #     combined_entries.append(entry)
+
+    # with open("combined_output.txt", "w", encoding="utf-8") as f:
+    #     for entry in combined_entries:
+    #         f.write(entry + "\n")  
+
+    return 
+    output_text = "\n---\n".join(combined_entries)
+
     full_prompt = (
         f"Product description:\n{product_description}\n\n"
         f"Few-shot examples:\n{few_shot_txt}\n\n"
         f"Instructions:\n{prompt_txt}\n\n"
         "HTSUS data to choose from:\n"
-        + "\n---\n".join(flat_retrieved_docs)
+        + output_text
     )
 
     print("Full prompt constructed. Setting up request to OpenAI...")

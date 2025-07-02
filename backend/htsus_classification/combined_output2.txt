@@ -1,0 +1,111 @@
+ID: HTSUS_53798
+Document: components; plates, cylinders and lithographic stones, prepared for printing purposes (for example, planed, grained or polished): - Plates
+Metadata: {'row': 53798, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_44639
+Document: whether or not plated or clad with other precious metal: - Other: - Valued not over $18 per dozen pieces or parts
+Metadata: {'source': 'data/htsus_flattened.csv', 'row': 44639}
+ID: HTSUS_48437
+Document: or steel: - Other: - Other: - Not coated or plated with precious metal: - Of tinplate - Kitchen or tableware suitable for food or drink contact
+Metadata: {'row': 48437, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_43194
+Document: Full_Description: Ceramic tableware, kitchenware, other household articles and toilet articles, other than of porcelain or china: - Tableware and kitchenware: - Of coarse-grained earthenware, or of coarse- grained stoneware; of fine-grained earthenware, whether or not decorated, having a
+Metadata: {'row': 43194, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_43062
+Document: of a kind used for the conveyance or packing of goods: - Ceramic wares for laboratory, chemical or other technical uses: - Of porcelain or china:
+Metadata: {'row': 43062, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_43224
+Document: Full_Description: Ceramic tableware, kitchenware, other household articles and toilet articles, other than of porcelain or china: - Tableware and kitchenware: - Other: - Other: - Other: - Steins with permanently attached pewter lids; candy boxes, decanters, punch bowls, pretzel dishes, tidbit
+Metadata: {'row': 43224, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_43070
+Document: of a kind used for the conveyance or packing of goods: - Ceramic wares for laboratory, chemical or other technical uses: - Of porcelain or china: - Other
+Metadata: {'row': 43070, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_73453
+Document: covered with porcelain, the foregoing valued $4 or more but not over $20 each (provided for in subheading 7321.11.10)
+Metadata: {'row': 73453, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_43066
+Document: of a kind used for the conveyance or packing of goods: - Ceramic wares for laboratory, chemical or other technical uses: - Of porcelain or china: - Machinery parts
+Metadata: {'row': 43066, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_53793
+Document: components; plates, cylinders and lithographic stones, prepared for printing purposes (for example, planed, grained or polished):
+Metadata: {'row': 53793, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_43200
+Document: Full_Description: Ceramic tableware, kitchenware, other household articles and toilet articles, other than of porcelain or china: - Tableware and kitchenware: - Other: - Other: - Available in specified sets: - In any pattern for which the aggregate value of the articles listed in additional U.S.
+Metadata: {'source': 'data/htsus_flattened.csv', 'row': 43200}
+ID: HTSUS_43204
+Document: Full_Description: Ceramic tableware, kitchenware, other household articles and toilet articles, other than of porcelain or china: - Tableware and kitchenware: - Other: - Other: - Available in specified sets: - In any pattern for which the aggregate value of the articles listed in additional U.S.
+Metadata: {'source': 'data/htsus_flattened.csv', 'row': 43204}
+ID: HTSUS_43208
+Document: Full_Description: Ceramic tableware, kitchenware, other household articles and toilet articles, other than of porcelain or china: - Tableware and kitchenware: - Other: - Other: - Available in specified sets: - In any pattern for which the aggregate value of the articles listed in additional U.S.
+Metadata: {'row': 43208, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_43212
+Document: Full_Description: Ceramic tableware, kitchenware, other household articles and toilet articles, other than of porcelain or china: - Tableware and kitchenware: - Other: - Other: - Available in specified sets: - In any pattern for which the aggregate value of the articles listed in additional U.S.
+Metadata: {'source': 'data/htsus_flattened.csv', 'row': 43212}
+ID: HTSUS_43216
+Document: Full_Description: Ceramic tableware, kitchenware, other household articles and toilet articles, other than of porcelain or china: - Tableware and kitchenware: - Other: - Other: - Available in specified sets: - In any pattern for which the aggregate value of the articles listed in additional U.S.
+Metadata: {'row': 43216, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_43220
+Document: Full_Description: Ceramic tableware, kitchenware, other household articles and toilet articles, other than of porcelain or china: - Tableware and kitchenware: - Other: - Other: - Available in specified sets: - In any pattern for which the aggregate value of the articles listed in additional U.S.
+Metadata: {'source': 'data/htsus_flattened.csv', 'row': 43220}
+ID: HTSUS_53803
+Document: components; plates, cylinders and lithographic stones, prepared for printing purposes (for example, planed, grained or polished): - Other
+Metadata: {'row': 53803, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_43255
+Document: HTS_Number: 6913.90.30.00
+Full_Description: Statuettes and other ornamental ceramic articles: - Other: - Other: - Of earthenware, whether or not decorated, having a reddish-colored body and a lustrous glaze, and mottled, streaked or solidly colored brown to black with metallic oxide or salt
+Metadata: {'source': 'data/htsus_flattened.csv', 'row': 43255}
+ID: HTSUS_42821
+Document: Full_Description: Other refractory ceramic goods (for example, retorts, crucibles, muffles, nozzles, plugs, supports, cupels, tubes, pipes, sheaths, rods and slide gates), other than those of siliceous fossil meals or of similar siliceous earths: - Containing by weight more than 50 percent of
+Metadata: {'source': 'data/htsus_flattened.csv', 'row': 42821}
+ID: HTSUS_43163
+Document: Full_Description: Tableware, kitchenware, other household articles and toilet articles, of porcelain or china: - Tableware and kitchenware: - Other: - Other: - Other: - Steins with permanently attached pewter lids, candy boxes, decanters, punch bowls, pretzel dishes, tidbit dishes, tiered servers,
+Metadata: {'source': 'data/htsus_flattened.csv', 'row': 43163}
+ID: HTSUS_42826
+Document: HTS_Number: 6903.90.00.10
+Full_Description: Other refractory ceramic goods (for example, retorts, crucibles, muffles, nozzles, plugs, supports, cupels, tubes, pipes, sheaths, rods and slide gates), other than those of siliceous fossil meals or of similar siliceous earths: - Other - Of clay
+Metadata: {'row': 42826, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_42824
+Document: HTS_Number: 6903.90.00.00
+Full_Description: Other refractory ceramic goods (for example, retorts, crucibles, muffles, nozzles, plugs, supports, cupels, tubes, pipes, sheaths, rods and slide gates), other than those of siliceous fossil meals or of similar siliceous earths: - Other
+Metadata: {'row': 42824, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_43247
+Document: Full_Description: Statuettes and other ornamental ceramic articles: - Of porcelain or china: - Statues, statuettes and handmade flowers, valued over $2.50 each and produced by professional sculptors or directly from molds made from original models produced by professional sculptors
+Metadata: {'source': 'data/htsus_flattened.csv', 'row': 43247}
+ID: HTSUS_43245
+Document: HTS_Number: 6913.10.00.00
+Full_Description: Statuettes and other ornamental ceramic articles: - Of porcelain or china:
+General_Rate_of_Duty: Free
+Special_Rate_of_Duty: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)
+Column_2_Rate_of_Duty: 30%
+Additional_Duties:
+Metadata: {'source': 'data/htsus_flattened.csv', 'row': 43245}
+ID: HTSUS_43260
+Document: HTS_Number: 6914.10.40.00
+Full_Description: Other ceramic articles: - Of porcelain or china: - Ceramic ferrules of porcelain or china, not exceeding 3 mm in diameter or 25 mm in length, having a fiber channel opening and/or ceramic mating sleeves of alumina or zirconia
+General_Rate_of_Duty: Free
+Metadata: {'row': 43260, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_42828
+Document: HTS_Number: 6903.90.00.50
+Full_Description: Other refractory ceramic goods (for example, retorts, crucibles, muffles, nozzles, plugs, supports, cupels, tubes, pipes, sheaths, rods and slide gates), other than those of siliceous fossil meals or of similar siliceous earths: - Other - Other
+Metadata: {'source': 'data/htsus_flattened.csv', 'row': 42828}
+ID: HTSUS_43259
+Document: HTS_Number: 6914.10.00.00
+Full_Description: Other ceramic articles: - Of porcelain or china:
+General_Rate_of_Duty: Free
+Special_Rate_of_Duty: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)
+Column_2_Rate_of_Duty: 30%
+Additional_Duties:
+Metadata: {'row': 43259, 'source': 'data/htsus_flattened.csv'}
+ID: HTSUS_44682
+Document: metal, whether or not plated or clad with precious metal: - Other: - Other - Of ISO standard platinum: - Other
+Metadata: {'source': 'data/htsus_flattened.csv', 'row': 44682}
+ID: HTSUS_42817
+Document: Full_Description: Other refractory ceramic goods (for example, retorts, crucibles, muffles, nozzles, plugs, supports, cupels, tubes, pipes, sheaths, rods and slide gates), other than those of siliceous fossil meals or of similar siliceous earths: - Containing by weight more than 50 percent of free
+Metadata: {'source': 'data/htsus_flattened.csv', 'row': 42817}
+ID: HTSUS_43249
+Document: HTS_Number: 6913.10.20.00
+Full_Description: Statuettes and other ornamental ceramic articles: - Of porcelain or china: - Other: - Of bone chinaware
+General_Rate_of_Duty: 3.30%
+Special_Rate_of_Duty: Free (A*,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)
+Column_2_Rate_of_Duty: 70%
+Additional_Duties:
+Metadata: {'source': 'data/htsus_flattened.csv', 'row': 43249}

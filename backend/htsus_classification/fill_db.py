@@ -1,9 +1,10 @@
 from langchain_community.document_loaders import CSVLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import chromadb
+import csv
 
 # setting the environment
-DATA_PATH = r"data/htsus_flattened.csv"
+DATA_PATH = r"data/htsus_flattened_shortened.csv"
 CHROMA_PATH = r"chroma_db"
 chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
 collection = chroma_client.get_or_create_collection(name="htsus_codes")
@@ -30,19 +31,22 @@ print("Successfully split documents into chunks.")
 documents = []
 metadata = []
 ids = []
-i = 0
 
 print("Starting to prepare documents...")
 
-for i, chunk in enumerate(chunks):
-    # Optional: parse structured fields (if raw_documents[i] has metadata)
-    content = chunk.page_content
-    documents.append(content)
-    ids.append(f"HTSUS_{i}")
-    metadata.append({
-        "source": chunk.metadata.get("source", ""),
-        "row": i
-    })
+# Read CSV rows and prepare documents
+with open(DATA_PATH, newline='', encoding='utf-8-sig') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for i, row in enumerate(reader):
+        # Combine all fields into a single string for the document content
+        doc_text = " | ".join([f"{k}: {v}" for k, v in row.items()])
+        documents.append(doc_text)
+        
+        # Store the entire row as metadata (optional, but useful)
+        metadata.append(row)
+        
+        # Create unique ID per row
+        ids.append(f"HTSUS_{i}")
 
 print(f"Total chunks created: {len(documents)}")
 print("Adding to chromadb now...")
