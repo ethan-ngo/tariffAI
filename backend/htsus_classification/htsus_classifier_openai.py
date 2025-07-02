@@ -88,10 +88,10 @@ def classify_htsus(product_description):
 
 # Example usage
 if __name__ == "__main__":
-    classify_htsus("Men 100 cotton denim jeans") # WRONG! it outputted 6203.42.4011 & 16.6%; WRONG SHUD BE 6203.42.07.11
+    # classify_htsus("Men 100 cotton denim jeans") # WRONG! it outputted 6203.42.4011 & 16.6%; WRONG SHUD BE 6203.42.07.11
     # classify_htsus("cotton plushie") # works! it outputted 9503.00.0073 & 0%
     # classify_htsus("Smartphone with 128GB storage, OLED screen, and 5G support") # works! it outputted 8517.13.0000 & 0%
     # classify_htsus("Leather handbag") # works! it outputted the 3 possibilities shown in few_shot.txt
-    # classify_htsus("Porcelain plate") # WRONG! it outputted 6911.10.0000 and 2.9% instead of 6911.10.5200 and 25%
+    classify_htsus("Porcelain plate") # WRONG! it outputted 6911.10.0000 and 2.9% instead of 6911.10.5200 and 25%
     # classify_htsus("Cordless drill") # WRONG! it outputted 8467.21.00.10 but 3.7% instead of 1.7%
     
