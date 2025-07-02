@@ -1,4 +1,8 @@
-The following shows few shot examples that you should reference in classifying a product description by the 10-digit HTSUS code.
+The following examples illustrate the expected structure and reasoning style for classifying products by their 
+10-digit HTSUS code. Use them strictly as guides for formatting, explanation, and classification logic. 
+You may reuse an example only if the user's product description exactly matches one of these examples. Otherwise,
+use the provided HTSUS data to classify the new product description independently, following the same 
+structure and reasoning style.
 
 -----------------------------------
 EXAMPLE 1:

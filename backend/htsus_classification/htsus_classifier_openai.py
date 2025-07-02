@@ -21,75 +21,135 @@ api_key = os.getenv("OPENAI_API_KEY")
 prompt_file = "prompt_openai.txt"
 few_shot_file = "few_shot.txt"
 
+with open(prompt_file, "r", encoding="utf-8") as f:
+    prompt_txt = f.read()
+print("Successfully loaded prompt.")
+
+with open(few_shot_file, "r", encoding="utf-8") as f:
+    few_shot_txt = f.read()
+print("Successfully loaded few shot examples.")
+
 # Uses Gemini Flash to get the HTSUS code and duty tax for a given product description
-def classify_htsus(product_description):
-    # Step 1: Load prompt template
-    with open(prompt_file, "r", encoding="utf-8") as f:
-        prompt_txt = f.read()
-    print("Successfully loaded prompt.")
-
-    # Step 2: Load few-shot examples
-    with open(few_shot_file, "r", encoding="utf-8") as f:
-        few_shot_txt = f.read()
-    print("Successfully loaded few shot examples.")
-
+def get_top_50(product_description, n):
     # Step 3: Retrieve relevant HTSUS codes from ChromaDB
-    # results = collection.query(
-    #     query_texts=[product_description],
-    #     n_results=30  # get top 30 most relevant chunks
-    # )
-    results = collection.get()
+    results = collection.query(
+        query_texts=[product_description], 
+        n_results=n  # get top 30 most relevant chunks
+    )
+
+    # results = collection.get()
     retrieved_docs = results['documents']
-    retrieved_ids = results['ids']
-    retrieved_metadatas = results['metadatas']
 
     # Flatten the list of lists into a single list of strings
     flat_retrieved_docs = [doc for sublist in retrieved_docs for doc in sublist]
-    flat_retrieved_ids = [id for sublist in retrieved_ids for id in sublist]
-    flat_retrieved_metadatas = [md for sublist in retrieved_metadatas for md in sublist]
 
     if not flat_retrieved_docs:
         print("No relevant HTSUS codes found.")
         return
     
     print("Successfully retrieved relevant HTSUS codes.")
+    print(f"Retrieved {len(flat_retrieved_docs)} HTSUS codes.")
 
-    with open("combined_output.txt", "w", encoding="utf-8") as f:
-        f.write("IDs:\n")
-        for id_ in flat_retrieved_ids:
-            f.write(f"{id_}")
+    with open("output_docs.txt", "w", encoding="utf-8") as f:
+        for i, doc in enumerate(flat_retrieved_docs):
+            f.write(f"{i+1}. {doc}\n\n")
 
-        f.write("\nDocuments:\n")
-        for doc in flat_retrieved_docs:
-            f.write(f"{doc}")
+    output_text = "\n---\n".join(flat_retrieved_docs)
 
-        f.write("\nMetadata:\n")
-        for meta in flat_retrieved_metadatas:
-            f.write(f"{meta}")
+    # print(f"output_text is {output_text}")
+
+    return output_text
+
+def process_top_50(output_text, product_description):
+    prompt_filter = "prompt_filter_irrelevant_htsus.txt"
+    with open(prompt_filter, "r", encoding="utf-8") as f:
+        prompt_filter_txt = f.read()
+    print("Successfully loaded few shot examples.")
+
+    # This function can be used to process the top 50 HTSUS codes if needed
+    full_prompt = (
+        f"HTSUS codes retrieved:\n{output_text}\n\n"
+        f"Product Description:\n{product_description}\n\n"
+        f"Instructions:\n{prompt_filter_txt}\n\n"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",  # Replace with your actual API key
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
+    data = {
+        "text": full_prompt
+    }
+
+    print("Sent request to OpenAI...")
+    response = requests.post(url, headers=headers, json=data)
+
+    # Handle response
+    if response.status_code == 200:
+        response_json = response.json()  # Parse the JSON response
+        chatbot_output = response_json.get("text", "")  # Get the "text" field safely
+
+        # Split into sections
+        relevant_split = chatbot_output.split("Relevant Documents:")[1]
+        
+        if "Irrelevant Documents:" in relevant_split:
+            relevant_text, rest = relevant_split.split("Irrelevant Documents:")
+        else:
+            relevant_text = relevant_split
+            rest = ""
+
+        if "Prompt Suggestion:" in rest:
+            irrelevant_text, prompt_text = rest.split("Prompt Suggestion:")
+        else:
+            irrelevant_text = rest
+            prompt_text = ""
+
+        # Clean and split into entries
+        relevant_entries = [line.strip() for line in relevant_text.strip().split("\n") if line.strip()]
+        irrelevant_entries = [line.strip() for line in irrelevant_text.strip().split("\n") if line.strip()]
+        prompt_suggestion = prompt_text.strip()
+
+        return relevant_entries, irrelevant_entries, prompt_suggestion
+    else:
+        print("Error:", response.status_code, response.text)
 
 
-    # combined_entries = []
-    # for i in range(len(flat_retrieved_docs)):
-    #     entry = (
-    #         f"ID: {flat_retrieved_ids[i]}\n"
-    #         f"Document: {flat_retrieved_docs[i]}\n"
-    #         f"Metadata: {flat_retrieved_metadatas[i]}"
-    #     )
-    #     combined_entries.append(entry)
 
-    # with open("combined_output.txt", "w", encoding="utf-8") as f:
-    #     for entry in combined_entries:
-    #         f.write(entry + "\n")  
+def classify_htsus(product_description):
+    output_text_1 = get_top_50(product_description, 100)
 
-    return 
-    output_text = "\n---\n".join(combined_entries)
+    relevant, irrelevant, added_prompt = process_top_50(output_text_1, product_description)
+    # print("Relevant HTSUS codes after filtering:", relevant[0:5], " and its length is ", len(relevant))  # Print first 5 relevant codes for brevity
+    # print("Irrelevant HTSUS codes after filtering:", irrelevant[0:5], " and its length is ", len(irrelevant))  # Print first 5 irrelevant codes for brevity
+    # print("Prompt suggestion for future queries:", added_prompt)
+
+    length = len(relevant)
+    remaining = 50 - length 
+
+    combined_query = product_description + " " + added_prompt
+    output_text_2 = get_top_50(combined_query, remaining)
+
+    relevant2, irrelevant2, added_prompt2 = process_top_50(output_text_2, product_description)
+    
+    with open("outputtext2", "w", encoding="utf-8") as f:
+        f.write(str(output_text_2))
+    print("Successfully retrieved additional HTSUS codes based on the prompt suggestion.")
+    # relevant2, irrelevant2, added_prompt2 = process_top_50(output_text_2, product_description)
+    # print("Relevant HTSUS codes after filtering:", relevant2[0:5], " and its length is ", len(relevant2))  # Print first 5 relevant codes for brevity
+    # print("Irrelevant HTSUS codes after filtering:", irrelevant[0:5], " and its length is ", len(irrelevant))  # Print first 5 irrelevant codes for brevity
+    # print("Prompt suggestion for future queries:", added_prompt)
+
+
+    # return
 
     full_prompt = (
         f"Product description:\n{product_description}\n\n"
         f"Few-shot examples:\n{few_shot_txt}\n\n"
         f"Instructions:\n{prompt_txt}\n\n"
         "HTSUS data to choose from:\n"
-        + output_text
+        + "\n".join(relevant) + "\n\n"
+        + "\n".join(relevant2)
     )
 
     print("Full prompt constructed. Setting up request to OpenAI...")
@@ -123,6 +183,6 @@ if __name__ == "__main__":
     # classify_htsus("cotton plushie") # works! it outputted 9503.00.0073 & 0%
     # classify_htsus("Smartphone with 128GB storage, OLED screen, and 5G support") # works! it outputted 8517.13.0000 & 0%
     # classify_htsus("Leather handbag") # works! it outputted the 3 possibilities shown in few_shot.txt
-    classify_htsus("Porcelain plate") # WRONG! it outputted 6911.10.0000 and 2.9% instead of 6911.10.5200 and 25%
+    classify_htsus("Porcelain plate") # WRONG! it outputted 6913.10.00.00 and 2.9% instead of 6911.10.5200 and 25%
     # classify_htsus("Cordless drill") # WRONG! it outputted 8467.21.00.10 but 3.7% instead of 1.7%
     

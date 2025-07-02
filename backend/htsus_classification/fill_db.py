@@ -4,7 +4,7 @@ import chromadb
 import csv
 
 # setting the environment
-DATA_PATH = r"data/htsus_flattened_shortened.csv"
+DATA_PATH = r"data/htsus_flattened.csv"
 CHROMA_PATH = r"chroma_db"
 chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
 collection = chroma_client.get_or_create_collection(name="htsus_codes")
@@ -29,7 +29,6 @@ print("Successfully split documents into chunks.")
 
 # preparing to be added in chromadb
 documents = []
-metadata = []
 ids = []
 
 print("Starting to prepare documents...")
@@ -42,11 +41,9 @@ with open(DATA_PATH, newline='', encoding='utf-8-sig') as csvfile:
         doc_text = " | ".join([f"{k}: {v}" for k, v in row.items()])
         documents.append(doc_text)
         
-        # Store the entire row as metadata (optional, but useful)
-        metadata.append(row)
-        
         # Create unique ID per row
-        ids.append(f"HTSUS_{i}")
+        hts_code = row.get('HTS_Number', f"HTSUS_{i}")  # fallback if missing
+        ids.append(hts_code)
 
 print(f"Total chunks created: {len(documents)}")
 print("Adding to chromadb now...")
@@ -57,12 +54,10 @@ BATCH_SIZE = 5000  # Safe value below ChromaDB's limit (5461)
 for i in range(0, len(documents), BATCH_SIZE):
     batch_docs = documents[i:i + BATCH_SIZE]
     batch_ids = ids[i:i + BATCH_SIZE]
-    batch_metadata = metadata[i:i + BATCH_SIZE]
 
     print(f"Upserting batch {i // BATCH_SIZE + 1}...")
 
     collection.upsert(
         documents=batch_docs,
-        metadatas=batch_metadata,
         ids=batch_ids
     )
