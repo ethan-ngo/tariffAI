@@ -66,8 +66,8 @@ function removeItem(id) {
 
 <style scoped>
 .sidebar {
-  width: 370px;
-  height: 100vh;
+  width: 325px;
+  height: 100%;
   background: #18181b;
   color: #ececf1;
   display: flex;

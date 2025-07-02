@@ -55,8 +55,8 @@ function sendMessage() {
 .chatbot-container {
   display: flex;
   flex-direction: column;
-  height: 500px;
-  width: 380px;
+  height: 800px;
+  width: 1000px;
   background: #23232a;
   border-radius: 18px;
   box-shadow: 0 4px 32px 0 rgba(0,0,0,0.18);
@@ -126,8 +126,9 @@ function sendMessage() {
   gap: 8px;
 }
 .chat-input {
-  flex: 1;
-  padding: 10px 14px;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 10px 24px; /* wider padding */
   border-radius: 12px;
   border: none;
   background: #343541;
@@ -140,7 +141,7 @@ function sendMessage() {
   color: #fff;
   border: none;
   border-radius: 10px;
-  padding: 0 18px;
+  padding: 0 28px; /* wider button */
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;

@@ -2,11 +2,13 @@
   <div id="app">
     <ItemCart />
     <div class="main-content">
-      <div class="top-half">
-        <TariffForm msg="Tariff Calculator"/>
-      </div>
-      <div class="bottom-half">
-        <ChatBot />
+      <div class="center-row">
+        <div class="left-panel">
+          <TariffForm msg="Tariff Calculator"/>
+        </div>
+        <div class="right-panel">
+          <ChatBot />
+        </div>
       </div>
     </div>
   </div>
@@ -28,6 +30,13 @@ export default {
 </script>
 
 <style>
+html, body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -37,32 +46,47 @@ export default {
   height: 100vh;
   margin: 0;
   text-align: center;
+  overflow: hidden;
 }
 
 .main-content {
-  margin-left: 320px;
-  width: calc(100vw - 320px);
+  margin-left: 325px; /* match sidebar width */
+  width: calc(100vw - 325px);
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.top-half, .bottom-half {
-  flex: 1 1 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 0;
+  overflow: hidden;
 }
 
-.top-half {
-  border-bottom: 1px solid #eee;
-  background: #fafbfc;
-  height: 50%;
+.center-row {
+  display: flex;
+  gap: 64px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
-.bottom-half {
-  background: #f5f6fa;
-  height: 50%;
+.left-panel,
+.right-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  overflow: hidden;
+}
+
+.left-panel {
+  max-width: 420px;
+  width: 100%;
+  height: 100%;
+}
+
+.right-panel {
+  max-width: 1000px;
+  width: 100%;
+  height: 100%;
 }
 </style>

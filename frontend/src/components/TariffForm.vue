@@ -18,8 +18,23 @@
       </div>
       
       <div class="form-row">
+        <label for="productValue">Product Value:</label>
+        <input type="number" id="productValue" v-model="productValue" min="0" step="0.01" placeholder="Enter product value">
+      </div>
+
+      <div class="form-row">
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" v-model="quantity" min="1" required>
+      </div>
+
+      <div class="form-row">
+        <label for="shippingCost">Shipping Cost:</label>
+        <input type="number" id="shippingCost" v-model="shippingCost" min="0" step="0.01" placeholder="Enter shipping cost">
+      </div>
+
+      <div class="form-row">
+        <label for="insuranceCost">Insurance Cost:</label>
+        <input type="number" id="insuranceCost" v-model="insuranceCost" min="0" step="0.01" placeholder="Enter insurance cost">
       </div>
       
       <div class="form-row">
@@ -59,6 +74,9 @@ export default {
       quantity: 1,
       weight: 0,
       weightUnit: 'kg',
+      productValue: '',
+      shippingCost: '',
+      insuranceCost: '',
       result: null
     }
   },
@@ -69,10 +87,7 @@ export default {
   },
   methods: {
     async submitForm() {
-      if (!this.code) {
-        this.result = { error: "Please enter a code." };
-        return;
-      }
+      // Remove code required validation, keep others as needed
       if (!this.country) {
         this.result = { error: "Please select a country." };
         return;
@@ -88,22 +103,8 @@ export default {
       
       try {
         // Include the new form data in the request
-        const formData = {
-          code: this.code,
-          country: this.country,
-          productDesc: this.productDesc,
-          quantity: this.quantity,
-          weight: this.weight,
-          weightUnit: this.weightUnit
-        };
         
-        const response = await fetch(`http://127.0.0.1:5000/scraper/301/${this.code}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData)
-        });
+        const response = await fetch(`http://127.0.0.1:5000/scraper/301/${this.code}`);
         const data = await response.json();
         this.result = data;
       } catch (error) {
@@ -115,6 +116,9 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  font-size: 50px;
+}
 h3 {
   margin: 40px 0 0;
 }
@@ -131,7 +135,7 @@ a {
 }
 .tariff-form {
   margin: 20px auto;
-  max-width: 500px;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -168,7 +172,7 @@ a {
 }
 button {
   padding: 10px 20px;
-  background-color: #42b983;
+  background-color: #4f46e5;
   color: white;
   border: none;
   border-radius: 4px;
@@ -176,7 +180,7 @@ button {
   font-size: 16px;
 }
 button:hover {
-  background-color: #369870;
+  background-color: #6366f1;
 }
 .result {
   margin: 20px auto;
