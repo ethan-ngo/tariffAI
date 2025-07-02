@@ -1,0 +1,3 @@
+# Ignore Chroma DB files
+backend/htsus_classification/chroma_db/
+.env
