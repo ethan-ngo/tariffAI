@@ -17,7 +17,7 @@ Follow these steps carefully:
 function, form (e.g., finished good, part), composition, intended use, any key distinguishing characteristics
 4. Match these traits to the most appropriate HTSUS heading, subheading, and statistical 
 suffix by using "few_shot.txt", which contains labeled examples.
-5. Ensure the 10-digit HTSUS code is valid
+5. Ensure the 10-digit HTSUS code is valid.
 6. Use the valid, 10-digit HTSUS code to get the duty tax as well.
 7. If a **clear match exists**, return just:
    HTSUS Code: [10-digit code]  

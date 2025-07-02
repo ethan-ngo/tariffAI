@@ -1,4 +1,4 @@
-# htsus_classifier_gemini.py
+# htsus_classifier_openai.py
 import os
 import csv
 import re
