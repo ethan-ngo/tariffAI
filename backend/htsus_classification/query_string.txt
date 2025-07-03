@@ -1,3 +1,1 @@
-This is the product description and details: ('This is the product description: Cordless drill\n', "This is the product context that details the product's keywords and functionalities: A cordless drill is a versatile tool that allows you to easily drill holes and drive screws without the need for a power outlet. With a rechargeable battery, you can take your cordless drill anywhere and tackle a variety of tasks with ease. Whether you're assembling furniture, hanging shelves, or building a deck, a cordless drill is a must-have tool for any DIY enthusiast or professional contractor. Make sure to always follow safety precautions and use the appropriate drill bits for your project to ensure optimal performance and results.\n")
-
-Do not include irrelevant HTSUS codes as follows: 
+Product description: 

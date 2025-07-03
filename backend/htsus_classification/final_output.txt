@@ -1,9 +1,23 @@
-HTSUS Code: 8517.13.00.00  
-General Duty Tax Rate: Free  
-Column 2 Rate (for countries without normal trade relations with US): 35%  
-Official Product Description: Telephone sets, including smartphones and other telephones for cellular
- networks or for other wireless networks; other apparatus for the transmission or reception of voice, images 
- or other data, including apparatus for communication in a wired or wireless network (such as a local or wide area network), other than transmission or reception apparatus of heading 8443, 8525, 8527 or 8528; parts thereof: - Telephone sets, including smartphones and other telephones for cellular networks or for other wireless networks : - Smartphones  
+HTSUS Code: 5807.90.20.10  
+General Duty Tax Rate: 3.30%  
+Special Duty Tax Rate: Free (AU,BH, CL,CO,E*,IL,JO,KR,MA,OM, P,PA,PE,S,SG)  
+Column 2 Rate (for countries without normal trade relations with US): 40%  
+Official Product Description: Labels, badges and similar articles of textile materials, in the piece, in strips or cut to shape or size, not embroidered: - Other: - Other - Of cotton  
 Confidence Score: 95%  
-Reason: The product description closely matches the official description of smartphones under this HTSUS code, 
-including the mention of smartphones, OLED screen, and 5G support.
+Reason: The product description closely matches the official description, specifically mentioning textile materials, cotton, and labels/badges. The key factors align well, resulting in a high confidence score.
+
+HTSUS Code: 5807.90.20.20  
+General Duty Tax Rate: 3.30%  
+Special Duty Tax Rate: Free (AU,BH, CL,CO,E*,IL,JO,KR,MA,OM, P,PA,PE,S,SG)  
+Column 2 Rate (for countries without normal trade relations with US): 40%  
+Official Product Description: Labels, badges and similar articles of textile materials, in the piece, in strips or cut to shape or size, not embroidered: - Other: - Other - Of man-made fibers  
+Confidence Score: 90%  
+Reason: While the product description mentions textile materials and labels/badges, it does not specify the material as man-made fibers. This slight discrepancy lowers the confidence score slightly.
+
+HTSUS Code: 5807.90.20.90  
+General Duty Tax Rate: 3.30%  
+Special Duty Tax Rate: Free (AU,BH, CL,CO,E*,IL,JO,KR,MA,OM, P,PA,PE,S,SG)  
+Column 2 Rate (for countries without normal trade relations with US): 40%  
+Official Product Description: Labels, badges and similar articles of textile materials, in the piece, in strips or cut to shape or size, not embroidered: - Other: - Other - Other  
+Confidence Score: 85%  
+Reason: The product description aligns with the general category of labels, badges, and textile materials, but the lack of specificity regarding the material type or composition slightly reduces the confidence score.

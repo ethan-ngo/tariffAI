@@ -28,20 +28,23 @@ with open(few_shot_file, "r", encoding="utf-8") as f:
     few_shot_txt = f.read()
 
 # Uses Gemini Flash to get the HTSUS code and duty tax for a given product description
-def get_top_n_codes(product_description, query, n, irrelevant):
+def get_top_n_codes(product_description, product_chapter, query, n, irrelevant):
     # Step 3: Retrieve relevant HTSUS codes from ChromaDB
-    query_string = "\n".join([
-        f"This is the product description and details: {product_description}",
-        " ".join(query) if isinstance(query, tuple) else str(query),
-        f"Do not include irrelevant HTSUS codes as follows: {irrelevant}"
-    ])
+    # query_string = "\n".join([
+    #     f"This is the product description: {product_description}",
+    #     f"This is the product description: {product_description}",
+    #     " ".join(query) if isinstance(query, tuple) else str(query),
+    #     f"Do not include irrelevant HTSUS codes as follows: {irrelevant}"
+    # ])
+
+    query_string = f"Product chapter {product_chapter}\n" 
     
     with open("query_string.txt", "w", encoding="utf-8") as f:
         f.write(query_string)
 
     results = collection.query(
         query_texts=[query_string],  # query is a tuple of (product description, additional instructions)
-        n_results=n  # get top 30 most relevant chunks
+        n_results=n,  # get top 30 most relevant chunks
     )
 
     # results = collection.get()
@@ -94,7 +97,7 @@ def process_top_n_codes(output_text, product_description):
         chatbot_output = response_json.get("text", "")  # Get the "text" field safely
         chatbot_output = chatbot_output.strip()  # Clean up any leading/trailing whitespace
 
-        print("Chatbot Response in process top n:", chatbot_output, " and its length is ", len(chatbot_output))
+        # print("Chatbot Response in process top n:", chatbot_output, " and its length is ", len(chatbot_output))
         if not chatbot_output:
             print("No output from the chatbot. Exiting classification.")    
             return [], [], ""
@@ -125,9 +128,12 @@ def process_top_n_codes(output_text, product_description):
 
 def semantically_process_product_description(product_description):
     prompt_semantics_file = "prompt_semantics.txt"
+    with open(prompt_semantics_file, "r", encoding="utf-8") as f:
+        prompt_semantics_txt = f.read()
+
     full_prompt = (
         f"Product description:\n{product_description}\n\n"
-        f"Instruction:\n{prompt_semantics_file}\n\n"
+        f"Instruction:\n{prompt_semantics_txt}\n\n"
     )
 
     headers = {
@@ -155,9 +161,51 @@ def semantically_process_product_description(product_description):
     else:
         print("Error:", response.status_code, response.text)
         return ""
+    
+def get_chapter_number(product_description):
+    prompt_chapter_file = "prompt_get_chapter.txt"
+    with open(prompt_chapter_file, "r", encoding="utf-8") as f:
+        prompt_chapter_txt = f.read()
 
+    full_prompt = (
+        f"Product description:\n{product_description}\n\n"
+        f"Instruction:\n{prompt_chapter_txt}\n\n"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",  # Replace with your actual API key
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
+    data = {
+        "text": full_prompt
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+
+    # Handle response
+    if response.status_code == 200:
+        response_json = response.json()  # Parse the JSON response
+        chatbot_output = response_json.get("text", "")  # Get the "text" field safely
+
+        with open("chapter.txt", "w", encoding="utf-8") as f:          
+            f.write(str(chatbot_output))
+
+        return chatbot_output
+    else:
+        print("Error:", response.status_code, response.text)
+        return ""
+    
 
 def classify_htsus(product_description):
+    # Step -1: Get the HTSUS chapter number based on the product description
+    product_chapter = get_chapter_number(product_description)
+    if not product_chapter:
+        print("Failed to retrieve HTSUS chapter number. Exiting classification.")
+        return
+    
+    print(f"HTSUS Chapter Number: {product_chapter}")
+
     # Step 0: Process product_description:
     product_context = semantically_process_product_description(product_description)
 
@@ -166,11 +214,16 @@ def classify_htsus(product_description):
         return
 
     # Step 1: Get the top 100 HTSUS codes based on the product description
-    product_description_modified = (
-        f"This is the product description: {product_description}\n",
-        f"This is the product context that details the product's keywords and functionalities: {product_context}\n",
-    )
-    output_text_1 = get_top_n_codes(product_description_modified, "", 100, "")
+    # product_description_modified = (
+    #     f"This is the product description: {product_description}\n",
+    #     f"This is the HTSUS chapter number the product most likely falls under: {product_chapter}\n",
+    #     f"This is the product context that details the product's keywords and functionalities. Understand the product and its core functionalities using this: {product_context}\n",
+    # )
+    # product_description_modified = (
+    #     f"This is the product description: {product_description}\n",
+    #     f"This is the HTSUS chapter number the product most likely falls under: {product_chapter}\n",   
+    # )
+    output_text_1 = get_top_n_codes("", product_chapter, "", 75, "")
 
     if not output_text_1:
         print("No HTSUS codes retrieved. Exiting classification.")
@@ -186,6 +239,9 @@ def classify_htsus(product_description):
     if not output_text_1:
         print("No HTSUS codes retrieved. Exiting classification.")
         return
+    
+    return
+
     relevant, irrelevant, added_prompt = process_top_n_codes(output_text_1, product_description)
 
     if not relevant and not irrelevant and not added_prompt:
@@ -195,7 +251,7 @@ def classify_htsus(product_description):
     # Step 3: Get the top 100 HTSUS codes based on product description + prompt suggestion
     added_prompt_str = added_prompt.strip()
     added_query = f" as well as additional instructions for a more accurate search: {added_prompt_str}",
-    output_text_2 = get_top_n_codes(product_description, added_query, 100, irrelevant)
+    output_text_2 = get_top_n_codes(product_description, added_query, 75, irrelevant)
 
     # Output the top 100 HTSUS codes based on the combined query to a file
     if not output_text_2:
@@ -251,10 +307,31 @@ def classify_htsus(product_description):
 # Example usage
 if __name__ == "__main__":
     # classify_htsus("Men 100 cotton denim jeans") # WRONG! it outputted 6203.42.4011 & 16.6%; WRONG SHUD BE 6203.42.07.11
-    # classify_htsus("cotton plushie") # works! it outputted 9503.00.0073 & 0%
     # classify_htsus("Leather handbag") # works! it outputted the 3 possibilities shown in few_shot.txt
     
     # classify_htsus("Porcelain plate") # WORKS it out putted 6911.10.80.00 w/ correct duty tax 20.80% and rate 2 of 75%
     # classify_htsus("Smartphone with 128GB storage, OLED screen, and 5G support") # WORKS! it outputted 8517.13.0000 & 0%
-    classify_htsus("Cordless drill") # WRONG! it outputted 8467.21.00.10 but 3.7% instead of 1.7%
+    # classify_htsus("Cordless drill") # WRONG outputted 8467.21.00.30 and 4.70% (shud be 1.7)
+    classify_htsus("cotton plushie") # not working yet, but shud output 9503.00.0073 & 0%
+    # classify_htsus("Polyester camping tent, 4-person capacity, waterproof")
     
+
+    # results = collection.query(
+    #     query_texts=[""],  # query is a tuple of (product description, additional instructions)
+    #     n_results=n  # get top 30 most relevant chunks
+    # )
+
+    # results = collection.get()
+    # retrieved_docs = results['documents']
+
+    # results = collection.get()
+
+    # # Access the document texts (assuming they’re under "documents")
+    # documents = results["documents"]  # This is a list of lists (each inner list is one document chunk)
+
+    # # Flatten (if needed) and take the first 5
+    # first_5 = [doc[0] if isinstance(doc, list) else doc for doc in documents[:5]]
+
+    # for i, doc in enumerate(first_5, 1):
+    #     print(f"{i}. {doc}")
+
