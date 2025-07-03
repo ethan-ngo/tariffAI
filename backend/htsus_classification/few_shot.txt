@@ -9,80 +9,150 @@ EXAMPLE 1:
 If the product dscription is: "Men's 100% cotton denim jeans"
 
 You will output the below:
-Brief Description: Men's denim jeans made of 100% cotton should be classified as 6203.42.07.11 because
-- Heading 6203 (Men’s or boys’ suits, ensembles, jackets, trousers, etc.)
-- Subheading 6203.42 (Of cotton)
-- Statistical suffix 07.11 further specifies blue denim trousers or breeches for men, made of 85% or
-more by weight of cotton, not knit, not printed, and identified as blue denim.
-
 HTSUS Code: 6203.42.07.11
-Duty Tax: 16.6%
+General Duty Tax Rate: 16.6%
+Column 2 Rate (for countries without normal trade relations with US): 90% 
+
+Official Product Description: Trousers, bib and brace overalls, breeches and shorts: 
+Of cotton: Recreational performance outerwear: Other: Men's trousers and breeches: 
+Blue denim (347)
+
+Confidence Score: 92%
+Reason: This is a very high match — the key factors of garment type, material (cotton), 
+gender, and denim fabric are clearly aligned. Heading 6203.42 shows men's or boys' 
+suits, trousers, etc. made of cotton. 07.11 further specifies blue denim.
+
+The only slight uncertainty is around whether the input product qualifies under 
+"recreational performance outerwear", which is a somewhat specialized HTSUS category
+ (often used for apparel meant for physical activity or outdoor use).
+
+However, in practice, men's denim jeans are often classified under this heading when 
+they meet certain construction or design standards (e.g., durable cotton, functional features),
+and the presence of “blue denim (347)” suggests that the jeans match a common 
+statistical reporting category.
 
 -----------------------------------
 EXAMPLE 2:
 If the product dscription is: "13-inch laptop computer with 512GB SSD and wireless connectivity"
 
 You will output the below:
-Brief Description: 13-inch laptop computer with 512GB SSD and wireless connectivity should be classified as 8471.30.0100 because
-- Heading 8471 (Automatic data processing machines and units thereof)
-- Subheading 8471.30 (Portable digital automatic data processing machines, weighing ≤10kg, with at least a CPU, keyboard, and display)
-- Further classified as 8471.30.0100 (Standard classification for portable laptops)
-
 HTSUS Code: 8471.30.0100
-Duty Tax: 0%
+General Duty Tax Rate: 0%
+Column 2 Rate (for countries without normal trade relations with US): 35% 
+
+Official Product Description: Portable automatic data processing machines, weighing not more than 10 kg, 
+consisting of at least a central processing unit, a keyboard and a display. 
+
+Confidence Score: 99%
+Reason: "13-inch laptop computer with 512GB SSD and wireless connectivity" fully satisfies all the 
+structural and functional conditions of the HTSUS entry. The only thing not explicitly mentioned is 
+weight, but a 13-inch laptop is universally understood to be lightweight and under 10 kg. Additional 
+details like "512GB SSD" and "wireless connectivity" only reinforce its classification under this 
+heading — they are modern features of portable data processing machines. There is no ambiguity in this 
+case — it’s a strong match.
 
 -----------------------------------
 EXAMPLE 3:
 If the product dscription is: "Electronic Integrated Circuits, Processors & Controllers, Wh/not Combined W/memories, Converters, Logic Circuits, Amplifiers, Clock"
 
 You will output the below:
-Brief Description: Electronic Integrated Circuits, Processors & Controllers, Wh/not Combined W/memories, Converters, Logic Circuits, Amplifiers, Clock should be classified as 8542.31.0001 because
-- Heading 8542 (Electronic integrated circuits and microassemblies)
-- Subheading 8542.31 (Processors and controllers, whether or not combined with memories, converters, logic circuits, amplifiers, clock and timing circuits)
-- Further classified as 8542.31.0001 (Specific processors and controllers as described above)
+HTSUS Code: 8542.31.0000
+General Duty Tax Rate: 0%
+Column 2 Rate (for countries without normal trade relations with US): 35% 
 
-HTSUS Code: 8542.31.0001
-Duty Tax: 0%
+Official Product Description: Electronic integrated circuits; parts thereof: Electronic integrated circuits: Processors 
+and controllers, whether or not combined with memories, converters, logic circuits, amplifiers, 
+clock and timing circuits, or other circuits
+
+Confidence Score: 99%
+Reason: This is an excellent match. The input description almost directly paraphrases the 
+official HTSUS line (8542.31.00). The only minor drop from 100% is due to shortened/abbreviated wording, 
+which might cause issues in basic string-matching systems — but semantically, they are the same.
 
 -----------------------------------
 EXAMPLE 4:
 If the product dscription is: "Leather handbag" 
 
 You will output the below:
-Brief Description: ather handbag should be classified under:
+Overview: Leather handbag should be classified under:
 - Heading 4202 (Trunks, suitcases, handbags, and similar containers)
 - Subheading 4202.21 (Handbags, with outer surface of leather, composition leather, or patent leather)
 - Classification depends on material and value
 
 HTSUS Code: 4202.21.3000  
-Duty Tax: 5.3%  
-Reason: Use if made of reptile leather.  
+General Duty Tax Rate: 5.3%
+Column 2 Rate (for countries without normal trade relations with US): 35% 
+
+Official Product Description: Handbags, whether or not with shoulder strap, including those without handle: 
+With outer surface of leather or of composition leather: Of reptile leather
+
+Confidence Score: 40%
+Reason: While the input matches “handbag” and “leather,” it lacks any indication that it is made from 
+reptile leather, which is specifically required for this HTSUS code. This mismatch significantly lowers confidence.
 
 HTSUS Code: 4202.21.6000  
-Duty Tax: 10%  
-Reason: Use if not reptile leather and value is ≤ $20.  
+General Duty Tax Rate: 10%
+Column 2 Rate (for countries without normal trade relations with US): 35% 
+
+Official Product Description: Handbags, whether or not with shoulder strap, including those without handle: 
+With outer surface of leather or of composition leather: Valued not over $20 each
+
+Confidence Score: 60%
+Reason: It’s a possible match only if the bag is inexpensive. Since there’s no pricing information in the 
+input, we can't be sure. The classification is plausible but not confidently correct without 
+value clarification.   
 
 HTSUS Code: 4202.21.9000  
-Duty Tax: 9%  
-Reason: Use if not reptile leather and value is > $20.
+General Duty Tax Rate: 9%
+Column 2 Rate (for countries without normal trade relations with US): 35%  
+
+Official Product Description: Handbags, whether or not with shoulder strap, including those without handle: 
+With outer surface of leather or of composition leather: Valued over $20 each
+
+Confidence Score: 75%
+Reason: Most leather handbags on the market are valued over $20, so this is the most probable 
+match out of the three. Still, it’s not a guaranteed match unless we confirm price.
 
 -----------------------------------
 EXAMPLE 5:
 If the product dscription is: "Women's waterproof hiking boots with leather uppers and rubber soles"
 
 You will output the below:
-Brief Description: Women's waterproof hiking boots with leather uppers and rubber soles should be classified under:
-- Heading 6402 (rubber/plastic sole footwear),
-- Likely under subheading 6402.99.90.65 (Other footwear, valued over $12/pair, for women), or
-- If price is under $12, then possibly 6402.99.31.65 (Other footwear, other category, for women).
+HTSUS Code: 6403.91.90.45
+General Duty Tax Rate: 10%
+Column 2 Rate (for countries without normal trade relations with US): 20%  
+
+Official Product Description: 
+Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of leather: Other footwear:
+Covering the ankle: Not Footwear made on a base or platform of wood, not having an inner sole or a 
+protective metal toe-cap: Not Welt footwear: For women:: Not work footwear
+
+Confidence Score: 90%
+Reason: This code strongly matches the key product attributes: women's boots, leather uppers, rubber soles, 
+and ankle coverage. The only minor gray area is around “not work footwear,” but since recreational hiking 
+gear is generally not classified as “work footwear” in tariff terms, this is still a high-confidence match.
 
 HTSUS Code: 6402.99.90.65
-Duty Tax: 20%
-Reason: If each pair is over $12 per pair for women
+General Duty Tax Rate: 20%
+Column 2 Rate (for countries without normal trade relations with US): 35%  
 
-HTSUS Code: 6402.99.31.65
-Duty Tax: 6%
-Reason: Classified as "Other type of footwear"
+Official Product Description: Other footwear with outer soles and uppers of rubber or plastics:
+Footwear not with upper straps or thongs assembled to the sole by means of 
+plugs (zoris): Having uppers of which over 90 percent of the external surface area 
+(including any accessories or reinforcements such as those mentioned in note 4(a) to this chapter) 
+is rubber or plastics (except footwear having a foxing or a foxing-like band applied or molded at 
+the sole and overlapping the upper and except footwear designed to be worn over, or in lieu of, 
+other footwear as a protection against water, oil, grease or chemicals or cold or inclement weather): Not 
+Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without 
+the use of laces or buckles or other fasteners, the foregoing except footwear of subheading 6402.99.33 
+and except footwear having a foxing or a foxing-like band wholly or almost wholly of rubber or plastics 
+applied or molded at the sole and overlapping the upper: Valued over $12/pair: Not Tennis shoes, 
+basketball shoes, gym shoes, training shoes and the like: For women
+
+Confidence Score: 25%
+Reason: The leather uppers and waterproof design disqualify this match. This HTS code requires rubber 
+or plastic uppers and excludes protective/weatherproof footwear. Despite the gender match and rubber 
+soles, this is almost certainly not correct.
 
 -----------------------------------
 

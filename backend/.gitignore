@@ -1,7 +1,7 @@
 __pycache__/
 # Ignore Chroma DB files
-backend/htsus_classification/chroma_db/
-backend/htsus_classification/chroma_db_old/
-backend/htsus_classification/chroma_db_shortened/
-backend/htsus_classification/chroma_db/chroma.sqlite3
+htsus_classification/chroma_db/
+htsus_classification/chroma_db_old/
+htsus_classification/chroma_db_shortened/
+htsus_classification/chroma_db/chroma.sqlite3
 .env
