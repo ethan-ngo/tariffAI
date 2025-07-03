@@ -31,7 +31,7 @@ with open(few_shot_file, "r", encoding="utf-8") as f:
 def get_top_n_codes(product_description, query, n, irrelevant):
     # Step 3: Retrieve relevant HTSUS codes from ChromaDB
     query_string = "\n".join([
-        f"This is the product description: {product_description}",
+        f"This is the product description and details: {product_description}",
         " ".join(query) if isinstance(query, tuple) else str(query),
         f"Do not include irrelevant HTSUS codes as follows: {irrelevant}"
     ])
@@ -87,13 +87,17 @@ def process_top_n_codes(output_text, product_description):
 
     print("Sent request to OpenAI to process top n codes...")
     response = requests.post(url, headers=headers, json=data)
-
+    
     # Handle response
     if response.status_code == 200:
         response_json = response.json()  # Parse the JSON response
         chatbot_output = response_json.get("text", "")  # Get the "text" field safely
+        chatbot_output = chatbot_output.strip()  # Clean up any leading/trailing whitespace
 
-        # print("Simplified result:", response_json)
+        print("Chatbot Response in process top n:", chatbot_output, " and its length is ", len(chatbot_output))
+        if not chatbot_output:
+            print("No output from the chatbot. Exiting classification.")    
+            return [], [], ""
 
         # Split into sections
         relevant_split = chatbot_output.split("Relevant Documents:")[1]
@@ -141,23 +145,36 @@ def semantically_process_product_description(product_description):
     if response.status_code == 200:
         response_json = response.json()  # Parse the JSON response
         chatbot_output = response_json.get("text", "")  # Get the "text" field safely
-        print("Simplified result:", chatbot_output)
+        # print("Simplified result:", chatbot_output)
         # print("Response result:", response_json)
 
         with open("semantics.txt", "w", encoding="utf-8") as f:          
             f.write(str(chatbot_output))
+
+        return chatbot_output
     else:
         print("Error:", response.status_code, response.text)
+        return ""
 
 
 def classify_htsus(product_description):
     # Step 0: Process product_description:
-    # semantically_process_product_description(product_description)
+    product_context = semantically_process_product_description(product_description)
 
-    # return
+    if not product_context: 
+        print("Failed to process product description semantics. Exiting classification.")
+        return
 
     # Step 1: Get the top 100 HTSUS codes based on the product description
-    output_text_1 = get_top_n_codes(product_description, "", 100, "")
+    product_description_modified = (
+        f"This is the product description: {product_description}\n",
+        f"This is the product context that details the product's keywords and functionalities: {product_context}\n",
+    )
+    output_text_1 = get_top_n_codes(product_description_modified, "", 100, "")
+
+    if not output_text_1:
+        print("No HTSUS codes retrieved. Exiting classification.")
+        return
 
     # Output the top 100 HTSUS codes to a file
     with open("outputtext1.txt", "w", encoding="utf-8") as f:
@@ -170,12 +187,12 @@ def classify_htsus(product_description):
         print("No HTSUS codes retrieved. Exiting classification.")
         return
     relevant, irrelevant, added_prompt = process_top_n_codes(output_text_1, product_description)
-    # print("Relevant HTSUS codes after filtering:", relevant[0:5], " and its length is ", len(relevant))  # Print first 5 relevant codes for brevity
-    # print("Irrelevant HTSUS codes after filtering:", irrelevant[0:5], " and its length is ", len(irrelevant))  # Print first 5 irrelevant codes for brevity
-    # print("Prompt suggestion for future queries:", added_prompt)
 
+    if not relevant and not irrelevant and not added_prompt:
+        print("No relevant or irrelevant HTSUS codes found. Exiting classification.")
+        return 
+    
     # Step 3: Get the top 100 HTSUS codes based on product description + prompt suggestion
-
     added_prompt_str = added_prompt.strip()
     added_query = f" as well as additional instructions for a more accurate search: {added_prompt_str}",
     output_text_2 = get_top_n_codes(product_description, added_query, 100, irrelevant)
@@ -187,12 +204,6 @@ def classify_htsus(product_description):
     with open("outputtext2.txt", "w", encoding="utf-8") as f:
         f.write(str(output_text_2))
     print("Successfully retrieved additional HTSUS codes based on the prompt suggestion.")
-
-    # relevant2, irrelevant2, added_prompt2 = process_top_50(output_text_2, product_description)
-    # print("Relevant HTSUS codes after filtering:", relevant2[0:5], " and its length is ", len(relevant2))  # Print first 5 relevant codes for brevity
-    # print("Irrelevant HTSUS codes after filtering:", irrelevant[0:5], " and its length is ", len(irrelevant))  # Print first 5 irrelevant codes for brevity
-    # print("Prompt suggestion for future queries:", added_prompt)
-
 
     relevant2, irrelevant2, added_prompt2 = process_top_n_codes(output_text_2, product_description)
     
@@ -242,9 +253,8 @@ if __name__ == "__main__":
     # classify_htsus("Men 100 cotton denim jeans") # WRONG! it outputted 6203.42.4011 & 16.6%; WRONG SHUD BE 6203.42.07.11
     # classify_htsus("cotton plushie") # works! it outputted 9503.00.0073 & 0%
     # classify_htsus("Leather handbag") # works! it outputted the 3 possibilities shown in few_shot.txt
-    # classify_htsus("Cordless drill") # WRONG! it outputted 8467.21.00.10 but 3.7% instead of 1.7%
     
-    classify_htsus("Porcelain plate") # WORKS it out putted 6911.10.80.00 w/ correct duty tax 20.80% and rate 2 of 75%
-    # classify_htsus("Smartphone") # works! it outputted 8517.13.0000 & 0%
-    
+    # classify_htsus("Porcelain plate") # WORKS it out putted 6911.10.80.00 w/ correct duty tax 20.80% and rate 2 of 75%
+    # classify_htsus("Smartphone with 128GB storage, OLED screen, and 5G support") # WORKS! it outputted 8517.13.0000 & 0%
+    classify_htsus("Cordless drill") # WRONG! it outputted 8467.21.00.10 but 3.7% instead of 1.7%
     

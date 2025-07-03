@@ -11,6 +11,7 @@ If the product dscription is: "Men's 100% cotton denim jeans"
 You will output the below:
 HTSUS Code: 6203.42.07.11
 General Duty Tax Rate: 16.6%
+Special Duty Tax Rate: 0%
 Column 2 Rate (for countries without normal trade relations with US): 90% 
 
 Official Product Description: Trousers, bib and brace overalls, breeches and shorts: 
@@ -38,6 +39,7 @@ If the product dscription is: "13-inch laptop computer with 512GB SSD and wirele
 You will output the below:
 HTSUS Code: 8471.30.0100
 General Duty Tax Rate: 0%
+Special Duty Tax Rate: 0%
 Column 2 Rate (for countries without normal trade relations with US): 35% 
 
 Official Product Description: Portable automatic data processing machines, weighing not more than 10 kg, 
@@ -58,6 +60,7 @@ If the product dscription is: "Electronic Integrated Circuits, Processors & Cont
 You will output the below:
 HTSUS Code: 8542.31.0000
 General Duty Tax Rate: 0%
+Special Duty Tax Rate: 0%
 Column 2 Rate (for countries without normal trade relations with US): 35% 
 
 Official Product Description: Electronic integrated circuits; parts thereof: Electronic integrated circuits: Processors 
@@ -81,6 +84,7 @@ Overview: Leather handbag should be classified under:
 
 HTSUS Code: 4202.21.3000  
 General Duty Tax Rate: 5.3%
+Special Duty Tax Rate: 0%
 Column 2 Rate (for countries without normal trade relations with US): 35% 
 
 Official Product Description: Handbags, whether or not with shoulder strap, including those without handle: 
@@ -92,6 +96,7 @@ reptile leather, which is specifically required for this HTSUS code. This mismat
 
 HTSUS Code: 4202.21.6000  
 General Duty Tax Rate: 10%
+Special Duty Tax Rate: 0%
 Column 2 Rate (for countries without normal trade relations with US): 35% 
 
 Official Product Description: Handbags, whether or not with shoulder strap, including those without handle: 
@@ -104,6 +109,7 @@ value clarification.
 
 HTSUS Code: 4202.21.9000  
 General Duty Tax Rate: 9%
+Special Duty Tax Rate: 0%
 Column 2 Rate (for countries without normal trade relations with US): 35%  
 
 Official Product Description: Handbags, whether or not with shoulder strap, including those without handle: 
@@ -120,6 +126,7 @@ If the product dscription is: "Women's waterproof hiking boots with leather uppe
 You will output the below:
 HTSUS Code: 6403.91.90.45
 General Duty Tax Rate: 10%
+Special Duty Tax Rate: 0%
 Column 2 Rate (for countries without normal trade relations with US): 20%  
 
 Official Product Description: 
@@ -134,6 +141,7 @@ gear is generally not classified as “work footwear” in tariff terms, this is
 
 HTSUS Code: 6402.99.90.65
 General Duty Tax Rate: 20%
+Special Duty Tax Rate: 0%
 Column 2 Rate (for countries without normal trade relations with US): 35%  
 
 Official Product Description: Other footwear with outer soles and uppers of rubber or plastics:

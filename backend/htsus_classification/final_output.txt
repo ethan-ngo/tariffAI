@@ -1,20 +1,9 @@
-HTSUS Code: 6911.10.80.00  
-General Duty Tax Rate: 20.80%  
-Column 2 Rate (for countries without normal trade relations with US): 75%  
-Official Product Description: Tableware, kitchenware, other household articles and toilet articles, of porcelain or china: - Tableware and kitchenware: - Other: - Other: - Other: - Other: - Other  
+HTSUS Code: 8517.13.00.00  
+General Duty Tax Rate: Free  
+Column 2 Rate (for countries without normal trade relations with US): 35%  
+Official Product Description: Telephone sets, including smartphones and other telephones for cellular
+ networks or for other wireless networks; other apparatus for the transmission or reception of voice, images 
+ or other data, including apparatus for communication in a wired or wireless network (such as a local or wide area network), other than transmission or reception apparatus of heading 8443, 8525, 8527 or 8528; parts thereof: - Telephone sets, including smartphones and other telephones for cellular networks or for other wireless networks : - Smartphones  
 Confidence Score: 95%  
-Reason: The product description matches the category of tableware and kitchenware made of porcelain, aligning well with the official description provided.
-
-HTSUS Code: 6910.10.00.00  
-General Duty Tax Rate: 5.80%  
-Column 2 Rate (for countries without normal trade relations with US): 60%  
-Official Product Description: Ceramic sinks, washbasins, washbasin pedestals, baths, bidets, water closet bowls, flush tanks, urinals and similar sanitary fixtures: - Of porcelain or china  
-Confidence Score: 90%  
-Reason: While the product description does not specify a specific sanitary fixture, the mention of porcelain aligns with the category of sanitary fixtures made of porcelain or china.
-
-HTSUS Code: 6912.00.44.00  
-General Duty Tax Rate: 6.50%  
-Column 2 Rate (for countries without normal trade relations with US): 60%  
-Official Product Description: Ceramic tableware and kitchenware, excluding porcelain or china: - Other: - Other: - Other: - Other: - Other  
-Confidence Score: 85%  
-Reason: Although the product description mentions porcelain, the inclusion of ceramic tableware and kitchenware as a possibility due to the lack of specificity in the description.
+Reason: The product description closely matches the official description of smartphones under this HTSUS code, 
+including the mention of smartphones, OLED screen, and 5G support.

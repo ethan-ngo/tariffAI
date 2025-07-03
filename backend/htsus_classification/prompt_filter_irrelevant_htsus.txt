@@ -32,6 +32,9 @@ Important:
 - You must return a list of non relevant HTSUS entries in the original format
 - You must return a clear prompt suggestion that is 1-2 sentences to improve future 
 search, filter, and retrieval accuracy.
+- Always format your response as Relevant Documents: .... Irrelevant Documents: .... Prompt Suggestion:
+- There is always a list of relevant or non rerlevant HTSUS entries for you to return. 
+- You must always include a prompt suggestion.
 
 
 The following are examples to guide you:

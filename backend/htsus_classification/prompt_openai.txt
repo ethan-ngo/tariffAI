@@ -50,6 +50,7 @@ under the official product description.
 7. Return your **top 3 best choices**, each formatted as:
    HTSUS Code: [10-digit code]  
    General Duty Tax Rate: [rate]
+   Special Duty Tax Rate: [rate]
    Column 2 Rate (for countries without normal trade relations with US): [rate]
    Official Product Description: [the official description of the HTSUS code as detailed 
    in the given HTSUS data you received]
@@ -69,3 +70,4 @@ function, or use. Do not guess or output HTSUS codes that are not related to the
 out you didn't find 3. Do not do something like HTSUS Code: N/A
 6. All of the HTSUS codes you output must be unique and distinct from one another.
 7. You must include a Confidence Score and Reason for each HTSUS code you output.
+8. You must always output at least one HTSUS code. You cannot output nothing.
