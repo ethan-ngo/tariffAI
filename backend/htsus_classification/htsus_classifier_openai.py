@@ -17,10 +17,10 @@ collection = chroma_client.get_or_create_collection(name="htsus_codes") # My HTS
 url = os.getenv("OPENAI_URL")
 api_key = os.getenv("OPENAI_API_KEY")
 
-with open("prompt_openai.txt", "r", encoding="utf-8") as f:
+with open("prompts/prompt_openai.txt", "r", encoding="utf-8") as f:
     prompt_txt = f.read()
 
-with open("few_shot.txt", "r", encoding="utf-8") as f:
+with open("prompts/few_shot.txt", "r", encoding="utf-8") as f:
     few_shot_txt = f.read()
 
 # Uses Gemini Flash to get the HTSUS code and duty tax for a given product description
@@ -42,15 +42,10 @@ def get_top_n_codes(product_description, product_chapter, query, n, irrelevant):
     
     print(f"Retrieved {len(documents)} HTSUS codes.")
 
-    with open("chapter_test.txt", "w", encoding="utf-8") as f:
-        for i, doc in enumerate(documents, 1):
-            f.write(f"{doc}\n\n")
-
     return documents
 
 def process_top_n_codes(output_text, product_description):
-    prompt_filter = "prompt_filter_irrelevant_htsus.txt"
-    with open(prompt_filter, "r", encoding="utf-8") as f:
+    with open("prompts/prompt_filter_irrelevant_htsus.txt", "r", encoding="utf-8") as f:
         prompt_filter_txt = f.read()
 
     # This function can be used to process the top 50 HTSUS codes if needed
@@ -108,7 +103,7 @@ def process_top_n_codes(output_text, product_description):
         print("Error:", response.status_code, response.text)
 
 def semantically_process_product_description(product_description):
-    with open("prompt_semantics.txt", "r", encoding="utf-8") as f:
+    with open("prompts/prompt_semantics.txt", "r", encoding="utf-8") as f:
         prompt_semantics_txt = f.read()
 
     full_prompt = (
@@ -134,7 +129,7 @@ def semantically_process_product_description(product_description):
         # print("Simplified result:", chatbot_output)
         # print("Response result:", response_json)
 
-        with open("semantics.txt", "w", encoding="utf-8") as f:          
+        with open("txt_outputs/semantics.txt", "w", encoding="utf-8") as f:          
             f.write(str(chatbot_output))
 
         return chatbot_output
@@ -143,8 +138,7 @@ def semantically_process_product_description(product_description):
         return ""
     
 def get_chapter_number(product_description):
-    prompt_chapter_file = "prompt_get_chapter.txt"
-    with open(prompt_chapter_file, "r", encoding="utf-8") as f:
+    with open("prompts/prompt_get_chapter.txt", "r", encoding="utf-8") as f:
         prompt_chapter_txt = f.read()
 
     full_prompt = (
@@ -167,9 +161,6 @@ def get_chapter_number(product_description):
     if response.status_code == 200:
         response_json = response.json()  # Parse the JSON response
         chatbot_output = response_json.get("text", "")  # Get the "text" field safely
-
-        with open("chapter.txt", "w", encoding="utf-8") as f:          
-            f.write(str(chatbot_output))
 
         return chatbot_output
     else:
@@ -206,7 +197,7 @@ def classify_htsus(product_description):
         return
 
     # Output the top 100 HTSUS codes to a file
-    with open("outputtext1.txt", "w", encoding="utf-8") as f:
+    with open("txt_outputs/outputtext1.txt", "w", encoding="utf-8") as f:
         f.write(str(output_text_1))
     print("Successfully retrieved HTSUS codes based on the product description.")
 
@@ -227,17 +218,17 @@ def classify_htsus(product_description):
     if not output_text_2:
         print("No additional HTSUS codes retrieved based on the prompt suggestion. Exiting classification.")
         return
-    with open("outputtext2.txt", "w", encoding="utf-8") as f:
+    with open("txt_outputs/outputtext2.txt", "w", encoding="utf-8") as f:
         f.write(str(output_text_2))
     print("Successfully retrieved additional HTSUS codes based on the prompt suggestion.")
 
     relevant2, irrelevant2, added_prompt2 = process_top_n_codes(output_text_2, product_description)
     
 
-    all_relevant = relevant + relevant2  # Combine the two lists of relevant HTSUS codes
-    with open("relevant.txt", "w", encoding="utf-8") as f:
-        for code in all_relevant:
-            f.write(code + "\n")
+    # all_relevant = relevant + relevant2  # Combine the two lists of relevant HTSUS codes
+    # with open("txt_outputs/relevant.txt", "w", encoding="utf-8") as f:
+    #     for code in all_relevant:
+    #         f.write(code + "\n")
 
     full_prompt = (
         f"Product description:\n{product_description}\n\n"
@@ -274,25 +265,6 @@ def classify_htsus(product_description):
 
     # Step 5: Post-process the response to cross check if the HTSUS code exists in htsus_flattened.csv?
 
-def get_all_chapter_collections():
-    collections = chroma_client.list_collections()
-    htsus_collections = [col for col in collections if col.name.startswith("htsus_chapter_")]
-    all_documents = []
-
-    for col_meta in htsus_collections:
-        chapter_name = col_meta.name
-        collection = chroma_client.get_or_create_collection(name=chapter_name)
-        all_data = collection.get()
-
-        # Flatten document list
-        docs = all_data.get("documents", [])
-        flat_docs = [doc for sublist in docs for doc in sublist]
-        all_documents.extend(flat_docs)
-
-    with open("all_htsus_documents.txt", "w", encoding="utf-8") as f:
-        for doc in enumerate(all_documents, 1):
-            f.write(f"{doc}")
-
 # Example usage
 if __name__ == "__main__":
     # classify_htsus("Men 100 cotton denim jeans") # WRONG! it outputted 6203.42.4011 & 16.6%; WRONG SHUD BE 6203.42.07.11
@@ -306,7 +278,6 @@ if __name__ == "__main__":
     
 
     # get_top_n_codes("cotton plushie", "95", "", 75, "")
-    # get_all_chapter_collections
 
     classify_htsus("cotton plushie") # good enof but shud output 9503.00.0073 or 9503.00.00.71 & 0% but 6% bc my db has 6%
     # classify_htsus("Frozen Alaskan Salmon fillets, 1kg pack") # good enof 
