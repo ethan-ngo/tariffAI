@@ -79,7 +79,31 @@ def filter_hts_by_digit_length(input_file, output_file):
         writer.writeheader()
         writer.writerows(filtered_rows)
 
+import csv
+
+def remove_columns(input_file, output_file):
+    # Columns to exclude
+    columns_to_remove = {'Indent', 'Unit of Quantity'}
+
+    with open(input_file, newline='', encoding='utf-8') as infile:
+        reader = csv.DictReader(infile)
+        # New fieldnames: keep only the ones NOT in columns_to_remove
+        new_fieldnames = [field for field in reader.fieldnames if field not in columns_to_remove]
+
+        # Read and strip unwanted columns
+        rows = []
+        for row in reader:
+            new_row = {key: row[key] for key in new_fieldnames}
+            rows.append(new_row)
+
+    # Write output with only the remaining fields
+    with open(output_file, 'w', newline='', encoding='utf-8') as outfile:
+        writer = csv.DictWriter(outfile, fieldnames=new_fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
 
 # Example usage
 flatten_hts_csv('htsus.csv', 'htsus_flattened.csv')
 filter_hts_by_digit_length('htsus_flattened.csv', 'htsus_flattened_filtered.csv')
+remove_columns('htsus_flattened_filtered.csv', 'htsus_flattened_filtered_cleaned.csv')

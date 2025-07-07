@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv("htsus_flattened.csv")
+df = pd.read_csv("htsus_flattened_filtered_cleaned.csv")
 
 def extract_chapter(hts_number):
     try:
