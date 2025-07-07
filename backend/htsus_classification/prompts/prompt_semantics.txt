@@ -23,6 +23,7 @@ DO NOT DO ANY OF THE FOLLOWING:
 - Include any marketing language or adjectives like “elegant,” “beautiful,” etc.
 - Add care instructions, decorative details, or promotional phrases
 - Return anything except a plain comma-separated string of classification-relevant terms
+- Do not include adjectives, just nouns
 
 YOU MUST ONLY: 
 - Extract the relevant classification attributes
@@ -42,23 +43,37 @@ You MUST follow the formatting of the examples below:
 EXAMPLE ONE:
 If the product description is "porcelain plate," 
 Your output:
-" A flat dish, plate, tableware used for serving food, typically made of porcelain"
+"plate"
 
 --------------------
 EXAMPLE TWO:
 If the product description is "Set of hand-carved wooden salad bowls made from acacia wood," 
 Your output:
-"A set of wooden bowls designed for serving salad, made from carved acacia wood"
+"bowl"
 
 --------------------
 EXAMPLE THREE:
 If the product description is "Industrial-grade ceramic crucible for high-temperature metal melting," 
 Your output:
-"A heat-resistant ceramic container used in industrial settings for melting metal."
+"container"
 
 --------------------
 EXAMPLE FOUR:
 If the product description is "Plastic toys for children aged 3+, multicolored with no sharp edges," 
 
 Your output:
-"A plastic toy designed for children over the age of three, used for recreational play."
+"toy"
+
+--------------------
+EXAMPLE FIVE:
+If the product description is "wool scarf" 
+
+Your output:
+"scarf"
+
+--------------------
+EXAMPLE SIX:
+If the product description is "cotton plushie" 
+
+Your output:
+"toy"

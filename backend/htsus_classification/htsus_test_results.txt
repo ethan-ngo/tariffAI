@@ -1,0 +1,260 @@
+Description: Men 100 cotton denim jeans
+Expected: ['6203.42.4011', '6203.42.07.11']
+Found: ['6203.29.30', '6203.29.30', '6203.29.30']
+Pass: False
+----------------------------------------
+Description: cotton plushie
+Expected: ['9503.00.0073', '9503.00.00.71']
+Found: ['5211.52.00', '5211.52.00', '5211.52.00']
+Pass: False
+----------------------------------------
+Description: Frozen Alaskan Salmon fillets, 1kg pack
+Expected: ['0304.87.0000']
+Found: ['0304.81.10', '0304.81.50', '0304.41.00']
+Pass: False
+----------------------------------------
+Description: Polyester camping tent, 4-person capacity, waterproof
+Expected: ['6306.22.9030']
+Found: ['6202.40.70', '6202.40.45', '6202.90.49']
+Pass: False
+----------------------------------------
+Description: grand piano
+Expected: ['9201.10.0000']
+Found: ['9201.20.00', '9201.20.00', '9201.20.00']
+Pass: False
+----------------------------------------
+Description: Electric bicycle with 500W motor and 48V battery
+Expected: ['8711.60.0090']
+Found: ['8543.70.98', '8512.90.40', '8501.32.45']
+Pass: False
+----------------------------------------
+Description: LED TV
+Expected: ['8528.72.6400']
+Found: ['8528.72.08', '8528.72.04', '8528.69.10']
+Pass: False
+----------------------------------------
+Description: Leather handbag
+Expected: ['4202.21.9000', '4202.21.6000', '4202.21.8090']
+Found: ['4107.91.70', '4107.99.60', '4107.92.60']
+Pass: False
+----------------------------------------
+Description: Porcelain plate
+Expected: ['6911.10.5200', '6911.10.8000']
+Found: ['6912.00.39', '6912.00.35', '6912.00.35']
+Pass: False
+----------------------------------------
+Description: Cordless drill
+Expected: ['8467.21.0010', '8467.21.0030']
+Found: ['8467.21.00', '8467.21.00', '8467.21.00']
+Pass: False
+----------------------------------------
+Description: Queen-sized bed sheet set made from 100% cotton
+Expected: ['6302.21.9020']
+Found: ['6304.20.00', '6302.21.90', '6302.21.90']
+Pass: False
+----------------------------------------
+Description: Dark chocolate bars with 85 cocoa, no filling
+Expected: ['1806.32.9000']
+Found: ['1806.20.36', '1806.20.60', '1806.32.30']
+Pass: False
+----------------------------------------
+Description: Office chair with adjustable height and wheels
+Expected: ['9401.30.8030']
+Found: ['9401.61.40', '9401.61.20', '9401.61.20']
+Pass: False
+----------------------------------------
+Description: Industrial-grade ethyl alcohol (denatured), for cleaning
+Expected: ['2207.20.0000']
+Found: ['3302.10.90', '3302.10.40', '3302.10.50']
+Pass: False
+----------------------------------------
+Description: Women's athletic shoes with rubber soles and textile uppers
+Expected: ['6404.11.9030']
+Found: ['6404.11.61', '6404.19.47', '6404.11.41']
+Pass: False
+----------------------------------------
+Description: women's leather sandals
+Expected: ['6403.59.9060']
+Found: ['6404.19.15', '6404.19.37', '6404.19.15']
+Pass: False
+----------------------------------------
+Description: Men's wool suit jacket
+Expected: ['6203.31.0010']
+Found: ['5101.11.60', '5101.11.60', '5101.11.60']
+Pass: False
+----------------------------------------
+Description: Children's plastic toy blocks
+Expected: ['9503.00.0090']
+Found: ['9503.00.00', '9503.00.00', '9503.00.00']
+Pass: False
+----------------------------------------
+Description: Stainless steel kitchen knife
+Expected: ['8211.92.9030']
+Found: ['8208.30.00', '8208.30.00', '8211.91.20']
+Pass: False
+----------------------------------------
+Description: Bluetooth wireless headphones
+Expected: ['8518.30.2000']
+Found: ['8518.30.10', '8518.30.20', '8518.10.80']
+Pass: False
+----------------------------------------
+Description: Ceramic coffee mug
+Expected: ['6912.00.4810']
+Found: ['6912.00.44', '6912.00.41', '6912.00.48']
+Pass: False
+----------------------------------------
+Description: Men's cotton t-shirt
+Expected: ['6109.10.0012']
+Found: ['6107.21.00', '6107.21.00', '6107.22.00']
+Pass: False
+----------------------------------------
+Description: Women's silk scarf
+Expected: ['6214.10.2000']
+Found: ['5007.20.00', '5007.20.00', '5007.20.00']
+Pass: False
+----------------------------------------
+Description: Plastic water bottle, 1 liter
+Expected: ['3924.10.4000']
+Found: ['3923.30.00', '3923.30.00', '3923.30.00']
+Pass: False
+----------------------------------------
+Description: Aluminum camping cookware set
+Expected: ['7615.10.9100']
+Found: ['7615.10.71', '7615.10.50', '7615.10.20']
+Pass: False
+----------------------------------------
+Description: Children's picture book
+Expected: ['4903.00.0000']
+Found: ['4903.00.00', '4901.99.00', '4901.99.00']
+Pass: False
+----------------------------------------
+Description: Smartphone with 128GB storage, OLED screen, and 5G support
+Expected: ['8517.13.0000']
+Found: ['8471.70.40', '8471.70.50', '8471.70.20']
+Pass: False
+----------------------------------------
+Description: Men's leather wallet
+Expected: ['4202.31.6000']
+Found: []
+Pass: False
+----------------------------------------
+Description: Women's wool sweater
+Expected: ['6110.11.0030']
+Found: ['5111.20.05', '5111.30.05', '5111.30.10']
+Pass: False
+----------------------------------------
+Description: Men's cotton socks
+Expected: ['6115.95.9000']
+Found: ['6207.21.00', '6207.11.00', '6207.99.85']
+Pass: False
+----------------------------------------
+Description: Plastic garden hose, 25 feet
+Expected: ['3917.32.0050']
+Found: ['3917.21.00', '3917.22.00', '3917.32.00']
+Pass: False
+----------------------------------------
+Description: Electric hair dryer
+Expected: ['8516.31.0000']
+Found: ['8516.31.00', '8516.32.00', '8516.32.00']
+Pass: False
+----------------------------------------
+Description: Children's wooden rocking horse
+Expected: ['9503.00.0080']
+Found: ['9503.00.00', '9503.00.00', '9503.00.00']
+Pass: False
+----------------------------------------
+Description: Men's polyester necktie
+Expected: ['6215.20.0000']
+Found: []
+Pass: False
+Error: Error executing plan: Internal error: Error creating hnsw segment reader: Nothing found on disk
+----------------------------------------
+Description: Women's cotton dress
+Expected: ['6204.42.4056']
+Found: ['6204.29.40', '6204.29.40', '6204.29.40']
+Pass: False
+----------------------------------------
+Description: Men's leather belt
+Expected: ['4203.30.0000']
+Found: ['4107.91.70', '4107.92.70', '4115.20.00']
+Pass: False
+----------------------------------------
+Description: Ceramic floor tile
+Expected: ['6907.90.0050']
+Found: ['6907.40.20', '6907.40.10', '6907.40.30']
+Pass: False
+----------------------------------------
+Description: Men's wool overcoat
+Expected: ['6201.11.0010']
+Found: ['5101.19.50', '5101.11.60', '5101.19.40']
+Pass: False
+----------------------------------------
+Description: Plastic food storage container
+Expected: ['3924.10.4000']
+Found: ['3923.21.00', '3923.21.00', '3923.21.00']
+Pass: False
+----------------------------------------
+Description: Men's cotton boxer shorts
+Expected: ['6207.11.0000']
+Found: ['6207.19.90', '6207.19.90', '6207.19.90']
+Pass: False
+----------------------------------------
+Description: Women's leather boots
+Expected: ['6403.91.9041']
+Found: ['4107.11.60', '4107.11.60', '4107.12.60']
+Pass: False
+----------------------------------------
+Description: Children's cotton pajamas
+Expected: ['6207.21.0000']
+Found: ['6207.29.90', '6207.29.10', '6207.29.90']
+Pass: False
+----------------------------------------
+Description: Men's silk tie
+Expected: ['6215.10.0000']
+Found: []
+Pass: False
+Error: Error executing plan: Internal error: Error creating hnsw segment reader: Nothing found on disk
+----------------------------------------
+Description: Women's polyester blouse
+Expected: ['6206.40.3030']
+Found: ['6206.90.00', '6206.40.20', '6206.90.00']
+Pass: False
+PASS
+----------------------------------------
+Description: Men's wool hat
+Expected: ['6505.90.4090']
+Found: ['5111.20.05', '5111.20.10', '5111.30.10']
+Pass: False
+FAIL
+----------------------------------------
+Description: Plastic toy action figure
+Expected: ['9503.00.0073']
+Found: ['9503.00.00', '9503.00.00', '9503.00.00']
+Pass: False
+PASS
+----------------------------------------
+Description: Men's cotton shorts
+Expected: ['6203.42.4056']
+Found: ['6203.29.20', '6203.29.20', '6203.29.20']
+Pass: False
+PASS
+----------------------------------------
+Description: Women's leather purse
+Expected: ['4202.22.1500']
+Found: []
+Pass: False
+----------------------------------------
+Description: Men's cotton handkerchief
+Expected: ['6213.20.1000']
+Found: []
+Pass: False
+Error: Error executing plan: Internal error: Error creating hnsw segment reader: Nothing found on disk
+----------------------------------------
+Description: Women's wool skirt
+Expected: ['6104.51.0000']
+Found: ['5101.11.50', '5101.11.60', '5101.11.60']
+Pass: False
+FAIL bc it looked in wool instead of skirt
+----------------------------------------
+
+Total Passed: 0 / 50

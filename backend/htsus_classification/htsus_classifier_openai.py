@@ -181,6 +181,9 @@ def classify_htsus(product_description):
         print("Failed to process product description semantics. Exiting classification.")
         return
     
+    with open("txt_outputs/product_context.txt", "w", encoding="utf-8") as f:
+        f.write(str(product_context))   
+    
     product_chapter = get_chapter_number(product_context)
     if not product_chapter:
         print("Failed to retrieve HTSUS chapter number. Exiting classification.")
@@ -190,7 +193,7 @@ def classify_htsus(product_description):
     
     print(f"HTSUS Chapter Number: {product_chapter}")
 
-    output_text_1 = get_top_n_codes(product_context, product_chapter, "", 75, "")
+    output_text_1 = get_top_n_codes(product_context, product_chapter, "", 50, "")
 
     if not output_text_1:
         print("No HTSUS codes retrieved. Exiting classification.")
@@ -201,42 +204,16 @@ def classify_htsus(product_description):
         f.write(str(output_text_1))
     print("Successfully retrieved HTSUS codes based on the product description.")
 
-    # Step 2: Process the top 100 HTSUS codes to filter out irrelevant ones
-    # and suggest a prompt for future queries
-    relevant, irrelevant, added_prompt = process_top_n_codes(output_text_1, product_description)
-
-    if not relevant and not irrelevant and not added_prompt:
-        print("No relevant or irrelevant HTSUS codes found. Exiting classification.")
-        return 
-    
-    # Step 3: Get the top 100 HTSUS codes based on product description + prompt suggestion
-    added_prompt_str = added_prompt.strip()
-    added_query = f" as well as additional instructions for a more accurate search: {added_prompt_str}",
-    output_text_2 = get_top_n_codes(product_description, product_chapter, added_query, 75, irrelevant)
-
-    # Output the top 100 HTSUS codes based on the combined query to a file
-    if not output_text_2:
-        print("No additional HTSUS codes retrieved based on the prompt suggestion. Exiting classification.")
-        return
-    with open("txt_outputs/outputtext2.txt", "w", encoding="utf-8") as f:
-        f.write(str(output_text_2))
-    print("Successfully retrieved additional HTSUS codes based on the prompt suggestion.")
-
-    relevant2, irrelevant2, added_prompt2 = process_top_n_codes(output_text_2, product_description)
-    
-
-    # all_relevant = relevant + relevant2  # Combine the two lists of relevant HTSUS codes
-    # with open("txt_outputs/relevant.txt", "w", encoding="utf-8") as f:
-    #     for code in all_relevant:
-    #         f.write(code + "\n")
-
     full_prompt = (
         f"Product description:\n{product_description}\n\n"
         f"Few-shot examples:\n{few_shot_txt}\n\n"
         f"Instructions:\n{prompt_txt}\n\n"
         "HTSUS data to choose from:\n"
-        + "\n".join(all_relevant) 
+        + "\n".join(output_text_1) 
     )
+
+    with open("txt_outputs/full_prompt.txt", "w", encoding="utf-8") as f:
+        f.write(str(full_prompt))
 
     # Step 4: Generate response using OpenAI 
     headers = {
@@ -271,7 +248,6 @@ if __name__ == "__main__":
     # classify_htsus("Leather handbag") # works! it outputted the 3 possibilities shown in few_shot.txt
     
     # classify_htsus("Porcelain plate") # WORKS it out putted 6911.10.80.00 w/ correct duty tax 20.80% and rate 2 of 75%
-    # classify_htsus("Smartphone with 128GB storage, OLED screen, and 5G support") # WORKS! it outputted 8517.13.0000 & 0%
     # classify_htsus("Cordless drill") # WRONG outputted 8467.21.00.30 and 4.70% (shud be 1.7)
     # classify_htsus("cotton plushie") # not working yet, but shud output 9503.00.0073 & 0%
     # classify_htsus("Polyester camping tent, 4-person capacity, waterproof")
@@ -279,9 +255,18 @@ if __name__ == "__main__":
 
     # get_top_n_codes("cotton plushie", "95", "", 75, "")
 
-    classify_htsus("cotton plushie") # good enof but shud output 9503.00.0073 or 9503.00.00.71 & 0% but 6% bc my db has 6%
+    # classify_htsus("cotton plushie") # good enof but shud output 9503.00.0073 or 9503.00.00.71 & 0% but 6% bc my db has 6%
     # classify_htsus("Frozen Alaskan Salmon fillets, 1kg pack") # good enof 
     # classify_htsus("Polyester camping tent, 4-person capacity, waterproof") # good 
     # classify_htsus("grand piano") # good 
     # classify_htsus("Electric bicycle with 500W motor and 48V battery") # good enof
-    # classify_htsus("LED TV") # good enof
+    # classify_htsus("LED TV") 
+    # classify_htsus("Smartphone with 128GB storage, OLED screen, and 5G support") 
+    # classify_htsus("Queen-sized bed sheet set made from 100% cotton") 
+    # classify_htsus("Dark chocolate bars with 85 cocoa, no filling") 
+    # classify_htsus("Office chair with adjustable height and wheels") 
+    # classify_htsus("Industrial-grade ethyl alcohol (denatured), for cleaning") 
+    # classify_htsus("Women's athletic shoes with rubber soles and textile uppers") 
+    # classify_htsus("women's leather sandals") 
+
+    classify_htsus("cotton blanket") # good bc didn't classify if it was raw cereal grains or breakfast cereals
