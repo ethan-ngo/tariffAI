@@ -1,23 +1,25 @@
-HTSUS Code: 5807.90.20.10  
-General Duty Tax Rate: 3.30%  
-Special Duty Tax Rate: Free (AU,BH, CL,CO,E*,IL,JO,KR,MA,OM, P,PA,PE,S,SG)  
-Column 2 Rate (for countries without normal trade relations with US): 40%  
-Official Product Description: Labels, badges and similar articles of textile materials, in the piece, in strips or cut to shape or size, not embroidered: - Other: - Other - Of cotton  
+HTSUS Code: 9503.00.00.11  
+General Duty Tax Rate: 6%  
+Special Duty Tax Rate: Free  
+Column 2 Rate (for countries without normal trade relations with US): 45%  
+Official Product Description: Inflatable toy balls, balloons and punchballs, of rubber, labeled or determined by 
+importer as intended for use by persons under 3 years of age  
 Confidence Score: 95%  
-Reason: The product description closely matches the official description, specifically mentioning textile materials, cotton, and labels/badges. The key factors align well, resulting in a high confidence score.
+Reason: The product description closely matches the official description, specifically mentioning 
+inflatable toy balls, rubber material, and intended use for children under 3 years old.
 
-HTSUS Code: 5807.90.20.20  
-General Duty Tax Rate: 3.30%  
-Special Duty Tax Rate: Free (AU,BH, CL,CO,E*,IL,JO,KR,MA,OM, P,PA,PE,S,SG)  
-Column 2 Rate (for countries without normal trade relations with US): 40%  
-Official Product Description: Labels, badges and similar articles of textile materials, in the piece, in strips or cut to shape or size, not embroidered: - Other: - Other - Of man-made fibers  
+HTSUS Code: 9503.00.00.13  
+General Duty Tax Rate: 6%  
+Special Duty Tax Rate: Free  
+Column 2 Rate (for countries without normal trade relations with US): 45%  
+Official Product Description: Inflatable toy balls, balloons and punchballs, of rubber, labeled or determined by importer as intended for use by persons 3 to 12 years of age  
 Confidence Score: 90%  
-Reason: While the product description mentions textile materials and labels/badges, it does not specify the material as man-made fibers. This slight discrepancy lowers the confidence score slightly.
+Reason: While the age range is slightly different, the product description aligns well with the official description in terms of inflatable toy balls, rubber material, and intended age group.
 
-HTSUS Code: 5807.90.20.90  
-General Duty Tax Rate: 3.30%  
-Special Duty Tax Rate: Free (AU,BH, CL,CO,E*,IL,JO,KR,MA,OM, P,PA,PE,S,SG)  
-Column 2 Rate (for countries without normal trade relations with US): 40%  
-Official Product Description: Labels, badges and similar articles of textile materials, in the piece, in strips or cut to shape or size, not embroidered: - Other: - Other - Other  
+HTSUS Code: 9503.00.00.71  
+General Duty Tax Rate: 6%  
+Special Duty Tax Rate: Free  
+Column 2 Rate (for countries without normal trade relations with US): 45%  
+Official Product Description: Other children's products labeled or determined by importer as intended for use by persons under 3 years of age  
 Confidence Score: 85%  
-Reason: The product description aligns with the general category of labels, badges, and textile materials, but the lack of specificity regarding the material type or composition slightly reduces the confidence score.
+Reason: Although the product description does not specify inflatable toy balls, the mention of wheeled toys and dolls aligns with the general category of children's products intended for use by young children.

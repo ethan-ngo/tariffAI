@@ -4,60 +4,53 @@ import chromadb
 import csv
 
 # setting the environment
-DATA_PATH = r"data/htsus_flattened.csv"
+DATA_PATH = r"data/htsus_flattened_with_chapters.csv"
 CHROMA_PATH = r"chroma_db"
 chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
-collection = chroma_client.get_or_create_collection(name="htsus_codes")
+# collection = chroma_client.get_or_create_collection(name="htsus_codes")
+collections_by_chapter = {} # Dictionary to track chapter collections
 
 print("Finish env setup.")
 
-# loading the document 
-loader = CSVLoader(file_path=DATA_PATH, encoding="utf-8-sig")
-raw_documents = loader.load()
+BATCH_SIZE = 5000
+batches = {}
 
-# splitting the documents into chunks
-text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=300,
-    chunk_overlap=100,
-    length_function=len,
-    is_separator_regex=False,
-)
-
-chunks = text_splitter.split_documents(raw_documents)
-
-print("Successfully split documents into chunks.")
-
-# preparing to be added in chromadb
-documents = []
-ids = []
-
-print("Starting to prepare documents...")
-
-# Read CSV rows and prepare documents
-with open(DATA_PATH, newline='', encoding='utf-8-sig') as csvfile:
+with open(DATA_PATH, newline='', encoding="utf-8-sig") as csvfile:
     reader = csv.DictReader(csvfile)
+
     for i, row in enumerate(reader):
+        chapter = row.get('HTS_Chapter', 'unknown').zfill(2)
+
+        if chapter not in collections_by_chapter:
+            collections_by_chapter[chapter] = chroma_client.get_or_create_collection(name=f"htsus_chapter_{chapter}")
+
+        if chapter not in batches:
+            batches[chapter] = {'docs': [], 'ids': []}
+
         # Combine all fields into a single string for the document content
         doc_text = " | ".join([f"{k}: {v}" for k, v in row.items()])
-        documents.append(doc_text)
         
         # Create unique ID per row
-        hts_code = row.get('HTS_Number', f"HTSUS_{i}")  # fallback if missing
-        ids.append(hts_code)
+        doc_id = row.get('HTS_Number', f"HTSUS_{i}")  # fallback if missing
+        
+        batches[chapter]['docs'].append(doc_text)
+        batches[chapter]['ids'].append(doc_id)
 
-print(f"Total chunks created: {len(documents)}")
-print("Adding to chromadb now...")
+        if len(batches[chapter]['docs']) == BATCH_SIZE:
+            print(f"Upserting batch {i // BATCH_SIZE + 1}...")
 
-# adding to chromadb
-BATCH_SIZE = 5000  # Safe value below ChromaDB's limit (5461)
+            collections_by_chapter[chapter].upsert(
+                documents=batches[chapter]['docs'],
+                ids=batches[chapter]['ids']
+            )
 
-for i in range(0, len(documents), BATCH_SIZE):
-    batch_docs = documents[i:i + BATCH_SIZE]
-    batch_ids = ids[i:i + BATCH_SIZE]
+            batches[chapter]['docs'] = []
+            batches[chapter]['ids'] = []
 
-    print(f"Upserting batch {i // BATCH_SIZE + 1}...")
-
-    collection.upsert(
-        documents=batch_docs,
-        ids=batch_ids
-    )
+    # After loop, flush remaining docs per chapter
+    for chapter, batch in batches.items():
+        if batch['docs']:
+            collections_by_chapter[chapter].upsert(
+                documents=batch['docs'],
+                ids=batch['ids']
+            )

@@ -1,9 +1,9 @@
 # htsus_classifier_openai.py
 import os
-import os
 from dotenv import load_dotenv
 import requests
 import chromadb
+import re
 
 # Load environment variables from .env file
 load_dotenv()
@@ -17,55 +17,36 @@ collection = chroma_client.get_or_create_collection(name="htsus_codes") # My HTS
 url = os.getenv("OPENAI_URL")
 api_key = os.getenv("OPENAI_API_KEY")
 
-# Few-shot prompt template for HTSUS classification along with the CSV file path
-prompt_file = "prompt_openai.txt"
-few_shot_file = "few_shot.txt"
-
-with open(prompt_file, "r", encoding="utf-8") as f:
+with open("prompt_openai.txt", "r", encoding="utf-8") as f:
     prompt_txt = f.read()
 
-with open(few_shot_file, "r", encoding="utf-8") as f:
+with open("few_shot.txt", "r", encoding="utf-8") as f:
     few_shot_txt = f.read()
 
 # Uses Gemini Flash to get the HTSUS code and duty tax for a given product description
 def get_top_n_codes(product_description, product_chapter, query, n, irrelevant):
-    # Step 3: Retrieve relevant HTSUS codes from ChromaDB
-    # query_string = "\n".join([
-    #     f"This is the product description: {product_description}",
-    #     f"This is the product description: {product_description}",
-    #     " ".join(query) if isinstance(query, tuple) else str(query),
-    #     f"Do not include irrelevant HTSUS codes as follows: {irrelevant}"
-    # ])
+    # Get or create the collection for that chapter
+    collection_name = f"htsus_chapter_{product_chapter}"
+    chapter_collection = chroma_client.get_or_create_collection(name=collection_name)
 
-    query_string = f"Product chapter {product_chapter}\n" 
-    
-    with open("query_string.txt", "w", encoding="utf-8") as f:
-        f.write(query_string)
-
-    results = collection.query(
-        query_texts=[query_string],  # query is a tuple of (product description, additional instructions)
-        n_results=n,  # get top 30 most relevant chunks
+    results = chapter_collection.query(
+        query_texts=[product_description],
+        n_results=n
     )
 
-    # results = collection.get()
-    retrieved_docs = results['documents']
+    documents = results.get('documents', [[]])[0]
 
-    # Flatten the list of lists into a single list of strings
-    flat_retrieved_docs = [doc for sublist in retrieved_docs for doc in sublist]
-
-    if not flat_retrieved_docs:
+    if not documents:
         print("No relevant HTSUS codes found.")
         return
     
-    print(f"Retrieved {len(flat_retrieved_docs)} HTSUS codes.")
+    print(f"Retrieved {len(documents)} HTSUS codes.")
 
-    with open("output_docs.txt", "w", encoding="utf-8") as f:
-        for i, doc in enumerate(flat_retrieved_docs):
-            f.write(f"{i+1}. {doc}\n\n")
+    with open("chapter_test.txt", "w", encoding="utf-8") as f:
+        for i, doc in enumerate(documents, 1):
+            f.write(f"{doc}\n\n")
 
-    output_text = "\n---\n".join(flat_retrieved_docs)
-
-    return output_text
+    return documents
 
 def process_top_n_codes(output_text, product_description):
     prompt_filter = "prompt_filter_irrelevant_htsus.txt"
@@ -127,8 +108,7 @@ def process_top_n_codes(output_text, product_description):
         print("Error:", response.status_code, response.text)
 
 def semantically_process_product_description(product_description):
-    prompt_semantics_file = "prompt_semantics.txt"
-    with open(prompt_semantics_file, "r", encoding="utf-8") as f:
+    with open("prompt_semantics.txt", "r", encoding="utf-8") as f:
         prompt_semantics_txt = f.read()
 
     full_prompt = (
@@ -197,33 +177,29 @@ def get_chapter_number(product_description):
         return ""
     
 
+def extract_chapter_number(text):
+    match = re.search(r'\b(\d{1,2})\b', text)
+    return match.group(1) if match else None
+    
 def classify_htsus(product_description):
     # Step -1: Get the HTSUS chapter number based on the product description
-    product_chapter = get_chapter_number(product_description)
-    if not product_chapter:
-        print("Failed to retrieve HTSUS chapter number. Exiting classification.")
-        return
-    
-    print(f"HTSUS Chapter Number: {product_chapter}")
-
     # Step 0: Process product_description:
     product_context = semantically_process_product_description(product_description)
 
     if not product_context: 
         print("Failed to process product description semantics. Exiting classification.")
         return
+    
+    product_chapter = get_chapter_number(product_context)
+    if not product_chapter:
+        print("Failed to retrieve HTSUS chapter number. Exiting classification.")
+        return
+    
+    product_chapter = extract_chapter_number(product_chapter)
+    
+    print(f"HTSUS Chapter Number: {product_chapter}")
 
-    # Step 1: Get the top 100 HTSUS codes based on the product description
-    # product_description_modified = (
-    #     f"This is the product description: {product_description}\n",
-    #     f"This is the HTSUS chapter number the product most likely falls under: {product_chapter}\n",
-    #     f"This is the product context that details the product's keywords and functionalities. Understand the product and its core functionalities using this: {product_context}\n",
-    # )
-    # product_description_modified = (
-    #     f"This is the product description: {product_description}\n",
-    #     f"This is the HTSUS chapter number the product most likely falls under: {product_chapter}\n",   
-    # )
-    output_text_1 = get_top_n_codes("", product_chapter, "", 75, "")
+    output_text_1 = get_top_n_codes(product_context, product_chapter, "", 75, "")
 
     if not output_text_1:
         print("No HTSUS codes retrieved. Exiting classification.")
@@ -236,12 +212,6 @@ def classify_htsus(product_description):
 
     # Step 2: Process the top 100 HTSUS codes to filter out irrelevant ones
     # and suggest a prompt for future queries
-    if not output_text_1:
-        print("No HTSUS codes retrieved. Exiting classification.")
-        return
-    
-    return
-
     relevant, irrelevant, added_prompt = process_top_n_codes(output_text_1, product_description)
 
     if not relevant and not irrelevant and not added_prompt:
@@ -251,7 +221,7 @@ def classify_htsus(product_description):
     # Step 3: Get the top 100 HTSUS codes based on product description + prompt suggestion
     added_prompt_str = added_prompt.strip()
     added_query = f" as well as additional instructions for a more accurate search: {added_prompt_str}",
-    output_text_2 = get_top_n_codes(product_description, added_query, 75, irrelevant)
+    output_text_2 = get_top_n_codes(product_description, product_chapter, added_query, 75, irrelevant)
 
     # Output the top 100 HTSUS codes based on the combined query to a file
     if not output_text_2:
@@ -304,6 +274,25 @@ def classify_htsus(product_description):
 
     # Step 5: Post-process the response to cross check if the HTSUS code exists in htsus_flattened.csv?
 
+def get_all_chapter_collections():
+    collections = chroma_client.list_collections()
+    htsus_collections = [col for col in collections if col.name.startswith("htsus_chapter_")]
+    all_documents = []
+
+    for col_meta in htsus_collections:
+        chapter_name = col_meta.name
+        collection = chroma_client.get_or_create_collection(name=chapter_name)
+        all_data = collection.get()
+
+        # Flatten document list
+        docs = all_data.get("documents", [])
+        flat_docs = [doc for sublist in docs for doc in sublist]
+        all_documents.extend(flat_docs)
+
+    with open("all_htsus_documents.txt", "w", encoding="utf-8") as f:
+        for doc in enumerate(all_documents, 1):
+            f.write(f"{doc}")
+
 # Example usage
 if __name__ == "__main__":
     # classify_htsus("Men 100 cotton denim jeans") # WRONG! it outputted 6203.42.4011 & 16.6%; WRONG SHUD BE 6203.42.07.11
@@ -312,26 +301,16 @@ if __name__ == "__main__":
     # classify_htsus("Porcelain plate") # WORKS it out putted 6911.10.80.00 w/ correct duty tax 20.80% and rate 2 of 75%
     # classify_htsus("Smartphone with 128GB storage, OLED screen, and 5G support") # WORKS! it outputted 8517.13.0000 & 0%
     # classify_htsus("Cordless drill") # WRONG outputted 8467.21.00.30 and 4.70% (shud be 1.7)
-    classify_htsus("cotton plushie") # not working yet, but shud output 9503.00.0073 & 0%
+    # classify_htsus("cotton plushie") # not working yet, but shud output 9503.00.0073 & 0%
     # classify_htsus("Polyester camping tent, 4-person capacity, waterproof")
     
 
-    # results = collection.query(
-    #     query_texts=[""],  # query is a tuple of (product description, additional instructions)
-    #     n_results=n  # get top 30 most relevant chunks
-    # )
+    # get_top_n_codes("cotton plushie", "95", "", 75, "")
+    # get_all_chapter_collections
 
-    # results = collection.get()
-    # retrieved_docs = results['documents']
-
-    # results = collection.get()
-
-    # # Access the document texts (assuming they’re under "documents")
-    # documents = results["documents"]  # This is a list of lists (each inner list is one document chunk)
-
-    # # Flatten (if needed) and take the first 5
-    # first_5 = [doc[0] if isinstance(doc, list) else doc for doc in documents[:5]]
-
-    # for i, doc in enumerate(first_5, 1):
-    #     print(f"{i}. {doc}")
-
+    classify_htsus("cotton plushie") # good enof but shud output 9503.00.0073 or 9503.00.00.71 & 0% but 6% bc my db has 6%
+    # classify_htsus("Frozen Alaskan Salmon fillets, 1kg pack") # good enof 
+    # classify_htsus("Polyester camping tent, 4-person capacity, waterproof") # good 
+    # classify_htsus("grand piano") # good 
+    # classify_htsus("Electric bicycle with 500W motor and 48V battery") # good enof
+    # classify_htsus("LED TV") # good enof
