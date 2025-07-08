@@ -262,9 +262,12 @@ ELECTRICAL EQUIPMENT; PARTS THEREOF; SOUND RECORDERS AND
 REPRODUCERS, TELEVISION IMAGE AND SOUND RECORDERS AND
 REPRODUCERS, AND PARTS AND ACCESSORIES OF SUCH ARTICLES
 Chapter 84: Nuclear reactors; boilers; machinery; mechanical appliances; parts thereof
+- Use 84 only for non-electric mechanical devices (like engines, pumps, or industrial machines).
 
 Chapter 85: Electrical machinery and equipment and parts thereof; sound recorders and reproducers, television
 image and sound recorders and reproducers, and parts and accessories of such articles
+- If a product is electrically powered (e.g., vacuum cleaner, blender, hair dryer), 
+classify under Chapter 85 (Electrical machinery), not 84.
 
 Section XVII – VEHICLES, AIRCRAFT, VESSELS AND ASSOCIATED
 TRANSPORT EQUIPMENT

@@ -14,6 +14,8 @@ or charging adapter), classify based on the complete compound form (e.g., "pipe 
 - Do not truncate to a more general term (e.g., don't reduce "pipe fitting" to just "pipe").
 - For whole finished products (e.g., cotton blanket, wool scarf), reduce to the
  product itself and ignore materials unless legally relevant.
+- Prioritize function + form, but include the material if it directly changes the 
+classification chapter — for example, plastic bag, rubber seal, or leather purse
 
 You MUST focus on:
 - What the product **is** as a whole (form + function).

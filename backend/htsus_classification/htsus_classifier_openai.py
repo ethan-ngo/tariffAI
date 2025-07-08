@@ -127,7 +127,7 @@ def classify_htsus(product_description):
         f.write(str(product_simplified))   
     
     # Step 2: Get the HTSUS chapter number based on the simplified product description
-    product_chapter = get_chapter_number(product_simplified)
+    product_chapter = get_chapter_number(product_simplified + ": " + product_description)
     if not product_chapter:
         print("Failed to retrieve HTSUS chapter number. Exiting classification.")
         return
@@ -194,9 +194,6 @@ if __name__ == "__main__":
     # classify_htsus("cotton plushie") # not working yet, but shud output 9503.00.0073 & 0%
     # classify_htsus("Polyester camping tent, 4-person capacity, waterproof")
     
-
-    # get_top_n_codes("cotton plushie", "95", "", 75, "")
-
     # classify_htsus("cotton plushie") # good enof but shud output 9503.00.0073 or 9503.00.00.71 & 0% but 6% bc my db has 6%
     # classify_htsus("Frozen Alaskan Salmon fillets, 1kg pack") # good enof 
     # classify_htsus("Polyester camping tent, 4-person capacity, waterproof") # good 
@@ -224,8 +221,8 @@ if __name__ == "__main__":
     # classify_htsus("Wall-mounted LED light fixture") # before no now yes 
     # classify_htsus("Electric hair dryer") # good
     # classify_htsus("Plastic shopping bag") # no bc it doesnt include plastic
-    # classify_htsus("Handheld vacuum cleaner") # no bc it did 84 instead of 85
-    classify_htsus("Steel rebar (reinforcing bar)") # good
+    # classify_htsus("Handheld vacuum cleaner") # no bc it did 84 instead of 85 - works now
+    classify_htsus("Steel rebar (reinforcing bar)") # good (sometimes does 73 instead of 72)
    
 
 
