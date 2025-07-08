@@ -70,8 +70,8 @@ def semantically_process_product_description(product_description):
         response_json = response.json()  # Parse the JSON response
         chatbot_output = response_json.get("text", "")  # Get the "text" field safely
 
-        with open("txt_outputs/semantics.txt", "w", encoding="utf-8") as f:          
-            f.write(str(chatbot_output))
+        # with open("txt_outputs/semantics.txt", "w", encoding="utf-8") as f:          
+        #     f.write(str(chatbot_output))
 
         return chatbot_output
     else:
@@ -124,8 +124,8 @@ def classify_htsus(product_description, country):
         print("Failed to process product description semantics. Exiting classification.")
         return
     
-    with open("txt_outputs/product_context.txt", "w", encoding="utf-8") as f:
-        f.write(str(product_simplified))   
+    # with open("txt_outputs/product_context.txt", "w", encoding="utf-8") as f:
+    #     f.write(str(product_simplified))   
     
     # Step 2: Get the HTSUS chapter number based on the simplified product description
     product_chapter = get_chapter_number(product_simplified + ": " + product_description)
@@ -148,9 +148,9 @@ def classify_htsus(product_description, country):
         print("No HTSUS codes retrieved. Exiting classification.")
         return
 
-    with open("txt_outputs/outputtext1.txt", "w", encoding="utf-8") as f:
-        f.write(str(top_40_codes))
-    print("Successfully retrieved HTSUS codes based on the product description.")
+    # with open("txt_outputs/outputtext1.txt", "w", encoding="utf-8") as f:
+    #     f.write(str(top_40_codes))
+    # print("Successfully retrieved HTSUS codes based on the product description.")
 
     # Step 4: Get the top 1-3 HTSUS codes from the top 50 codes
     # Format the full prompt for OpenAI
@@ -163,8 +163,8 @@ def classify_htsus(product_description, country):
         + "\n".join(top_40_codes) 
     )
 
-    with open("txt_outputs/full_prompt.txt", "w", encoding="utf-8") as f:
-        f.write(str(full_prompt))
+    # with open("txt_outputs/full_prompt.txt", "w", encoding="utf-8") as f:
+    #     f.write(str(full_prompt))
 
     # Call OpenAI API to get the final HTSUS codes and duty tax
     headers = {
@@ -185,8 +185,8 @@ def classify_htsus(product_description, country):
         chatbot_output = response_json.get("text", "")  # Get the "text" field safely
         # print("Simplified result:", chatbot_output)
 
-        with open("final_output.txt", "w", encoding="utf-8") as f:          
-            f.write(str(chatbot_output))
+        # with open("final_output.txt", "w", encoding="utf-8") as f:          
+        #     f.write(str(chatbot_output))
         return chatbot_output
     else:
         print("Error:", response.status_code, response.text)
