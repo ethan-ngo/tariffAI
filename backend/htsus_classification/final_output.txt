@@ -1,0 +1,23 @@
+HTSUS Code: 6404.19.37.60  
+General Duty Tax Rate: 12.50%  
+Special Duty Tax Rate: Free  
+Column 2 Rate (for countries without normal trade relations with US): 35%  
+Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: - Footwear with outer soles of rubber or plastics: - Other: - Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, the foregoing except footwear of subheading 6404.19.20 and except footwear having a foxing or foxing-like band wholly or almost wholly of rubber or plastics applied or molded at the sole and overlapping the upper: - Other: - With uppers of textile material other than vegetable fibers and having outer soles with textile materials having the greatest surface area in contact with the ground, but not taken into account under the terms of additional U.S. note 5 to this chapter - Other: - For women  
+Confidence Score: 90%  
+Reason: The product description aligns well with the official description, especially in terms of the material, construction, and intended use for women's footwear.
+
+HTSUS Code: 6404.19.36.60  
+General Duty Tax Rate: 7.50%  
+Special Duty Tax Rate: Free  
+Column 2 Rate (for countries without normal trade relations with US): 35%  
+Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: - Footwear with outer soles of rubber or plastics: - Other: - Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, the foregoing except footwear of subheading 6404.19.20 and except footwear having a foxing or foxing-like band wholly or almost wholly of rubber or plastics applied or molded at the sole and overlapping the upper: - Other: - With uppers of vegetable fibers and having outer soles with textile materials having the greatest surface area in contact with the ground, but not taken into account under the terms of additional U.S. note 5 to this chapter - For women  
+Confidence Score: 85%  
+Reason: While the product description matches the general category, there is a slight discrepancy in the material of the uppers. However, the overall characteristics align well with this HTSUS code.
+
+HTSUS Code: 6404.19.37.30  
+General Duty Tax Rate: 12.50%  
+Special Duty Tax Rate: Free  
+Column 2 Rate (for countries without normal trade relations with US): 35%  
+Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: - Footwear with outer soles of rubber or plastics: - Other: - Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, the foregoing except footwear of subheading 6404.19.20 and except footwear having a foxing or foxing-like band wholly or almost wholly of rubber or plastics applied or molded at the sole and overlapping the upper: - Other: - With uppers of textile material other than vegetable fibers and having outer soles with textile materials having the greatest surface area in contact with the ground, but not taken into account under the terms of additional U.S. note 5 to this chapter - Other: - For men  
+Confidence Score: 80%  
+Reason: Although the product is described as women's footwear, the key features such as the material and construction closely match this HTSUS code for men's footwear.

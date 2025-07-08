@@ -137,14 +137,14 @@ def classify_htsus(product_description):
     print(f"HTSUS Chapter Number: {product_chapter}")
 
     # Step 3: Get the top n HTSUS codes based on the product description and chapter
-    top_50_codes = get_top_n_codes(product_simplified + ": " + product_description, product_chapter, 50)
+    top_40_codes = get_top_n_codes(product_simplified + ": " + product_description, product_chapter, 40)
 
-    if not top_50_codes:
+    if not top_40_codes:
         print("No HTSUS codes retrieved. Exiting classification.")
         return
 
     with open("txt_outputs/outputtext1.txt", "w", encoding="utf-8") as f:
-        f.write(str(top_50_codes))
+        f.write(str(top_40_codes))
     print("Successfully retrieved HTSUS codes based on the product description.")
 
     # Step 4: Get the top 1-3 HTSUS codes from the top 50 codes
@@ -154,7 +154,7 @@ def classify_htsus(product_description):
         f"Few-shot examples:\n{few_shot_txt}\n\n"
         f"Instructions:\n{prompt_txt}\n\n"
         "HTSUS data to choose from:\n"
-        + "\n".join(top_50_codes) 
+        + "\n".join(top_40_codes) 
     )
 
     with open("txt_outputs/full_prompt.txt", "w", encoding="utf-8") as f:
@@ -214,7 +214,16 @@ if __name__ == "__main__":
     # classify_htsus("cereal") # good bc didn't classify if it was raw cereal grains or breakfast cereals
     # classify_htsus("cotton blanket") # good
     # classify_htsus("Women's wool skirt, knee-length, with lining") # good enough - in the 62 chapter
-    classify_htsus("Women's leather purse") # fail bc it thinks purse is an apparel in 62
+    # classify_htsus("Women's leather purse") # good
+
+    # classify_htsus("Children's cotton pajamas") # good
+    classify_htsus("Women's leather boots") # good
+    # classify_htsus("cotton blanket") # good
+    # classify_htsus("cotton blanket") # good
+    # classify_htsus("cotton blanket") # good
+    # classify_htsus("cotton blanket") # good
+    # classify_htsus("cotton blanket") # good
+    # classify_htsus("cotton blanket") # good
    
 
 
