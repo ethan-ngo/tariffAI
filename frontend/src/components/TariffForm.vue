@@ -1,56 +1,50 @@
 <template>
-  <div class="hello">
+  <div class="tariff-form-container">
     <h1>{{ msg }}</h1>
     <form @submit.prevent="submitForm" class="tariff-form">
-      <div class="form-row">
-        <label for="code">HTSUS Code (optional):</label>
-        <input type="text" id="code" v-model="code">
-      </div>
-      
-      <div class="form-row">
-        <label for="country">Importing Country:</label>
-        <input type="text" id="country" v-model="country" required>
-      </div>
-      
-      <div class="form-row">
-        <label for="productDesc">Product Description:</label>
-        <textarea id="productDesc" v-model="productDesc" rows="3" placeholder="Enter product description..."></textarea>
-      </div>
-      
-      <div class="form-row">
-        <label for="productValue">Product Value:</label>
-        <input type="number" id="productValue" v-model="productValue" min="0" step="0.01" placeholder="Enter product value">
-      </div>
-
-      <div class="form-row">
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" v-model="quantity" min="1" required>
-      </div>
-
-      <div class="form-row">
-        <label for="shippingCost">Shipping Cost:</label>
-        <input type="number" id="shippingCost" v-model="shippingCost" min="0" step="0.01" placeholder="Enter shipping cost">
-      </div>
-
-      <div class="form-row">
-        <label for="insuranceCost">Insurance Cost:</label>
-        <input type="number" id="insuranceCost" v-model="insuranceCost" min="0" step="0.01" placeholder="Enter insurance cost">
-      </div>
-      
-      <div class="form-row">
-        <label for="weight">Weight:</label>
-        <div class="weight-input">
-          <input type="number" id="weight" v-model="weight" step="0.01" min="0" required>
-          <select id="weightUnit" v-model="weightUnit" required>
-            <option value="kg">kg</option>
-            <option value="lb">lb</option>
-            <option value="g">g</option>
-            <option value="oz">oz</option>
-            <option value="ton">ton</option>
-          </select>
+      <div class="form-grid">
+        <div class="form-row">
+          <label for="code">HTSUS Code (optional):</label>
+          <input type="text" id="code" v-model="code">
+        </div>
+        <div class="form-row">
+          <label for="country">Importing Country:</label>
+          <input type="text" id="country" v-model="country" required>
+        </div>
+        <div class="form-row form-row-wide">
+          <label for="productDesc">Product Description:</label>
+          <textarea id="productDesc" v-model="productDesc" rows="2" placeholder="Enter product description..."></textarea>
+        </div>
+        <div class="form-row">
+          <label for="productValue">Product Value:</label>
+          <input type="number" id="productValue" v-model="productValue" min="0" step="0.01" placeholder="Enter product value">
+        </div>
+        <div class="form-row">
+          <label for="quantity">Quantity:</label>
+          <input type="number" id="quantity" v-model="quantity" min="1" required>
+        </div>
+        <div class="form-row">
+          <label for="shippingCost">Shipping Cost:</label>
+          <input type="number" id="shippingCost" v-model="shippingCost" min="0" step="0.01" placeholder="Enter shipping cost">
+        </div>
+        <div class="form-row">
+          <label for="insuranceCost">Insurance Cost:</label>
+          <input type="number" id="insuranceCost" v-model="insuranceCost" min="0" step="0.01" placeholder="Enter insurance cost">
+        </div>
+        <div class="form-row form-row-wide">
+          <label for="weight">Weight:</label>
+          <div class="weight-input">
+            <input type="number" id="weight" v-model="weight" step="0.01" min="0" required>
+            <select id="weightUnit" v-model="weightUnit" required>
+              <option value="kg">kg</option>
+              <option value="lb">lb</option>
+              <option value="g">g</option>
+              <option value="oz">oz</option>
+              <option value="ton">ton</option>
+            </select>
+          </div>
         </div>
       </div>
-      
       <button type="submit">Submit</button>
     </form>
     <div v-if="result" class="result">
@@ -87,7 +81,6 @@ export default {
   },
   methods: {
     async submitForm() {
-      // Remove code required validation, keep others as needed
       if (!this.country) {
         this.result = { error: "Please select a country." };
         return;
@@ -100,10 +93,7 @@ export default {
         this.result = { error: "Please enter a valid weight." };
         return;
       }
-      
       try {
-        // Include the new form data in the request
-        
         const response = await fetch(`http://127.0.0.1:5000/scraper/301/${this.code}`);
         const data = await response.json();
         this.result = data;
@@ -116,46 +106,53 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  font-size: 50px;
-}
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-.tariff-form {
-  margin: 20px auto;
-  max-width: 1000px;
+.tariff-form-container {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  justify-content: center;
+  align-items: center;
+}
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 18px;
+}
+.tariff-form {
+  width: 100%;
+  max-width: 600px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.5);
+  padding: 24px 24px 16px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
 }
 .form-row {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
+}
+.form-row-wide {
+  grid-column: 1 / 3;
 }
 .form-row label {
   font-weight: bold;
   text-align: left;
+  font-size: 1rem;
 }
 .form-row input,
 .form-row select,
 .form-row textarea {
-  padding: 8px;
+  padding: 7px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 15px;
 }
 .form-row textarea {
   resize: none;
@@ -171,6 +168,7 @@ a {
   flex: 1;
 }
 button {
+  margin-top: 18px;
   padding: 10px 20px;
   background-color: #4f46e5;
   color: white;
@@ -178,17 +176,43 @@ button {
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
+  align-self: flex-end;
 }
 button:hover {
   background-color: #6366f1;
 }
 .result {
-  margin: 20px auto;
+  margin: 20px auto 0 auto;
   text-align: left;
   max-width: 500px;
   background: #f6f8fa;
   border: 1px solid #e1e1e1;
   padding: 15px;
   border-radius: 5px;
+}
+@media (max-width: 900px) {
+  .tariff-form {
+    max-width: 98vw;
+    padding: 16px 4vw;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .form-row-wide {
+    grid-column: 1 / 2;
+  }
+}
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  .tariff-form {
+    padding: 10px 2vw;
+  }
+  .result {
+    padding: 8px;
+    font-size: 13px;
+  }
 }
 </style>
