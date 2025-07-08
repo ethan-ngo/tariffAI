@@ -1,23 +1,23 @@
-HTSUS Code: 6404.19.37.60  
-General Duty Tax Rate: 12.50%  
+HTSUS Code: 8711.60.00.50  
+General Duty Tax Rate: Free  
 Special Duty Tax Rate: Free  
-Column 2 Rate (for countries without normal trade relations with US): 35%  
-Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: - Footwear with outer soles of rubber or plastics: - Other: - Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, the foregoing except footwear of subheading 6404.19.20 and except footwear having a foxing or foxing-like band wholly or almost wholly of rubber or plastics applied or molded at the sole and overlapping the upper: - Other: - With uppers of textile material other than vegetable fibers and having outer soles with textile materials having the greatest surface area in contact with the ground, but not taken into account under the terms of additional U.S. note 5 to this chapter - Other: - For women  
-Confidence Score: 90%  
-Reason: The product description aligns well with the official description, especially in terms of the material, construction, and intended use for women's footwear.
+Column 2 Rate (for countries without normal trade relations with US): 10%  
+Official Product Description: Motorcycles (including mopeds) and cycles fitted with an auxiliary motor, with or without side-cars; side-cars: - With electric motor for propulsion - Of an output not exceeding 250 W  
+Confidence Score: 95%  
+Reason: The product description of an electric bicycle with a 500W motor and 48V battery closely aligns with the HTSUS code for motorcycles and cycles with an electric motor for propulsion, especially given the power output limit of 250W.
 
-HTSUS Code: 6404.19.36.60  
-General Duty Tax Rate: 7.50%  
-Special Duty Tax Rate: Free  
-Column 2 Rate (for countries without normal trade relations with US): 35%  
-Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: - Footwear with outer soles of rubber or plastics: - Other: - Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, the foregoing except footwear of subheading 6404.19.20 and except footwear having a foxing or foxing-like band wholly or almost wholly of rubber or plastics applied or molded at the sole and overlapping the upper: - Other: - With uppers of vegetable fibers and having outer soles with textile materials having the greatest surface area in contact with the ground, but not taken into account under the terms of additional U.S. note 5 to this chapter - For women  
+HTSUS Code: 8712.00.44.00  
+General Duty Tax Rate: 5.50%  
+Special Duty Tax Rate: Free (JP)  
+Column 2 Rate (for countries without normal trade relations with US): 30%  
+Official Product Description: Bicycles and other cycles (including delivery tricycles), not motorized: - Bicycles having a front wheel exceeding 55 cm but not exceeding 63.5 cm in diameter and a rear wheel exceeding 63.5 cm in diameter, weighing less than 16.3 kg complete without accessories and not designed for use with tires having a cross-sectional diameter exceeding 4.13 cm, valued $200 or more each  
 Confidence Score: 85%  
-Reason: While the product description matches the general category, there is a slight discrepancy in the material of the uppers. However, the overall characteristics align well with this HTSUS code.
+Reason: While the product is not explicitly a bicycle, the features of a motorized cycle with specific size and weight restrictions align closely with this HTSUS code.
 
-HTSUS Code: 6404.19.37.30  
-General Duty Tax Rate: 12.50%  
-Special Duty Tax Rate: Free  
-Column 2 Rate (for countries without normal trade relations with US): 35%  
-Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: - Footwear with outer soles of rubber or plastics: - Other: - Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, the foregoing except footwear of subheading 6404.19.20 and except footwear having a foxing or foxing-like band wholly or almost wholly of rubber or plastics applied or molded at the sole and overlapping the upper: - Other: - With uppers of textile material other than vegetable fibers and having outer soles with textile materials having the greatest surface area in contact with the ground, but not taken into account under the terms of additional U.S. note 5 to this chapter - Other: - For men  
+HTSUS Code: 8712.00.15  
+General Duty Tax Rate: 11%  
+Special Duty Tax Rate: Free (JP)  
+Column 2 Rate (for countries without normal trade relations with US): 30%  
+Official Product Description: Bicycles and other cycles (including delivery tricycles), not motorized: - Bicycles having both wheels not exceeding 63.5 cm in diameter  
 Confidence Score: 80%  
-Reason: Although the product is described as women's footwear, the key features such as the material and construction closely match this HTSUS code for men's footwear.
+Reason: Although the product is motorized, the size specifications for bicycles in this HTSUS code are the closest match based on the available data.
