@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify
 from tariffs.scraper301 import get301Percent, get301Desc
 from tariffs.scraperVAT import getVAT 
-
+from htsus_classification.htsus_classifier_openai import classify_htsus
+import re
 main = Blueprint('main', __name__)
 
 @main.route('/scraper/vat/<country>', methods=['GET'])
