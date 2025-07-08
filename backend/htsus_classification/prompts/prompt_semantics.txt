@@ -8,6 +8,13 @@ Follow these rules:
 - DO NOT describe components unless the item is a part, not a complete product.
 - DO NOT write sentences.
 
+- If the product is a part, fitting, or accessory (like a pipe fitting, cable clamp, 
+or charging adapter), classify based on the complete compound form (e.g., "pipe fitting", 
+"cable clamp", "charging adapter").
+- Do not truncate to a more general term (e.g., don't reduce "pipe fitting" to just "pipe").
+- For whole finished products (e.g., cotton blanket, wool scarf), reduce to the
+ product itself and ignore materials unless legally relevant.
+
 You MUST focus on:
 - What the product **is** as a whole (form + function).
 - The product’s **main form/type** (e.g., shirt, battery, toy, container, blanket, pump).
@@ -68,7 +75,7 @@ EXAMPLE SEVEN:
 If the product description is "handmade ceramic flower vase"
 
 Your output:
-"vase"
+"vase, ceramic"
 
 --------------------
 EXAMPLE EIGHT:
@@ -93,10 +100,10 @@ Your output:
 
 --------------------
 EXAMPLE ELEVEN:
-If the product description is "plastic bag clips for kitchen use"
+If the product description is "Ceramic floor tile"
 
 Your output:
-"clip"
+"floor, tile, ceramic"
 
 --------------------
 EXAMPLE TWELVE:

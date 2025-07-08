@@ -215,15 +215,17 @@ if __name__ == "__main__":
     # classify_htsus("cotton blanket") # good
     # classify_htsus("Women's wool skirt, knee-length, with lining") # good enough - in the 62 chapter
     # classify_htsus("Women's leather purse") # good
-
     # classify_htsus("Children's cotton pajamas") # good
-    classify_htsus("Women's leather boots") # good
-    # classify_htsus("cotton blanket") # good
-    # classify_htsus("cotton blanket") # good
-    # classify_htsus("cotton blanket") # good
-    # classify_htsus("cotton blanket") # good
-    # classify_htsus("cotton blanket") # good
-    # classify_htsus("cotton blanket") # good
+    # classify_htsus("Women's leather boots") # good
+    # classify_htsus("Men's wool overcoat") # good
+    # classify_htsus("Ceramic floor tile") # good
+    # classify_htsus("Steel pipe fitting, threaded") # before no now yes after changing chapter prompt
+    # classify_htsus("Stainless steel kitchen fork") # good
+    # classify_htsus("Wall-mounted LED light fixture") # before no now yes 
+    # classify_htsus("Electric hair dryer") # good
+    # classify_htsus("Plastic shopping bag") # no bc it doesnt include plastic
+    # classify_htsus("Handheld vacuum cleaner") # no bc it did 84 instead of 85
+    classify_htsus("Steel rebar (reinforcing bar)") # good
    
 
 
