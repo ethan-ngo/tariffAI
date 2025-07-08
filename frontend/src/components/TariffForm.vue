@@ -94,9 +94,20 @@ export default {
         return;
       }
       try {
-        const response = await fetch(`http://127.0.0.1:5000/scraper/301/${this.code}`);
+        const response = await fetch("http://127.0.0.1:5000/classifier/htsus", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            product_description: this.productDesc,
+            origin_country: this.country
+          })
+        });
+
         const data = await response.json();
         this.result = data;
+
       } catch (error) {
         this.result = { error: error.message };
       }
