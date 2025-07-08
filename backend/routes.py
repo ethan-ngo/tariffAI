@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from tariffs.scraper301 import get301Percent, get301Desc
 from tariffs.scraperVAT import getVAT 
 from htsus_classification.htsus_classifier_openai import classify_htsus
@@ -40,3 +40,62 @@ def scraper_301desc(code):
         return jsonify({"description": desc, "note": note})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+
+# helper function to get the final duty hts rates
+def get_final_duty_hts_rates(classification_text):
+    # Split by numbered sections, e.g. "1. HTSUS Code:", "2. HTSUS Code:", etc.
+    blocks = re.split(r'\n?\d+\.\sHTSUS Code:', classification_text)
+
+    # The first split element may be empty if string starts with "1. HTSUS Code:", so skip it
+    blocks = [b.strip() for b in blocks if b.strip()]
+
+    results = []
+
+    for block in blocks:
+        # Add back "HTSUS Code:" prefix removed by split
+        block = "HTSUS Code:" + block
+
+        # Extract HTSUS Code (number pattern after "HTSUS Code:")
+        code_match = re.search(r'HTSUS Code:\s*([\d.]+)', block)
+        total_rate_match = re.search(r'Total Duty Tax Rate:\s*([\d.]+%)', block)
+
+        if code_match and total_rate_match:
+            code = code_match.group(1)
+            total_rate = total_rate_match.group(1)
+            results.append((code, total_rate))
+
+    return results
+
+@main.route('/classifier/htsus', methods=['POST'])
+def classify_htsus_path():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Missing JSON data"}), 400
+    try:
+        product_description = data.get('product_description')
+        if not product_description:
+            return jsonify({"error": "Missing 'product_description' in JSON data"}), 400    
+        origin_country = data.get('origin_country')
+        if not origin_country:
+            return jsonify({"error": "Missing 'origin_country' in JSON data"}), 400
+        
+        print(f"product_description: {product_description}")
+        print(f"origin_country: {origin_country}")
+        
+        result = classify_htsus(product_description, origin_country)
+
+        if not result:
+            return jsonify({"error": "Classification failed"}), 500 
+        
+        duty_taxes = get_final_duty_hts_rates(result)
+        updated_duty_taxes = []
+
+        for code, rate in duty_taxes:
+            rate_float = float(rate.rstrip('%'))
+            updated_duty_taxes.append((code, rate_float))
+
+        return jsonify({"classification": result, "duty_rates": updated_duty_taxes}) 
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500  
