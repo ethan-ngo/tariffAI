@@ -1,0 +1,8 @@
+Flask
+flask-cors
+requests
+beautifulsoup4
+selenium
+dotenv
+requests
+chromadb
