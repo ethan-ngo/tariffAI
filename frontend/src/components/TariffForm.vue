@@ -94,11 +94,26 @@ export default {
         return;
       }
       try {
-        const response = await fetch(`http://127.0.0.1:5000/scraper/301/${this.code}`);
+        // Call /landing API
+        const response = await fetch('http://127.0.0.1:5000/landing', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            hts_code: this.code,
+            prod_desc: this.productDesc,
+            country: this.country,
+            prod_value: this.productValue,
+            quantity: this.quantity,
+            shipping: this.shippingCost,
+            insurance: this.insuranceCost,
+          })
+        });
         const data = await response.json();
-        this.result = data;
+        this.result = data.landing_cost;
+        console.log('Landing API result:', data); // <-- Console log the result
       } catch (error) {
         this.result = { error: error.message };
+        console.log('Landing API error:', error);
       }
     }
   }
