@@ -23,10 +23,10 @@ with open("prompts/prompt_openai.txt", "r", encoding="utf-8") as f:
 with open("prompts/few_shot.txt", "r", encoding="utf-8") as f:
     few_shot_txt = f.read()
 
-# Uses Gemini Flash to get the HTSUS code and duty tax for a given product description
-def get_top_n_codes(product_description, product_chapter, query, n, irrelevant):
-    # Get or create the collection for that chapter
-    collection_name = f"htsus_chapter_{product_chapter}"
+# Get n HTSUS codes from the chroma collection based on the product description and chapter
+def get_top_n_codes(product_description, hts_chapter, n):
+    # Get or create the collection for that product chapter
+    collection_name = f"htsus_chapter_{hts_chapter}"
     chapter_collection = chroma_client.get_or_create_collection(name=collection_name)
 
     results = chapter_collection.query(
@@ -43,6 +43,180 @@ def get_top_n_codes(product_description, product_chapter, query, n, irrelevant):
     print(f"Retrieved {len(documents)} HTSUS codes.")
 
     return documents
+
+# Get the keywords from the product description
+def semantically_process_product_description(product_description):
+    with open("prompts/prompt_semantics.txt", "r", encoding="utf-8") as f:
+        prompt_semantics_txt = f.read()
+
+    full_prompt = (
+        f"Product description:\n{product_description}\n\n"
+        f"Instruction:\n{prompt_semantics_txt}\n\n"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",  # Replace with your actual API key
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
+    data = {
+        "text": full_prompt
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+
+    # Handle response
+    if response.status_code == 200:
+        response_json = response.json()  # Parse the JSON response
+        chatbot_output = response_json.get("text", "")  # Get the "text" field safely
+
+        with open("txt_outputs/semantics.txt", "w", encoding="utf-8") as f:          
+            f.write(str(chatbot_output))
+
+        return chatbot_output
+    else:
+        print("Error:", response.status_code, response.text)
+        return ""
+    
+# Get the HTS chapter number based on the product descriptionS
+def get_chapter_number(product_description):
+    with open("prompts/prompt_get_chapter.txt", "r", encoding="utf-8") as f:
+        prompt_chapter_txt = f.read()
+
+    full_prompt = (
+        f"Product description:\n{product_description}\n\n"
+        f"Instruction:\n{prompt_chapter_txt}\n\n"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",  # Replace with your actual API key
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
+    data = {
+        "text": full_prompt
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+
+    # Handle response
+    if response.status_code == 200:
+        response_json = response.json()  # Parse the JSON response
+        chatbot_output = response_json.get("text", "")  # Get the "text" field safely
+
+        return chatbot_output
+    else:
+        print("Error:", response.status_code, response.text)
+        return ""
+    
+# Get just the chapter number from the HTSUS chapter text
+def extract_chapter_number(text):
+    match = re.search(r'\b(\d{1,2})\b', text)
+    return match.group(1) if match else None
+    
+# Main logic: classify the product_description by HTSUS codes 
+def classify_htsus(product_description):
+    # Step 1: Process and simplify the product_description into 1-3 keywords
+    product_simplified = semantically_process_product_description(product_description)
+
+    if not product_simplified: 
+        print("Failed to process product description semantics. Exiting classification.")
+        return
+    
+    with open("txt_outputs/product_context.txt", "w", encoding="utf-8") as f:
+        f.write(str(product_simplified))   
+    
+    # Step 2: Get the HTSUS chapter number based on the simplified product description
+    product_chapter = get_chapter_number(product_simplified)
+    if not product_chapter:
+        print("Failed to retrieve HTSUS chapter number. Exiting classification.")
+        return
+    
+    product_chapter = extract_chapter_number(product_chapter)
+    
+    print(f"HTSUS Chapter Number: {product_chapter}")
+
+    # Step 3: Get the top n HTSUS codes based on the product description and chapter
+    top_50_codes = get_top_n_codes(product_simplified + ": " + product_description, product_chapter, 50)
+
+    if not top_50_codes:
+        print("No HTSUS codes retrieved. Exiting classification.")
+        return
+
+    with open("txt_outputs/outputtext1.txt", "w", encoding="utf-8") as f:
+        f.write(str(top_50_codes))
+    print("Successfully retrieved HTSUS codes based on the product description.")
+
+    # Step 4: Get the top 1-3 HTSUS codes from the top 50 codes
+    # Format the full prompt for OpenAI
+    full_prompt = (
+        f"Product description:\n{product_description}\n\n"
+        f"Few-shot examples:\n{few_shot_txt}\n\n"
+        f"Instructions:\n{prompt_txt}\n\n"
+        "HTSUS data to choose from:\n"
+        + "\n".join(top_50_codes) 
+    )
+
+    with open("txt_outputs/full_prompt.txt", "w", encoding="utf-8") as f:
+        f.write(str(full_prompt))
+
+    # Call OpenAI API to get the final HTSUS codes and duty tax
+    headers = {
+        "Authorization": f"Bearer {api_key}",  # Replace with your actual API key
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
+    data = {
+        "text": full_prompt
+    }
+
+    print("Sent request to OpenAI to retrieve final codes and duty tax...")
+    response = requests.post(url, headers=headers, json=data)
+
+    # Handle OpenAI response
+    if response.status_code == 200:
+        response_json = response.json()  # Parse the JSON response
+        chatbot_output = response_json.get("text", "")  # Get the "text" field safely
+        print("Simplified result:", chatbot_output)
+
+        with open("final_output.txt", "w", encoding="utf-8") as f:          
+            f.write(str(chatbot_output))
+    else:
+        print("Error:", response.status_code, response.text)
+    
+# Test cases
+if __name__ == "__main__":
+    # classify_htsus("Men 100 cotton denim jeans") # WRONG! it outputted 6203.42.4011 & 16.6%; WRONG SHUD BE 6203.42.07.11
+    # classify_htsus("Leather handbag") # works! it outputted the 3 possibilities shown in few_shot.txt
+    
+    # classify_htsus("Porcelain plate") # WORKS it out putted 6911.10.80.00 w/ correct duty tax 20.80% and rate 2 of 75%
+    # classify_htsus("Cordless drill") # WRONG outputted 8467.21.00.30 and 4.70% (shud be 1.7)
+    # classify_htsus("cotton plushie") # not working yet, but shud output 9503.00.0073 & 0%
+    # classify_htsus("Polyester camping tent, 4-person capacity, waterproof")
+    
+
+    # get_top_n_codes("cotton plushie", "95", "", 75, "")
+
+    # classify_htsus("cotton plushie") # good enof but shud output 9503.00.0073 or 9503.00.00.71 & 0% but 6% bc my db has 6%
+    # classify_htsus("Frozen Alaskan Salmon fillets, 1kg pack") # good enof 
+    # classify_htsus("Polyester camping tent, 4-person capacity, waterproof") # good 
+    # classify_htsus("grand piano") # good 
+    # classify_htsus("Electric bicycle with 500W motor and 48V battery") # good enof
+    # classify_htsus("LED TV") 
+    # classify_htsus("Smartphone with 128GB storage, OLED screen, and 5G support") 
+    # classify_htsus("Queen-sized bed sheet set made from 100% cotton") 
+    # classify_htsus("Dark chocolate bars with 85 cocoa, no filling") 
+    # classify_htsus("Office chair with adjustable height and wheels") 
+    # classify_htsus("Industrial-grade ethyl alcohol (denatured), for cleaning") 
+    # classify_htsus("Women's athletic shoes with rubber soles and textile uppers") 
+    # classify_htsus("women's leather sandals") 
+
+    # classify_htsus("cereal") # good bc didn't classify if it was raw cereal grains or breakfast cereals
+    # classify_htsus("cotton blanket") # good
+    # classify_htsus("Women's wool skirt, knee-length, with lining") # good enough - in the 62 chapter
+    classify_htsus("Women's leather purse") # fail bc it thinks purse is an apparel in 62
+   
+
 
 def process_top_n_codes(output_text, product_description):
     with open("prompts/prompt_filter_irrelevant_htsus.txt", "r", encoding="utf-8") as f:
@@ -101,172 +275,3 @@ def process_top_n_codes(output_text, product_description):
         return relevant_entries, irrelevant_entries, prompt_suggestion
     else:
         print("Error:", response.status_code, response.text)
-
-def semantically_process_product_description(product_description):
-    with open("prompts/prompt_semantics.txt", "r", encoding="utf-8") as f:
-        prompt_semantics_txt = f.read()
-
-    full_prompt = (
-        f"Product description:\n{product_description}\n\n"
-        f"Instruction:\n{prompt_semantics_txt}\n\n"
-    )
-
-    headers = {
-        "Authorization": f"Bearer {api_key}",  # Replace with your actual API key
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-    }
-    data = {
-        "text": full_prompt
-    }
-
-    response = requests.post(url, headers=headers, json=data)
-
-    # Handle response
-    if response.status_code == 200:
-        response_json = response.json()  # Parse the JSON response
-        chatbot_output = response_json.get("text", "")  # Get the "text" field safely
-        # print("Simplified result:", chatbot_output)
-        # print("Response result:", response_json)
-
-        with open("txt_outputs/semantics.txt", "w", encoding="utf-8") as f:          
-            f.write(str(chatbot_output))
-
-        return chatbot_output
-    else:
-        print("Error:", response.status_code, response.text)
-        return ""
-    
-def get_chapter_number(product_description):
-    with open("prompts/prompt_get_chapter.txt", "r", encoding="utf-8") as f:
-        prompt_chapter_txt = f.read()
-
-    full_prompt = (
-        f"Product description:\n{product_description}\n\n"
-        f"Instruction:\n{prompt_chapter_txt}\n\n"
-    )
-
-    headers = {
-        "Authorization": f"Bearer {api_key}",  # Replace with your actual API key
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-    }
-    data = {
-        "text": full_prompt
-    }
-
-    response = requests.post(url, headers=headers, json=data)
-
-    # Handle response
-    if response.status_code == 200:
-        response_json = response.json()  # Parse the JSON response
-        chatbot_output = response_json.get("text", "")  # Get the "text" field safely
-
-        return chatbot_output
-    else:
-        print("Error:", response.status_code, response.text)
-        return ""
-    
-
-def extract_chapter_number(text):
-    match = re.search(r'\b(\d{1,2})\b', text)
-    return match.group(1) if match else None
-    
-def classify_htsus(product_description):
-    # Step -1: Get the HTSUS chapter number based on the product description
-    # Step 0: Process product_description:
-    product_context = semantically_process_product_description(product_description)
-
-    if not product_context: 
-        print("Failed to process product description semantics. Exiting classification.")
-        return
-    
-    with open("txt_outputs/product_context.txt", "w", encoding="utf-8") as f:
-        f.write(str(product_context))   
-    
-    product_chapter = get_chapter_number(product_context)
-    if not product_chapter:
-        print("Failed to retrieve HTSUS chapter number. Exiting classification.")
-        return
-    
-    product_chapter = extract_chapter_number(product_chapter)
-    
-    print(f"HTSUS Chapter Number: {product_chapter}")
-
-    output_text_1 = get_top_n_codes(product_context, product_chapter, "", 50, "")
-
-    if not output_text_1:
-        print("No HTSUS codes retrieved. Exiting classification.")
-        return
-
-    # Output the top 100 HTSUS codes to a file
-    with open("txt_outputs/outputtext1.txt", "w", encoding="utf-8") as f:
-        f.write(str(output_text_1))
-    print("Successfully retrieved HTSUS codes based on the product description.")
-
-    full_prompt = (
-        f"Product description:\n{product_description}\n\n"
-        f"Few-shot examples:\n{few_shot_txt}\n\n"
-        f"Instructions:\n{prompt_txt}\n\n"
-        "HTSUS data to choose from:\n"
-        + "\n".join(output_text_1) 
-    )
-
-    with open("txt_outputs/full_prompt.txt", "w", encoding="utf-8") as f:
-        f.write(str(full_prompt))
-
-    # Step 4: Generate response using OpenAI 
-    headers = {
-        "Authorization": f"Bearer {api_key}",  # Replace with your actual API key
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-    }
-    data = {
-        "text": full_prompt
-    }
-
-    print("Sent request to OpenAI to retrieve final codes and duty tax...")
-    response = requests.post(url, headers=headers, json=data)
-
-    # Handle response
-    if response.status_code == 200:
-        response_json = response.json()  # Parse the JSON response
-        chatbot_output = response_json.get("text", "")  # Get the "text" field safely
-        print("Simplified result:", chatbot_output)
-        # print("Response result:", response_json)
-
-        with open("final_output.txt", "w", encoding="utf-8") as f:          
-            f.write(str(chatbot_output))
-    else:
-        print("Error:", response.status_code, response.text)
-
-    # Step 5: Post-process the response to cross check if the HTSUS code exists in htsus_flattened.csv?
-
-# Example usage
-if __name__ == "__main__":
-    # classify_htsus("Men 100 cotton denim jeans") # WRONG! it outputted 6203.42.4011 & 16.6%; WRONG SHUD BE 6203.42.07.11
-    # classify_htsus("Leather handbag") # works! it outputted the 3 possibilities shown in few_shot.txt
-    
-    # classify_htsus("Porcelain plate") # WORKS it out putted 6911.10.80.00 w/ correct duty tax 20.80% and rate 2 of 75%
-    # classify_htsus("Cordless drill") # WRONG outputted 8467.21.00.30 and 4.70% (shud be 1.7)
-    # classify_htsus("cotton plushie") # not working yet, but shud output 9503.00.0073 & 0%
-    # classify_htsus("Polyester camping tent, 4-person capacity, waterproof")
-    
-
-    # get_top_n_codes("cotton plushie", "95", "", 75, "")
-
-    # classify_htsus("cotton plushie") # good enof but shud output 9503.00.0073 or 9503.00.00.71 & 0% but 6% bc my db has 6%
-    # classify_htsus("Frozen Alaskan Salmon fillets, 1kg pack") # good enof 
-    # classify_htsus("Polyester camping tent, 4-person capacity, waterproof") # good 
-    # classify_htsus("grand piano") # good 
-    # classify_htsus("Electric bicycle with 500W motor and 48V battery") # good enof
-    # classify_htsus("LED TV") 
-    # classify_htsus("Smartphone with 128GB storage, OLED screen, and 5G support") 
-    # classify_htsus("Queen-sized bed sheet set made from 100% cotton") 
-    # classify_htsus("Dark chocolate bars with 85 cocoa, no filling") 
-    # classify_htsus("Office chair with adjustable height and wheels") 
-    # classify_htsus("Industrial-grade ethyl alcohol (denatured), for cleaning") 
-    # classify_htsus("Women's athletic shoes with rubber soles and textile uppers") 
-    # classify_htsus("women's leather sandals") 
-
-    classify_htsus("cotton blanket") # good bc didn't classify if it was raw cereal grains or breakfast cereals

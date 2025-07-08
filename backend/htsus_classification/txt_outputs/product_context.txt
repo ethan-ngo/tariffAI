@@ -1,1 +1,1 @@
-blanket, cotton
+"purse, handbag, accessory"
