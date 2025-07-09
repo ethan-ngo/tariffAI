@@ -4,6 +4,8 @@ from tariffs.scraper301 import get301Percent, get301Desc
 from tariffs.scraperVAT import getVAT, getVAT_AI 
 from tariffs.landingCost import getLanding
 from htsus_classification.get_hts import get_final_HTS_duty
+from htsus_classification.chatbot import workflow
+
 from htsus_classification.htsus_classifier_openai import classify_htsus
 
 main = Blueprint('main', __name__)
@@ -54,8 +56,11 @@ def calcLanding():
     try:
         hts_code = str(data.get('hts_code'))
         country = data.get('country')
+
         prod_desc = data.get('prod_desc')
-        print("code and country are ", hts_code, country)
+        if not hts_code:
+            prod_desc = data.get('prod_desc')
+            hts_classification_output = classify_htsus(prod_desc, country) 
 
         MRN = get_final_HTS_duty(hts_code, country)
         MRN_float = float(MRN.replace("%", ""))
@@ -66,8 +71,6 @@ def calcLanding():
             # Removes all the . period char and last two digits
             cleaned_code = hts_code.replace(".", "")[:-2]
             tax301 = get301Percent(cleaned_code)
-
-        print("tax301 is ", tax301)
         
         taxVAT = getVAT_AI(country, prod_desc)
         if not taxVAT:
@@ -155,3 +158,15 @@ def classify_htsus_path():
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500  
+    
+@main.route('/chatbot', methods=['POST'])
+def chatbot():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Missing JSON data"}), 400
+    try:
+        res = workflow(data.get("message"))
+        return jsonify({"message": res})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    return

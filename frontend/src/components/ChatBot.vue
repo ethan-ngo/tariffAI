@@ -49,22 +49,25 @@ async function sendMessage() {
   if (messagesContainer.value) {
     messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
   }
-  
-  // Simulate bot reply
-  setTimeout(async () => {
-    messages.value.push({
-      from: 'bot',
-      text: "I'm a helpful bot! (This is a demo reply.)"
-    })
-    
-    // Auto-scroll to bottom after bot reply
-    await nextTick()
-    if (messagesContainer.value) {
-      messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
-    }
-  }, 700)
-  
+  const query = input.value
   input.value = ''
+  // Call your backend API
+  try {
+    const response = await fetch('http://127.0.0.1:5000/chatbot', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: query })
+    })
+    const data = await response.json()
+    messages.value.push({ from: 'bot', text: data.message })
+  } catch (e) {
+    messages.value.push({ from: 'bot', text: "Sorry, I couldn't process your request." })
+  }
+
+  await nextTick()
+  if (messagesContainer.value) {
+    messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
+  }
 }
 
 async function scrollToBottom() {

@@ -6,8 +6,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
-print("GEMINI key:", api_key)  # Add this after load_dotenv
-
 genai.configure(api_key=api_key)
 model = genai.GenerativeModel("gemini-2.0-flash")
 
@@ -37,5 +35,4 @@ def getVAT(target_country: str) -> tuple[str, str]:
 
 def getVAT_AI(target_country: str, prod_desc: str) -> float:
     res = model.generate_content(contents=f"What is the VAT rate of {target_country} for {prod_desc}? The output should only be a number.")
-    print("VAT rate is ", res)
     return float(res.text.strip())
