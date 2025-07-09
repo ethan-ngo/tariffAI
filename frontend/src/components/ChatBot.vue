@@ -97,8 +97,9 @@ onMounted(async () => {
   })
 
   emitter.on('landedCostResult', async (data) => {
-    console.log(data)
-    messages.value.push({ from: 'bot', text: data });
+    console.log(data) 
+    const formatted2 = formatLandingBreakdown(data)
+    messages.value.push({ from: 'bot', text: formatted2 });
     await scrollToBottom();
   })
 })
@@ -145,6 +146,48 @@ function formatClassification(rawText) {
 
   return formattedParts.join('<hr style="border:none;border-top:1px solid #ccc;margin:12px 0;">');
 }
+
+function formatLandingBreakdown(data) {
+  if (!data) return "No landing cost data available.";
+
+  const landingCost = data.landing_cost;
+  console.log(landingCost); 
+
+  const dutyTotal = data.duty_total;
+  console.log(dutyTotal);
+
+  const mrnDuty = data.mrn_duty;
+  console.log(mrnDuty);
+
+  const mrnRate = data.mrn_rate;
+  console.log(mrnRate);
+
+  const subtotal = data.subtotal;
+  console.log(subtotal);
+
+  const tax301Duty = data.tax301_duty;
+  console.log(tax301Duty);
+
+  const tax301Rate = data.tax301_rate;
+  console.log(tax301Rate);
+
+  const vatRate = data.vat_rate;
+  console.log(vatRate);
+
+  const vatTotal = data.vat_total;
+  console.log(vatTotal);
+
+  return (
+    `subtotal: ${subtotal}` + 
+    `mrn duty (${mrnRate}%): ${mrnDuty}\n` +
+    `tax301 duty (${tax301Rate}%): ${tax301Duty}\n` +
+    `vat total (${vatRate}%): ${vatTotal}\n` +
+    `duty total: ${dutyTotal}\n` +
+    `landing cost: ${landingCost}\n` 
+  );
+
+}
+
 
 </script>
 
