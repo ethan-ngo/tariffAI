@@ -66,11 +66,19 @@ def calcLanding():
         MRN_float = float(MRN.replace("%", ""))
         print("MRN is ", MRN_float)
 
-        tax301 = 0
+        tax301 = 0.0
         if country == "China":
             # Removes all the . period char and last two digits
-            cleaned_code = hts_code.replace(".", "")[:-2]
-            tax301 = get301Percent(cleaned_code)
+            cleaned_code = hts_code.replace(".", "")
+            cleaned_code_new = ""
+
+            if len(cleaned_code) == 10:
+                cleaned_code_new = cleaned_code[:-2]
+            else:
+                cleaned_code_new = cleaned_code
+    
+            print("cleaned_code new: ", cleaned_code_new)
+            tax301 = float(get301Percent(cleaned_code_new))
         
         taxVAT = getVAT_AI(country, prod_desc)
         if not taxVAT:
@@ -82,6 +90,9 @@ def calcLanding():
         quantity = int(data.get('quantity', 1))
         shipping = float(data.get('shipping', 0))
         insurance = float(data.get('insurance', 0))
+
+        print("tax301 type in calcLanding", type(tax301))
+        print("tax301:", tax301)
 
         landing_cost = getLanding(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), MRN_float)
         print("Landing:" , landing_cost)
