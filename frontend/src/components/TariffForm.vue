@@ -3,80 +3,92 @@
     <h1>{{ msg }}</h1>
 
     <form class="tariff-form">
+      <h2>Product Classification & Landing Cost</h2>
+      <p class="description-text">
+        To get the estimated landing cost of a product (including duties, tariffs, 
+        and VAT), please fill in all required fields and click "Submit Calculation."
+ 
+        If the HTSUS code is unknown, you may instead provide the Product Description, 
+        Origin Country, Weight, and Quantity, and click "Submit Classification" 
+        to let the system determine the appropriate HTSUS code.
 
-      <!-- === Part 1: Product Classification === -->
-      <div class="form-section">
-        <h2>Product Classification by HTSUS Codes</h2>
-        <p class="description-text">
-          Please provide information for all the following fields to help us classify it by HTSUS codes. The output will display in the chatbot.
-        </p>
-        <div class="form-grid">
-          <div class="form-row form-row-wide">
-            <label for="productDesc">Product Description:</label>
-            <textarea id="productDesc" v-model="productDesc" rows="2" placeholder="Enter product description..."></textarea>
-          </div>
+        All results will be displayed in the chatbot, where you can also ask 
+        follow-up questions.
+      </p>
 
-          <div class="form-row">
-            <label for="country">Origin Country:</label>
-            <input type="text" id="country" v-model="country" required>
-          </div>
-
-          <div class="form-row">
-            <label for="weight">Weight:</label>
-            <div class="weight-input">
-              <input type="number" id="weight" v-model="weight" step="0.01" min="0" required>
-              <select id="weightUnit" v-model="weightUnit" required>
-                <option value="kg">kg</option>
-                <option value="lb">lb</option>
-                <option value="g">g</option>
-                <option value="oz">oz</option>
-                <option value="ton">ton</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" v-model="quantity" min="1" required>
-          </div>
+      <div class="form-grid">
+        <!-- HTSUS Code -->
+        <div class="form-row">
+          <label for="code">HTSUS Code (for calculation):</label>
+          <input type="text" id="code" v-model="code">
+          <p v-if="errors.code" class="error-message">{{ errors.code }}</p>
         </div>
 
-        <!-- Submit classification button -->
-        <button type="button" @click="submitClassification">Submit Classification</button>
+        <!-- Product Description -->
+        <div class="form-row form-row-wide">
+          <label for="productDesc">Product Description:</label>
+          <textarea id="productDesc" v-model="productDesc" rows="2" placeholder="Enter product description..."></textarea>
+          <p v-if="errors.productDesc" class="error-message">{{ errors.productDesc }}</p>
+        </div>
+
+        <!-- Origin Country -->
+        <div class="form-row">
+          <label for="country">Origin Country:</label>
+          <input type="text" id="country" v-model="country" required>
+          <p v-if="errors.country" class="error-message">{{ errors.country }}</p>
+        </div>
+
+        <!-- Weight -->
+        <div class="form-row">
+          <label for="weight">Weight:</label>
+          <div class="weight-input">
+            <input type="number" id="weight" v-model="weight" step="0.01" min="0" required>
+            <select id="weightUnit" v-model="weightUnit" required>
+              <option value="kg">kg</option>
+              <option value="lb">lb</option>
+              <option value="g">g</option>
+              <option value="oz">oz</option>
+              <option value="ton">ton</option>
+            </select>
+          </div>
+          <p v-if="errors.weight" class="error-message">{{ errors.weight }}</p>
+        </div>
+
+        <!-- Quantity -->
+        <div class="form-row">
+          <label for="quantity">Quantity:</label>
+          <input type="number" id="quantity" v-model="quantity" min="1" required>
+          <p v-if="errors.quantity" class="error-message">{{ errors.quantity }}</p>
+        </div>
+
+        <!-- Product Value -->
+        <div class="form-row">
+          <label for="productValue">Product Value:</label>
+          <input type="number" id="productValue" v-model="productValue" min="0" step="0.01" placeholder="Enter product value">
+          <p v-if="errors.productValue" class="error-message">{{ errors.productValue }}</p>
+        </div>
+
+        <!-- Shipping Cost -->
+        <div class="form-row">
+          <label for="shippingCost">Shipping Cost:</label>
+          <input type="number" id="shippingCost" v-model="shippingCost" min="0" step="0.01" placeholder="Enter shipping cost">
+          <p v-if="errors.shippingCost" class="error-message">{{ errors.shippingCost }}</p>
+        </div>
+
+        <!-- Insurance Cost -->
+        <div class="form-row">
+          <label for="insuranceCost">Insurance Cost:</label>
+          <input type="number" id="insuranceCost" v-model="insuranceCost" min="0" step="0.01" placeholder="Enter insurance cost">
+          <p v-if="errors.insuranceCost" class="error-message">{{ errors.insuranceCost }}</p>
+        </div>
       </div>
 
-      <!-- === Part 2: Duty Calculator === -->
-      <div class="form-section">
-        <h2>Total Landing Cost Calculator</h2>
-        <p class="description-text">
-          Please provide information for all the following fields to help us calculate the total landing cost of your product. The output will display in the chatbot.
-        </p>
-        <div class="form-grid">
-          <div class="form-row">
-            <label for="code">HTSUS Code (optional):</label>
-            <input type="text" id="code" v-model="code">
-          </div>
-
-          <div class="form-row">
-            <label for="productValue">Product Value:</label>
-            <input type="number" id="productValue" v-model="productValue" min="0" step="0.01" placeholder="Enter product value">
-          </div>
-
-          <div class="form-row">
-            <label for="shippingCost">Shipping Cost:</label>
-            <input type="number" id="shippingCost" v-model="shippingCost" min="0" step="0.01" placeholder="Enter shipping cost">
-          </div>
-
-          <div class="form-row">
-            <label for="insuranceCost">Insurance Cost:</label>
-            <input type="number" id="insuranceCost" v-model="insuranceCost" min="0" step="0.01" placeholder="Enter insurance cost">
-          </div>
-        </div>
-
-        <!-- Submit calculation button -->
+      <!-- Buttons aligned side by side -->
+      <div class="form-actions">
+        <button type="button" @click="submitClassification">Submit Classification</button>
         <button type="button" @click="submitCalculation">Submit Calculation</button>
       </div>
-  </form>
+    </form>
 
     <div v-if="result" class="result">
       <h3>Result:</h3>
@@ -100,7 +112,17 @@ export default {
       quantity: 1,
       weight: 0,
       weightUnit: 'kg',
-      result: null
+      result: null,
+      errors: {
+        code: '',
+        productDesc: '',
+        country: '',
+        quantity: '',
+        weight: '',
+        productValue: '',
+        shippingCost: '',
+        insuranceCost: '',
+      }
     }
   },
   computed: {
@@ -110,19 +132,41 @@ export default {
   },
   methods: {
     async submitClassification() {
-      if (!this.country) {
-        this.result = { error: "Please select a country." };
-        return;
+      // Clear previous errors
+      this.errors.productDesc = '';
+      this.errors.country = '';
+      this.errors.quantity = '';
+      this.errors.weight = '';
+      this.result = null;
+
+      let hasError = false;
+
+      if (!this.productDesc || this.productDesc.trim() === '') {
+        this.errors.productDesc = "Please enter a product description.";
+        hasError = true;
       }
+
+      if (!this.country || this.country.trim() === '') {
+        this.errors.country = "Please select a country.";
+        hasError = true;
+      }
+
       if (!this.quantity || this.quantity < 1) {
-        this.result = { error: "Please enter a valid quantity." };
+        this.errors.quantity = "Please enter a valid quantity.";
+        hasError = true;
+      }
+
+      if (!this.weight || this.weight <= 0) {
+        this.errors.weight = "Please enter a valid weight.";
+        hasError = true;
+      }
+
+      if (hasError) {
+        // Prevent submission if errors
         return;
       }
-      if (!this.weight || this.weight < 0) {
-        this.result = { error: "Please enter a valid weight." };
-        return;
-      }
-      // NEW: gets the top htsus codes and outputs it in the chatbot
+    
+      // gets the top htsus codes and outputs it in the chatbot
       try {
         // Emit progress to chatbot
         const progress = `Please wait a  moment, classifying "${this.productDesc}"...`
@@ -147,6 +191,87 @@ export default {
       } catch (error) {
         this.result = { error: error.message };
         console.log('HTSUS Classification error:', error);
+      }
+    },
+
+    async submitCalculation() {
+      // Clear previous errors
+      this.errors = {
+        code: '',
+        productDesc: '',
+        country: '',
+        quantity: '',
+        weight: '',
+        productValue: '',
+        shippingCost: '',
+        insuranceCost: ''
+      };
+      this.result = null;
+
+      let hasError = false;
+
+      if (!this.code || this.code.trim() === '') {
+        this.errors.code = "Please enter an HTSUS code.";
+        hasError = true;
+      }
+
+      if (!this.productDesc || this.productDesc.trim() === '') {
+        this.errors.productDesc = "Please enter a product description.";
+        hasError = true;
+      }
+
+      if (!this.country || this.country.trim() === '') {
+        this.errors.country = "Please select a country.";
+        hasError = true;
+      }
+
+      if (!this.quantity || this.quantity < 1) {
+        this.errors.quantity = "Please enter a valid quantity.";
+        hasError = true;
+      }
+
+      if (!this.weight || this.weight <= 0) {
+        this.errors.weight = "Please enter a valid weight.";
+        hasError = true;
+      }
+
+      if (!this.productValue || this.productValue < 0) {
+        this.errors.productValue = "Please enter a valid product value.";
+        hasError = true;
+      }
+
+      if (hasError) {
+        return;
+      }
+
+      try {
+        // Call /landing API
+         // Emit progress to chatbot
+        const progress = `Please wait a  moment, calculating the total landing cost for "${this.code}"...`
+        emitter.emit('sentCalculationRequest', progress); // Send data to chatbot
+
+        const response = await fetch('http://127.0.0.1:5000/landing', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            hts_code: this.code,
+            prod_desc: this.productDesc,
+            country: this.country,
+            prod_value: this.productValue,
+            quantity: this.quantity,
+            shipping: this.shippingCost,
+            insurance: this.insuranceCost,
+          })
+        });
+        const data = await response.json();
+        this.result = data.landing_cost;
+        console.log('Landing API result:', data); // <-- Console log the result
+
+        // Emit htsus result to chatbot
+        emitter.emit('landedCostResult', data.landing_cost); // Send data to chatbot
+      } catch (error) {
+        this.result = { error: error.message };
+        console.log('Landing API error:', error);
       }
     }
   }
@@ -252,6 +377,20 @@ button:hover {
 
 .description-text {
   text-align: left;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 5%; /* ✅ this creates spacing between the buttons */
+  margin-top: 20px;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 4px;
+  font-style: italic;
 }
 
 @media (max-width: 900px) {

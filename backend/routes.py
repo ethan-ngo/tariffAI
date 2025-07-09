@@ -1,11 +1,13 @@
+import re
 from flask import Blueprint, jsonify, request
 from tariffs.scraper301 import get301Percent, get301Desc
 from tariffs.scraperVAT import getVAT, getVAT_AI 
 from tariffs.landingCost import getLanding
+from htsus_classification.get_hts import get_final_HTS_duty
 from htsus_classification.chatbot import workflow
 
 from htsus_classification.htsus_classifier_openai import classify_htsus
-import re
+
 main = Blueprint('main', __name__)
 
 @main.route('/scraper/vat/<country>', methods=['GET'])
@@ -52,7 +54,7 @@ def calcLanding():
         return jsonify({"error": "Invalid or empty JSON"}), 400
     
     try:
-        hts_code = [str(data.get('hts_code'))]
+        hts_code = str(data.get('hts_code'))
         country = data.get('country')
 
         prod_desc = data.get('prod_desc')
@@ -60,11 +62,10 @@ def calcLanding():
             prod_desc = data.get('prod_desc')
             hts_classification_output = classify_htsus(prod_desc, country) 
 
-            # res is array of tuples in format: ("htsus_code", duty_tax float)
-            res = get_final_duty_hts_rates(hts_classification_output)
+        MRN = get_final_HTS_duty(hts_code, country)
+        MRN_float = float(MRN.replace("%", ""))
+        print("MRN is ", MRN_float)
 
-        # MRN = getMRN(hts_code, country)
-        MRN = 0
         tax301 = 0
         if country == "China":
             # Removes all the . period char and last two digits
@@ -75,16 +76,17 @@ def calcLanding():
         if not taxVAT:
             taxVAT = 0
 
+        print("VAT", taxVAT)
+
         prod_value = float(data.get('prod_value', 0))
         quantity = int(data.get('quantity', 1))
         shipping = float(data.get('shipping', 0))
         insurance = float(data.get('insurance', 0))
 
-        landing_cost = getLanding(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), MRN)
-        print("VAT", taxVAT)
+        landing_cost = getLanding(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), MRN_float)
         print("Landing:" , landing_cost)
         return jsonify({"landing_cost": landing_cost}), 200
-        # return jsonify({"description": desc, "note": note})
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
