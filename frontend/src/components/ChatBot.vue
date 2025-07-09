@@ -67,16 +67,36 @@ async function sendMessage() {
   input.value = ''
 }
 
+async function scrollToBottom() {
+  await nextTick()
+    if (messagesContainer.value) {
+      messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
+    }
+}
+
 // Listen for emitted HTSUS result
-onMounted(() => {
-  emitter.on('sentPostRequest', (data) => {
+onMounted(async () => {
+  emitter.on('sentPostRequest', async (data) => {
     messages.value.push({ from: 'bot', text: data });
+    await scrollToBottom();
   })
 
-  emitter.on('htsusResult', (data) => {
+  emitter.on('htsusResult', async (data) => {
     console.log('Received in chatbot:', data)
     const formatted = formatClassification(data.classification);
     messages.value.push({ from: 'bot', text: formatted });
+    await scrollToBottom();
+  })
+
+  emitter.on('sentCalculationRequest', async (data) => {
+    messages.value.push({ from: 'bot', text: data });
+    await scrollToBottom();
+  })
+
+  emitter.on('landedCostResult', async (data) => {
+    console.log(data)
+    messages.value.push({ from: 'bot', text: data });
+    await scrollToBottom();
   })
 })
 
@@ -129,7 +149,7 @@ function formatClassification(rawText) {
 .chatbot-container {
   display: flex;
   flex-direction: column;
-  height: 550px;
+  height: 800px;
   width: 80%;
   background: #23232a;
   border-radius: 18px;
