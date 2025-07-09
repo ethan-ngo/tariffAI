@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from tariffs.scraper301 import get301Percent, get301Desc
 from tariffs.scraperVAT import getVAT, getVAT_AI 
 from tariffs.landingCost import getLanding
+from htsus_classification.chatbot import workflow
 
 from htsus_classification.htsus_classifier_openai import classify_htsus
 import re
@@ -158,4 +159,12 @@ def classify_htsus_path():
     
 @main.route('/chatbot', methods=['POST'])
 def chatbot():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Missing JSON data"}), 400
+    try:
+        res = workflow(data.get("message"))
+        return jsonify({"message": res})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
     return
