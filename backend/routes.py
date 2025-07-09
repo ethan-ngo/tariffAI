@@ -51,12 +51,15 @@ def calcLanding():
         return jsonify({"error": "Invalid or empty JSON"}), 400
     
     try:
-        hts_code = str(data.get('hts_code'))
+        hts_code = [str(data.get('hts_code'))]
+        country = data.get('country')
+
         if not hts_code:
             prod_desc = data.get('prod_desc')
-            # hts_code = getHTS(product_desc)
+            hts_classification_output = classify_htsus(prod_desc, country) 
 
-        country = data.get('country')
+            # res is array of tuples in format: ("htsus_code", duty_tax float)
+            res = get_final_duty_hts_rates(hts_classification_output)
 
         # MRN = getMRN(hts_code, country)
         MRN = 0
@@ -79,7 +82,7 @@ def calcLanding():
         print("VAT", taxVAT)
         print("Landing:" , landing_cost)
         return jsonify({"landing_cost": landing_cost}), 200
-        return jsonify({"description": desc, "note": note})
+        # return jsonify({"description": desc, "note": note})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
@@ -100,7 +103,7 @@ def get_final_duty_hts_rates(classification_text):
 
         # Extract HTSUS Code (number pattern after "HTSUS Code:")
         code_match = re.search(r'HTSUS Code:\s*([\d.]+)', block)
-        total_rate_match = re.search(r'Total Duty Tax Rate:\s*([\d.]+%)', block)
+        total_rate_match = re.search(r'Total HTS Duty Tax Rate:\s*([\d.]+%)', block)
 
         if code_match and total_rate_match:
             code = code_match.group(1)
@@ -109,6 +112,7 @@ def get_final_duty_hts_rates(classification_text):
 
     return results
 
+# get hts from the chatbot
 @main.route('/classifier/htsus', methods=['POST'])
 def classify_htsus_path():
     data = request.get_json()

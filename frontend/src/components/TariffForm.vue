@@ -55,6 +55,8 @@
 </template>
 
 <script>
+import emitter from '../eventBus'
+
 export default {
   name: 'TariffForm',
   props: {
@@ -93,27 +95,28 @@ export default {
         this.result = { error: "Please enter a valid weight." };
         return;
       }
+      // NEW: gets the top htsus codes and outputs it in the chatbot
       try {
-        // Call /landing API
-        const response = await fetch('http://127.0.0.1:5000/landing', {
-          method: 'POST',
+        // Emit progress to chatbot
+        const progress = `Please wait a  moment, classifying "${this.productDesc}"...`
+        emitter.emit('sentPostRequest', progress); // Send data to chatbot
+
+        const response = await fetch('http://127.0.0.1:5000/classifier/htsus', {
+              method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            hts_code: this.code,
-            prod_desc: this.productDesc,
-            country: this.country,
-            prod_value: this.productValue,
-            quantity: this.quantity,
-            shipping: this.shippingCost,
-            insurance: this.insuranceCost,
+            product_description: this.productDesc,
+            origin_country: this.country
           })
         });
         const data = await response.json();
-        this.result = data.landing_cost;
-        console.log('Landing API result:', data); // <-- Console log the result
+        console.log('HTSUS Classification result:', data); // <-- Console log the result
+
+        // Emit htsus result to chatbot
+        emitter.emit('htsusResult', data); // Send data to chatbot
       } catch (error) {
         this.result = { error: error.message };
-        console.log('Landing API error:', error);
+        console.log('HTSUS Classification error:', error);
       }
     }
   }
