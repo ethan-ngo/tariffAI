@@ -1,52 +1,83 @@
 <template>
   <div class="tariff-form-container">
     <h1>{{ msg }}</h1>
-    <form @submit.prevent="submitForm" class="tariff-form">
-      <div class="form-grid">
-        <div class="form-row">
-          <label for="code">HTSUS Code (optional):</label>
-          <input type="text" id="code" v-model="code">
-        </div>
-        <div class="form-row">
-          <label for="country">Importing Country:</label>
-          <input type="text" id="country" v-model="country" required>
-        </div>
-        <div class="form-row form-row-wide">
-          <label for="productDesc">Product Description:</label>
-          <textarea id="productDesc" v-model="productDesc" rows="2" placeholder="Enter product description..."></textarea>
-        </div>
-        <div class="form-row">
-          <label for="productValue">Product Value:</label>
-          <input type="number" id="productValue" v-model="productValue" min="0" step="0.01" placeholder="Enter product value">
-        </div>
-        <div class="form-row">
-          <label for="quantity">Quantity:</label>
-          <input type="number" id="quantity" v-model="quantity" min="1" required>
-        </div>
-        <div class="form-row">
-          <label for="shippingCost">Shipping Cost:</label>
-          <input type="number" id="shippingCost" v-model="shippingCost" min="0" step="0.01" placeholder="Enter shipping cost">
-        </div>
-        <div class="form-row">
-          <label for="insuranceCost">Insurance Cost:</label>
-          <input type="number" id="insuranceCost" v-model="insuranceCost" min="0" step="0.01" placeholder="Enter insurance cost">
-        </div>
-        <div class="form-row form-row-wide">
-          <label for="weight">Weight:</label>
-          <div class="weight-input">
-            <input type="number" id="weight" v-model="weight" step="0.01" min="0" required>
-            <select id="weightUnit" v-model="weightUnit" required>
-              <option value="kg">kg</option>
-              <option value="lb">lb</option>
-              <option value="g">g</option>
-              <option value="oz">oz</option>
-              <option value="ton">ton</option>
-            </select>
+
+    <form class="tariff-form">
+
+      <!-- === Part 1: Product Classification === -->
+      <div class="form-section">
+        <h2>Product Classification by HTSUS Codes</h2>
+        <p class="description-text">
+          Please provide information for all the following fields to help us classify it by HTSUS codes. The output will display in the chatbot.
+        </p>
+        <div class="form-grid">
+          <div class="form-row form-row-wide">
+            <label for="productDesc">Product Description:</label>
+            <textarea id="productDesc" v-model="productDesc" rows="2" placeholder="Enter product description..."></textarea>
+          </div>
+
+          <div class="form-row">
+            <label for="country">Origin Country:</label>
+            <input type="text" id="country" v-model="country" required>
+          </div>
+
+          <div class="form-row">
+            <label for="weight">Weight:</label>
+            <div class="weight-input">
+              <input type="number" id="weight" v-model="weight" step="0.01" min="0" required>
+              <select id="weightUnit" v-model="weightUnit" required>
+                <option value="kg">kg</option>
+                <option value="lb">lb</option>
+                <option value="g">g</option>
+                <option value="oz">oz</option>
+                <option value="ton">ton</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" v-model="quantity" min="1" required>
           </div>
         </div>
+
+        <!-- Submit classification button -->
+        <button type="button" @click="submitClassification">Submit Classification</button>
       </div>
-      <button type="submit">Submit</button>
-    </form>
+
+      <!-- === Part 2: Duty Calculator === -->
+      <div class="form-section">
+        <h2>Total Landing Cost Calculator</h2>
+        <p class="description-text">
+          Please provide information for all the following fields to help us calculate the total landing cost of your product. The output will display in the chatbot.
+        </p>
+        <div class="form-grid">
+          <div class="form-row">
+            <label for="code">HTSUS Code (optional):</label>
+            <input type="text" id="code" v-model="code">
+          </div>
+
+          <div class="form-row">
+            <label for="productValue">Product Value:</label>
+            <input type="number" id="productValue" v-model="productValue" min="0" step="0.01" placeholder="Enter product value">
+          </div>
+
+          <div class="form-row">
+            <label for="shippingCost">Shipping Cost:</label>
+            <input type="number" id="shippingCost" v-model="shippingCost" min="0" step="0.01" placeholder="Enter shipping cost">
+          </div>
+
+          <div class="form-row">
+            <label for="insuranceCost">Insurance Cost:</label>
+            <input type="number" id="insuranceCost" v-model="insuranceCost" min="0" step="0.01" placeholder="Enter insurance cost">
+          </div>
+        </div>
+
+        <!-- Submit calculation button -->
+        <button type="button" @click="submitCalculation">Submit Calculation</button>
+      </div>
+  </form>
+
     <div v-if="result" class="result">
       <h3>Result:</h3>
       <pre>{{ formattedResult }}</pre>
@@ -55,6 +86,8 @@
 </template>
 
 <script>
+import emitter from '../eventBus'
+
 export default {
   name: 'TariffForm',
   props: {
@@ -62,15 +95,11 @@ export default {
   },
   data() {
     return {
-      code: '',
       country: '',
       productDesc: '',
       quantity: 1,
       weight: 0,
       weightUnit: 'kg',
-      productValue: '',
-      shippingCost: '',
-      insuranceCost: '',
       result: null
     }
   },
@@ -80,7 +109,7 @@ export default {
     }
   },
   methods: {
-    async submitForm() {
+    async submitClassification() {
       if (!this.country) {
         this.result = { error: "Please select a country." };
         return;
@@ -93,27 +122,31 @@ export default {
         this.result = { error: "Please enter a valid weight." };
         return;
       }
+      // NEW: gets the top htsus codes and outputs it in the chatbot
       try {
-        // Call /landing API
-        const response = await fetch('http://127.0.0.1:5000/landing', {
-          method: 'POST',
+        // Emit progress to chatbot
+        const progress = `Please wait a  moment, classifying "${this.productDesc}"...`
+        emitter.emit('sentPostRequest', progress); // Send data to chatbot
+
+        const response = await fetch('http://127.0.0.1:5000/classifier/htsus', {
+              method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            hts_code: this.code,
-            prod_desc: this.productDesc,
-            country: this.country,
-            prod_value: this.productValue,
-            quantity: this.quantity,
-            shipping: this.shippingCost,
-            insurance: this.insuranceCost,
+            product_description: this.productDesc,
+            origin_country: this.country,
+            weight: this.weight,
+            weight_unit: this.weightUnit,
+            quantity: this.quantity
           })
         });
         const data = await response.json();
-        this.result = data.landing_cost;
-        console.log('Landing API result:', data); // <-- Console log the result
+        console.log('HTSUS Classification result:', data); // <-- Console log the result
+
+        // Emit htsus result to chatbot
+        emitter.emit('htsusResult', data); // Send data to chatbot
       } catch (error) {
         this.result = { error: error.message };
-        console.log('Landing API error:', error);
+        console.log('HTSUS Classification error:', error);
       }
     }
   }
@@ -205,6 +238,22 @@ button:hover {
   padding: 15px;
   border-radius: 5px;
 }
+.form-section {
+  margin-bottom: 28px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.form-section h2 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.description-text {
+  text-align: left;
+}
+
 @media (max-width: 900px) {
   .tariff-form {
     max-width: 98vw;

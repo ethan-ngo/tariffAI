@@ -9,7 +9,9 @@ import re
 load_dotenv()
 
 # Set up the chromadb environment
-CHROMA_PATH = r"chroma_db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # backend/
+
+CHROMA_PATH = os.path.join(BASE_DIR, "chroma_db")
 chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
 collection = chroma_client.get_or_create_collection(name="htsus_codes") # My HTSUS collection
 
@@ -17,10 +19,13 @@ collection = chroma_client.get_or_create_collection(name="htsus_codes") # My HTS
 url = os.getenv("OPENAI_URL")
 api_key = os.getenv("OPENAI_API_KEY")
 
-with open("prompts/prompt_openai.txt", "r", encoding="utf-8") as f:
+prompt_path = os.path.join(BASE_DIR, "prompts", "prompt_openai.txt")
+
+with open(prompt_path, "r", encoding="utf-8") as f:
     prompt_txt = f.read()
 
-with open("prompts/few_shot.txt", "r", encoding="utf-8") as f:
+few_shot_path = os.path.join(BASE_DIR, "prompts", "few_shot.txt")
+with open(few_shot_path, "r", encoding="utf-8") as f:
     few_shot_txt = f.read()
 
 # Get n HTSUS codes from the chroma collection based on the product description and chapter
@@ -46,7 +51,8 @@ def get_top_n_codes(product_description, hts_chapter, n):
 
 # Get the keywords from the product description
 def semantically_process_product_description(product_description):
-    with open("prompts/prompt_semantics.txt", "r", encoding="utf-8") as f:
+    prompt_semantics_path = os.path.join(BASE_DIR, "prompts", "prompt_semantics.txt")
+    with open(prompt_semantics_path, "r", encoding="utf-8") as f:
         prompt_semantics_txt = f.read()
 
     full_prompt = (
@@ -80,7 +86,8 @@ def semantically_process_product_description(product_description):
     
 # Get the HTS chapter number based on the product descriptionS
 def get_chapter_number(product_description):
-    with open("prompts/prompt_get_chapter.txt", "r", encoding="utf-8") as f:
+    prompt_chapter_path = os.path.join(BASE_DIR, "prompts", "prompt_get_chapter.txt")
+    with open(prompt_chapter_path, "r", encoding="utf-8") as f:
         prompt_chapter_txt = f.read()
 
     full_prompt = (
@@ -116,7 +123,7 @@ def extract_chapter_number(text):
     
 # Main logic: classify the product_description by HTSUS codes 
 # Returns chatbot output with HTSUS code, taxes, descriptions
-def classify_htsus(product_description, country):
+def classify_htsus(product_description, country, weight, weight_unit, quantity):
     # Step 1: Process and simplify the product_description into 1-3 keywords
     product_simplified = semantically_process_product_description(product_description)
 
@@ -157,6 +164,9 @@ def classify_htsus(product_description, country):
     full_prompt = (
         f"Product description:\n{product_description}\n\n"
         f"Country of origin:\n{country}\n\n"
+        f"Weight:\n{weight}\n\n"
+        f"Units weight is in:\n{weight_unit}\n\n"
+        f"Quantity of the product:\n{quantity}\n\n"
         f"Few-shot examples:\n{few_shot_txt}\n\n"
         f"Instructions:\n{prompt_txt}\n\n"
         "HTSUS data to choose from:\n"
@@ -234,63 +244,9 @@ if __name__ == "__main__":
 
     # classify_htsus("printed circuit assembly incorporating an AMD Radeon RX 9070 XT chipset, equipped with 16GB of GDDR6 video memory, and featuring a PCI Express 5.0 x16 interface. This component is specifically designed to render and output high-resolution graphical data for display on a monitor, making it an essential part for gaming, professional content creation, and other graphically intensive computing tasks.", "China") # good
     # classify_htsus("steel,", "China") # good
+
+    prod_des = "Electric bicycle with 500W motor and 48V battery"
+    country = "China"
+
+    # print(classify_htsus(prod_des, country))
     pass
-
-
-# def process_top_n_codes(output_text, product_description):
-#     with open("prompts/prompt_filter_irrelevant_htsus.txt", "r", encoding="utf-8") as f:
-#         prompt_filter_txt = f.read()
-
-#     # This function can be used to process the top 50 HTSUS codes if needed
-#     full_prompt = (
-#         f"HTSUS codes retrieved:\n{output_text}\n\n"
-#         f"Product Description:\n{product_description}\n\n"
-#         f"Instructions:\n{prompt_filter_txt}\n\n"
-#     )
-
-#     headers = {
-#         "Authorization": f"Bearer {api_key}",  # Replace with your actual API key
-#         "Content-Type": "application/json",
-#         "Accept": "application/json"
-#     }
-#     data = {
-#         "text": full_prompt
-#     }
-
-#     print("Sent request to OpenAI to process top n codes...")
-#     response = requests.post(url, headers=headers, json=data)
-    
-#     # Handle response
-#     if response.status_code == 200:
-#         response_json = response.json()  # Parse the JSON response
-#         chatbot_output = response_json.get("text", "")  # Get the "text" field safely
-#         chatbot_output = chatbot_output.strip()  # Clean up any leading/trailing whitespace
-
-#         # print("Chatbot Response in process top n:", chatbot_output, " and its length is ", len(chatbot_output))
-#         if not chatbot_output:
-#             print("No output from the chatbot. Exiting classification.")    
-#             return [], [], ""
-
-#         # Split into sections
-#         relevant_split = chatbot_output.split("Relevant Documents:")[1]
-        
-#         if "Irrelevant Documents:" in relevant_split:
-#             relevant_text, rest = relevant_split.split("Irrelevant Documents:")
-#         else:
-#             relevant_text = relevant_split
-#             rest = ""
-
-#         if "Prompt Suggestion:" in rest:
-#             irrelevant_text, prompt_text = rest.split("Prompt Suggestion:")
-#         else:
-#             irrelevant_text = rest
-#             prompt_text = ""
-
-#         # Clean and split into entries
-#         relevant_entries = [line.strip() for line in relevant_text.strip().split("\n") if line.strip()]
-#         irrelevant_entries = [line.strip() for line in irrelevant_text.strip().split("\n") if line.strip()]
-#         prompt_suggestion = prompt_text.strip()
-
-#         return relevant_entries, irrelevant_entries, prompt_suggestion
-#     else:
-#         print("Error:", response.status_code, response.text)
