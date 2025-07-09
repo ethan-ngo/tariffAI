@@ -30,12 +30,13 @@
 </template>
 
 <script setup>
+
 import { ref, nextTick } from 'vue'
 
 const input = ref('')
 const messagesContainer = ref(null)
 const messages = ref([
-  { from: 'bot', text: 'Hello! How can I help you today?' }
+  { from: 'bot', text: 'Hello! I can classify products by HTSUS. If you want to know the HTSUS code of a product, please give me the product description and origin country of the product.' }
 ])
 
 async function sendMessage() {
