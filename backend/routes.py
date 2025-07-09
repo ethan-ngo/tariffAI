@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from tariffs.scraper301 import get301Percent, get301Desc
-from tariffs.scraperVAT import getVAT 
+from tariffs.scraperVAT import getVAT, getVAT_AI 
 from tariffs.landingCost import getLanding
 
 main = Blueprint('main', __name__)
@@ -50,6 +50,7 @@ def calcLanding():
     
     try:
         hts_code = str(data.get('hts_code'))
+        prod_desc = data.get('prod_desc')
         if not hts_code:
             prod_desc = data.get('prod_desc')
             # hts_code = getHTS(product_desc)
@@ -64,7 +65,7 @@ def calcLanding():
             cleaned_code = hts_code.replace(".", "")[:-2]
             tax301 = get301Percent(cleaned_code)
         
-        taxVAT, link = getVAT(country)
+        taxVAT = getVAT_AI(country, prod_desc)
         if not taxVAT:
             taxVAT = 0
 
