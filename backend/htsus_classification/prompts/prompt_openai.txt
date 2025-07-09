@@ -14,9 +14,9 @@ for each code. This should only happen if classification depends on missing or a
 
 Follow these steps carefully:
 ------------------------------------------------------------
-1. You will receive a text description of a product
+1. You will receive a text description, origin country, and weight and units of weight, and quantity of a product
 
-2. Analyze the product description.
+2. Analyze the product description, origin country, weight, and quantity.
 
 3. Identify key classification factors, including but not limited to: material, 
 function, form (e.g., finished good, part), composition, intended use, any key distinguishing characteristics

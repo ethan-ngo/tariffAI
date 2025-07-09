@@ -125,11 +125,20 @@ def classify_htsus_path():
         origin_country = data.get('origin_country')
         if not origin_country:
             return jsonify({"error": "Missing 'origin_country' in JSON data"}), 400
+        weight = data.get('weight')
+        if not weight:
+            return jsonify({"error": "Missing 'weight' in JSON data"}), 400  
+        weight_unit = data.get('weight_unit')
+        if not weight_unit:
+            return jsonify({"error": "Missing 'weight_unit' in JSON data"}), 400  
+        quantity = data.get('quantity')
+        if not quantity:
+            return jsonify({"error": "Missing 'quantity' in JSON data"}), 400  
         
-        print(f"product_description: {product_description}")
-        print(f"origin_country: {origin_country}")
+        # print(f"product_description: {product_description}")
+        # print(f"origin_country: {origin_country}")
         
-        result = classify_htsus(product_description, origin_country)
+        result = classify_htsus(product_description, origin_country, weight, weight_unit, quantity)
 
         if not result:
             return jsonify({"error": "Classification failed"}), 500 
