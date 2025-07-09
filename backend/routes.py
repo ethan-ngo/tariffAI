@@ -51,12 +51,15 @@ def calcLanding():
         return jsonify({"error": "Invalid or empty JSON"}), 400
     
     try:
-        hts_code = str(data.get('hts_code'))
+        hts_code = [str(data.get('hts_code'))]
+        country = data.get('country')
+
         if not hts_code:
             prod_desc = data.get('prod_desc')
-            # hts_code = getHTS(product_desc)
+            hts_classification_output = classify_htsus(prod_desc, country) 
 
-        country = data.get('country')
+            # res is array of tuples in format: ("htsus_code", duty_tax float)
+            res = get_final_duty_hts_rates(hts_classification_output)
 
         # MRN = getMRN(hts_code, country)
         MRN = 0
@@ -79,7 +82,7 @@ def calcLanding():
         print("VAT", taxVAT)
         print("Landing:" , landing_cost)
         return jsonify({"landing_cost": landing_cost}), 200
-        return jsonify({"description": desc, "note": note})
+        # return jsonify({"description": desc, "note": note})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
@@ -100,7 +103,7 @@ def get_final_duty_hts_rates(classification_text):
 
         # Extract HTSUS Code (number pattern after "HTSUS Code:")
         code_match = re.search(r'HTSUS Code:\s*([\d.]+)', block)
-        total_rate_match = re.search(r'Total Duty Tax Rate:\s*([\d.]+%)', block)
+        total_rate_match = re.search(r'Total HTS Duty Tax Rate:\s*([\d.]+%)', block)
 
         if code_match and total_rate_match:
             code = code_match.group(1)
@@ -109,6 +112,7 @@ def get_final_duty_hts_rates(classification_text):
 
     return results
 
+# get hts from the chatbot
 @main.route('/classifier/htsus', methods=['POST'])
 def classify_htsus_path():
     data = request.get_json()
@@ -121,11 +125,20 @@ def classify_htsus_path():
         origin_country = data.get('origin_country')
         if not origin_country:
             return jsonify({"error": "Missing 'origin_country' in JSON data"}), 400
+        weight = data.get('weight')
+        if not weight:
+            return jsonify({"error": "Missing 'weight' in JSON data"}), 400  
+        weight_unit = data.get('weight_unit')
+        if not weight_unit:
+            return jsonify({"error": "Missing 'weight_unit' in JSON data"}), 400  
+        quantity = data.get('quantity')
+        if not quantity:
+            return jsonify({"error": "Missing 'quantity' in JSON data"}), 400  
         
-        print(f"product_description: {product_description}")
-        print(f"origin_country: {origin_country}")
+        # print(f"product_description: {product_description}")
+        # print(f"origin_country: {origin_country}")
         
-        result = classify_htsus(product_description, origin_country)
+        result = classify_htsus(product_description, origin_country, weight, weight_unit, quantity)
 
         if not result:
             return jsonify({"error": "Classification failed"}), 500 

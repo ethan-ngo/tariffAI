@@ -123,7 +123,7 @@ def extract_chapter_number(text):
     
 # Main logic: classify the product_description by HTSUS codes 
 # Returns chatbot output with HTSUS code, taxes, descriptions
-def classify_htsus(product_description, country):
+def classify_htsus(product_description, country, weight, weight_unit, quantity):
     # Step 1: Process and simplify the product_description into 1-3 keywords
     product_simplified = semantically_process_product_description(product_description)
 
@@ -164,6 +164,9 @@ def classify_htsus(product_description, country):
     full_prompt = (
         f"Product description:\n{product_description}\n\n"
         f"Country of origin:\n{country}\n\n"
+        f"Weight:\n{weight}\n\n"
+        f"Units weight is in:\n{weight_unit}\n\n"
+        f"Quantity of the product:\n{quantity}\n\n"
         f"Few-shot examples:\n{few_shot_txt}\n\n"
         f"Instructions:\n{prompt_txt}\n\n"
         "HTSUS data to choose from:\n"
@@ -245,4 +248,5 @@ if __name__ == "__main__":
     prod_des = "Electric bicycle with 500W motor and 48V battery"
     country = "China"
 
-    print(classify_htsus(prod_des, country))
+    # print(classify_htsus(prod_des, country))
+    pass

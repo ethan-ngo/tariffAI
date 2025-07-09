@@ -12,7 +12,7 @@
           src="https://randomuser.me/api/portraits/men/32.jpg"
           alt="Bot"
         />
-        <div class="bubble">{{ msg.text }}</div>
+        <div class="bubble" v-html="msg.text"></div>
         <div v-if="msg.from === 'user'" class="spacer"></div>
       </div>
     </div>
@@ -31,7 +31,8 @@
 
 <script setup>
 
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, onMounted } from 'vue'
+import emitter from '../eventBus' 
 
 const input = ref('')
 const messagesContainer = ref(null)
@@ -65,6 +66,63 @@ async function sendMessage() {
   
   input.value = ''
 }
+
+// Listen for emitted HTSUS result
+onMounted(() => {
+  emitter.on('sentPostRequest', (data) => {
+    messages.value.push({ from: 'bot', text: data });
+  })
+
+  emitter.on('htsusResult', (data) => {
+    console.log('Received in chatbot:', data)
+    const formatted = formatClassification(data.classification);
+    messages.value.push({ from: 'bot', text: formatted });
+  })
+})
+
+// Format the JSON result into readable chat text
+function formatClassification(rawText) {
+  if (!rawText) return "No classification data found.";
+
+  // Match each numbered classification block (e.g., "1. HTSUS Code:...")
+  const parts = rawText.match(/\d+\.\s+HTSUS Code:.*?(?=(?:\n\d+\.|$))/gs);
+  if (!parts) return "No classification blocks found.";
+
+  const subtitles = [
+    'HTSUS Code:',
+    'General Duty Tax Rate:',
+    'Special Duty Tax Rate:',
+    'Column 2 Rate (for countries without normal trade relations with US):',
+    'Additional Duties:',
+    'Official Product Description:',
+    'Confidence Score:',
+    'Reason:',
+    'Country of Origin:',
+    'Total HTS Duty Tax Rate:'
+  ];
+
+  const formattedParts = parts.map(block => {
+    // Escape HTML
+    let escaped = block
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+
+    // Bold each subtitle
+    subtitles.forEach(sub => {
+      const re = new RegExp(sub.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+      escaped = escaped.replace(re, `<b>${sub}</b>`);
+    });
+
+    // Add line breaks
+    escaped = escaped.replace(/\n/g, '<br>');
+
+    return escaped.trim();
+  });
+
+  return formattedParts.join('<hr style="border:none;border-top:1px solid #ccc;margin:12px 0;">');
+}
+
 </script>
 
 <style scoped>
@@ -141,6 +199,7 @@ async function sendMessage() {
   border-bottom-right-radius: 16px;
   border-top-right-radius: 16px;
   border-top-left-radius: 16px;
+  text-align: left !important;
 }
 
 .spacer {
@@ -282,6 +341,8 @@ async function sendMessage() {
     font-size: 0.9rem;
     padding: 6px 10px;
     border-radius: 12px;
+    white-space: normal; /* normal so <br> works */
+    line-height: 1.4;
   }
   
   .chat-row.user .bubble {
@@ -296,6 +357,7 @@ async function sendMessage() {
     border-bottom-right-radius: 12px;
     border-top-right-radius: 12px;
     border-top-left-radius: 12px;
+    text-align: left !important; /* align chat's msgs to the left */
   }
   
   .spacer {
