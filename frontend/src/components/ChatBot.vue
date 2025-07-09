@@ -49,13 +49,14 @@ async function sendMessage() {
   if (messagesContainer.value) {
     messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
   }
-  
+  const query = input.value
+  input.value = ''
   // Call your backend API
   try {
     const response = await fetch('http://127.0.0.1:5000/chatbot', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: input.value })
+      body: JSON.stringify({ message: query })
     })
     const data = await response.json()
     messages.value.push({ from: 'bot', text: data.message })
@@ -67,7 +68,6 @@ async function sendMessage() {
   if (messagesContainer.value) {
     messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
   }
-  input.value = ''
 }
 
 // Listen for emitted HTSUS result

@@ -54,6 +54,10 @@ def determineIntent(query: str) -> str:
     → Clean the HTS code by removing periods and trimming or padding to 8 digits.
     → Example: 301 rate,61091000
 
+    5. Duty Rate, hts_code
+    → Use when the user wants to know about the duty rate of a code.
+    → Example: Duty Rate,3303.00.3000
+
     ### Final Rule:
     Your response must be plain text. Do **not** include any quotation marks (`"`), parentheses (`()`), brackets (`[]`), or additional comments. Return only the selected class and required values in **exactly the format above**.
     If there is enough information to determine a class prompt, but not enough information to fill the parameters. Prompt the user for the neccesary information.
@@ -67,7 +71,7 @@ def workflow(query):
     print(query)
     userIntent = determineIntent(query)
     print(userIntent)
-    output = "Error"
+    output = "I am unable to answer"
 
     if "HTS_Classifcation" in userIntent:
         _, prod_desc, country, weight, weight_unit, quantity = [x.strip() for x in userIntent.split(',')]
@@ -109,16 +113,18 @@ def workflow(query):
     elif "VAT rate" in userIntent:
         country = userIntent.split(',')[1]
         res = getVAT(country)
-        output = "Rate: " + res[0] + "\nSource: " + res[1]
-
+        output = f'{res[0]}<br><br>Source: <a href="{res[1]}" target="_blank">{res[1]}</a>'
     elif "301 rate" in userIntent:
         code = userIntent.split(',')[1]
         res = get301Desc(code)
-        output = "Duty: " + res[0] + "\n"
+        output = res[0]
         if res[1]:
-            output += "Special " + res[1]
+            output += "<br><br>" + res[1]
+    
+    elif "Duty Rate" in userIntent:
+        code = userIntent.split(',')[1]
+        output = code
+        #TODO: Implement the getDuty by code.
 
-    return {"message": output}
-
-print(workflow("What is the VAT rate for Canada"))
+    return output
 
