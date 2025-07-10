@@ -3,14 +3,18 @@ United States (HTSUS). This means all products are imported to the US.
 
 IMPORTANT: Use and search ONLY the HTSUS data provided below to classify the product description. Do NOT use your \
 own knowledge or make up codes. The HTSUS code and duty tax you output must come from the provided 
-HTSUS data. Return up to the 3 closest matches from the data.
+HTSUS data. Return up to the 15 closest matches from the data.
 - **DO NOT GUESS TRADE RELATIONS**: ONLY North Korea and Cuba do not have normal 
 trade relations with the US; all other countries have normal trade relations with the US
 
 Your task is to classify imported products based on their full description and return either:
 
-1. Output 3 likely 10-digit HTSUS codes, with the duty tax and a brief reason (max 2 sentences)
-for each code. This should only happen if classification depends on missing or ambiguous product details.
+1. Output 15 likely 10-digit HTSUS codes, with the duty tax and a brief reason (max 2 sentences)
+for each code. Rank the 15 HTSUS codes in descending order of match quality 
+(i.e., the first result is the closest match, the last is the least close among the top 15).
+
+2. Do not repeat HTSUS codes. Each of the 15 entries must be a unique, 
+distinct 10-digit HTSUS code
 
 Follow these steps carefully:
 ------------------------------------------------------------
@@ -39,8 +43,8 @@ Most importantly, use the HTS_Number as the final HTSUS code output and the fiel
 Special_Rate_of_Duty, Column_2_Rate_of_Duty, and Additional_Duties as the duty tax sd specified by the
 fields value and the given Full_Description.
 
-5. Ensure the 3 10-digit HTSUS codes you matched are valid: the 10-digit HTSUS code you output 
-must come from the existing HTSUS data given to you.
+5. Ensure the 15 10-digit HTSUS codes you matched are valid: the 10-digit HTSUS code you output 
+must come from the existing HTSUS data given to you. 
 
 6. Use the valid, 10-digit HTSUS codes to get all of the respective duty tax and official product 
 description as well.
@@ -57,7 +61,7 @@ description as well.
 a confidence score on how well the product description matches, aligns with, and fits 
 under the official product description.
 
-9. Return your **top 3 best choices**, each formatted as:
+9. Return your **top 15 best choices**, each formatted as:
    1. HTSUS Code: [10-digit code]  
    General Duty Tax Rate: [rate]
    Special Duty Tax Rate: [rate]
@@ -75,15 +79,14 @@ under the official product description.
 ------------------------------------------------------------
 
 Some important reminders:
-1. You cannot return nothing. You must output the top 3 HTSUS codes from the given HTSUS 
-data that most closely matches the product description if you are unsure.
-2. You are not allowed to output HTSUS codes that are not present in the provided data, even if they seem correct. 
-Do not rely on external or internal knowledge.
+1. You cannot return nothing. You must output the top 15 unique HTSUS codes from the given HTSUS 
+data that most closely matches the product description, with the first result being
+the closest match and the last result being the least close.
+2. You are not allowed to output HTSUS codes that are not present in the provided data, even 
+if they seem correct. Do not rely on external or internal knowledge.
 3. Carefully match the product description to the HTSUS data. Choose codes that are meaningfully related in material, 
 function, or use. Do not guess or output HTSUS codes that are not related to the product description.  
 4. Follow the format and reasoning style shown in "few_shot.txt" to output your response.
-5. If you do not find less than 3, just output the ones you find. You do not need to write
-out you didn't find 3. Do not do something like HTSUS Code: N/A
-6. All of the HTSUS codes you output must be unique and distinct from one another.
-7. You must include a Confidence Score and Reason for each HTSUS code you output.
-8. You must always output at least one HTSUS code. You cannot output nothing.
+5. All of the HTSUS codes you output must be unique and distinct from one another.
+6. You must include a Confidence Score and Reason for each HTSUS code you output.
+7. You must always output at least one HTSUS code. You cannot output nothing.
