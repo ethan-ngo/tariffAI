@@ -158,7 +158,7 @@ export default {
         return;
       }
 
-      const userMsg = `I want to classify "${this.productDesc}", from "${this.country}", quantity: ${this.quantity}, weight: ${this.weight} ${this.weightUnit}`;
+      const userMsg = `I want to classify "${this.productDesc}," from "${this.country}" with quantity: ${this.quantity} and weight: ${this.weight} ${this.weightUnit}`;
       emitter.emit('sentUserPostRequest', userMsg);
   
       // gets the top htsus codes and outputs it in the chatbot
@@ -240,7 +240,7 @@ export default {
         return;
       }
 
-      const userMsg = `I want the final landing cost for HTSUS code "${this.code}", product "${this.productDesc}", country "${this.country}", quantity ${this.quantity}, weight ${this.weight} ${this.weightUnit}, product value $${this.productValue}, shipping $${this.shippingCost}, insurance $${this.insuranceCost}`;
+      const userMsg = `I want the final landing cost for HTSUS code "${this.code}," product "${this.productDesc}, " country "${this.country}," quantity ${this.quantity}, weight ${this.weight} ${this.weightUnit}, product value $${this.productValue}, shipping $${this.shippingCost}, insurance $${this.insuranceCost}`;
       emitter.emit('sentUserCalculationRequest', userMsg);
 
       try {

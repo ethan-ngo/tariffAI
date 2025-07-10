@@ -111,7 +111,7 @@ onMounted(async () => {
 
     const firstBatch = getNextBlocks(3);
     const textToShow = firstBatch
-      ? firstBatch + "<br><br><i>Press the button below to see more possible codes.</i>"
+      ? firstBatch + "<br><br><i>Press the button below to see more codes (note if there's no button these are all the closest matches).</i>"
       : "No classification data found.";
 
     messages.value.push({ from: 'bot', text: textToShow });

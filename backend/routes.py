@@ -130,6 +130,10 @@ def calcLanding():
         print("tax301 type in calcLanding", type(tax301))
         # print("tax301:", tax301)
 
+        print("MRN_rate is ", MRN_rate, " and irreg rate is ", MRN_irregular_rate, " and MRN_total is ", MRN_total)
+        if MRN_rate == -1 and MRN_irregular_rate == -1 and MRN_total == -1:
+            MRN_rate = 0
+
         # all of these floats should not be divided by 100 yet
         if MRN_rate != -1.0: # the duty tax is a rate
             landing_cost = getLanding_MRN_rate(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), MRN_rate)

@@ -1,69 +1,111 @@
-1. HTSUS Code: 6404.19.37.60  
-   General Duty Tax Rate: 12.50%  
-   Special Duty Tax Rate: Free (AU,BH, CL,CO,D,E,IL, JO,KR,MA, OM,P,PA,PE, R,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 35%  
+1. HTSUS Code: 9503.00.00.13  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 70%  
    Additional Duties: 0%  
 
-   Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, with uppers of textile material other than vegetable fibers - For women  
+   Official Product Description: Tricycles, scooters, pedal cars and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Inflatable toy balls, balloons, and punchballs, of rubber: Labeled or determined by importer as intended for use by persons aged 3 to 12 years  
+   Confidence Score: 95%  
+   Reason: The product description closely matches the official description, specifically mentioning inflatable toy balls intended for children aged 3 to 12 years.  
+
+   Country of Origin: France  
+   Total HTS Duty Tax Rate: Free  
+   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+2. HTSUS Code: 9503.00.00.11  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 70%  
+   Additional Duties: 0%  
+
+   Official Product Description: Tricycles, scooters, pedal cars and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Inflatable toy balls, balloons, and punchballs, of rubber: Labeled or determined by importer as intended for use by persons under 3 years of age  
    Confidence Score: 90%  
-   Reason: The product description closely matches the official description, particularly in terms of open-toe design, slip-on type, and non-vegetable fiber uppers for women's footwear. The only slight discrepancy is the lack of explicit mention of these details in the product description.  
+   Reason: The product description aligns well with the official description, focusing on inflatable toy balls intended for children under 3 years of age.  
 
-   Country of Origin: China  
-   Total HTS Duty Tax Rate: 12.50%  
-   Reason: China has normal trade relations with the US, so the general duty tax rate of 12.50% applies.
+   Country of Origin: France  
+   Total HTS Duty Tax Rate: Free  
+   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-2. HTSUS Code: 6404.19.36.60  
-   General Duty Tax Rate: 7.50%  
-   Special Duty Tax Rate: Free (AU,BH, CL,CO,D,E,IL, JO,KR,MA, OM,P,PA,PE, R,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 35%  
+3. HTSUS Code: 9503.00.00.71  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 70%  
    Additional Duties: 0%  
 
-   Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, with uppers of vegetable fibers - For women  
+   Official Product Description: Tricycles, scooters, pedal cars and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Other: Labeled or determined by importer as intended for use by persons under 3 years of age  
    Confidence Score: 85%  
-   Reason: The product description aligns well with the official description, focusing on the size and type of footwear for women. The confidence score is slightly lower due to the lack of specific material details in the product description.  
+   Reason: The product description closely matches the official description, specifically mentioning toys intended for children under 3 years of age.  
 
-   Country of Origin: China  
-   Total HTS Duty Tax Rate: 7.50%  
-   Reason: China has normal trade relations with the US, so the general duty tax rate of 7.50% applies.
+   Country of Origin: France  
+   Total HTS Duty Tax Rate: Free  
+   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-3. HTSUS Code: 6404.19.37.30  
-   General Duty Tax Rate: 12.50%  
-   Special Duty Tax Rate: Free (AU,BH, CL,CO,D,E,IL, JO,KR,MA, OM,P,PA,PE, R,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 35%  
+4. HTSUS Code: 9503.00.00.73  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 70%  
    Additional Duties: 0%  
 
-   Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, with uppers of textile material other than vegetable fibers - For men  
-   Confidence Score: 85%  
-   Reason: The product description matches the official description in terms of open-toe design, slip-on type, and non-vegetable fiber uppers for men's footwear. The confidence score is slightly lower due to the lack of specific material details in the product description.  
-
-   Country of Origin: China  
-   Total HTS Duty Tax Rate: 12.50%  
-   Reason: China has normal trade relations with the US, so the general duty tax rate of 12.50% applies.
-
-4. HTSUS Code: 6404.19.37.15  
-   General Duty Tax Rate: 12.50%  
-   Special Duty Tax Rate: Free (AU,BH, CL,CO,D,E,IL, JO,KR,MA, OM,P,PA,PE, R,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 35%  
-   Additional Duties: 0%  
-
-   Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, with uppers of textile material other than vegetable fibers - House slippers  
+   Official Product Description: Tricycles, scooters, pedal cars and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Other: Labeled or determined by importer as intended for use by persons aged 3 to 12 years  
    Confidence Score: 80%  
-   Reason: The product description aligns with the official description, particularly in terms of the slip-on type and textile material for house slippers. The confidence score is slightly lower due to the lack of specific material details in the product description.  
+   Reason: The product description aligns with the official description, focusing on toys intended for children aged 3 to 12 years.  
 
-   Country of Origin: China  
-   Total HTS Duty Tax Rate: 12.50%  
-   Reason: China has normal trade relations with the US, so the general duty tax rate of 12.50% applies.
+   Country of Origin: France  
+   Total HTS Duty Tax Rate: Free  
+   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-5. HTSUS Code: 6404.19.36.90  
-   General Duty Tax Rate: 7.50%  
-   Special Duty Tax Rate: Free (AU,BH, CL,CO,D,E,IL, JO,KR,MA, OM,P,PA,PE, R,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 35%  
+5. HTSUS Code: 9505.90.40.00  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 45%  
    Additional Duties: 0%  
 
-   Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, with uppers of vegetable fibers - Other  
+   Official Product Description: Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof: - Other: - Confetti, paper spirals or streamers, party favors and noisemakers; parts and accessories thereof  
    Confidence Score: 75%  
-   Reason: The product description matches the slip-on type and vegetable fiber uppers for footwear. The confidence score is slightly lower due to the lack of specific material details in the product description.  
+   Reason: The product description matches the general category of festive articles, but lacks specific details for a higher confidence score.  
 
-   Country of Origin: China  
-   Total HTS Duty Tax Rate: 7.50%  
-   Reason: China has normal trade relations with the US, so the general duty tax rate of 7.50% applies.
+   Country of Origin: France  
+   Total HTS Duty Tax Rate: Free  
+   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+6. HTSUS Code: 9505.90.20.00  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 70%  
+   Additional Duties: 0%  
+
+   Official Product Description: Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof: - Other: - Magic tricks and practical joke articles; parts and accessories thereof  
+   Confidence Score: 70%  
+   Reason: The product description slightly aligns with magic tricks and practical joke articles, but lacks specific details for a higher confidence score.  
+
+   Country of Origin: France  
+   Total HTS Duty Tax Rate: Free  
+   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+7. HTSUS Code: 9505.10.40  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 60%  
+   Additional Duties: 0%  
+
+   Official Product Description: Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof: - Articles for Christmas festivities and parts and accessories thereof: - Other: - Of plastics  
+   Confidence Score: 70%  
+   Reason: The product description slightly aligns with Christmas-related articles, but lacks specific details like being made of plastics.  
+
+   Country of Origin: France  
+   Total HTS Duty Tax Rate: Free  
+   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+8. HTSUS Code: 9505.10.40.20  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 60%  
+   Additional Duties: 0%  
+
+   Official Product Description: Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof: - Articles for Christmas festivities and parts and accessories thereof: - Other: - Of plastics - Other  
+   Confidence Score: 65%  
+   Reason: The product description loosely matches Christmas-related articles, but lacks specific details like being made of plastics.  
+
+   Country of Origin: France  
+   Total HTS Duty Tax Rate: Free  
+   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.
