@@ -2,7 +2,7 @@ import re
 from flask import Blueprint, jsonify, request
 from tariffs.scraper301 import get301Percent, get301Desc
 from tariffs.scraperVAT import getVAT, getVAT_AI 
-from tariffs.landingCost import getLanding
+from tariffs.landingCost import getLanding_MRN_rate, getLanding_MRN_amt
 from htsus_classification.get_hts import get_final_HTS_duty
 from htsus_classification.chatbot import workflow
 
@@ -56,21 +56,65 @@ def calcLanding():
     try:
         hts_code = str(data.get('hts_code'))
         country = data.get('country')
-
         prod_desc = data.get('prod_desc')
-        if not hts_code:
-            prod_desc = data.get('prod_desc')
-            hts_classification_output = classify_htsus(prod_desc, country) 
+        weight = data.get('weight')
+        weight_unit = data.get('weight_unit')
+        quantity = data.get('quantity')
 
-        MRN = get_final_HTS_duty(hts_code, country)
-        MRN_float = float(MRN.replace("%", ""))
-        print("MRN is ", MRN_float)
+        try:
+            MRN = get_final_HTS_duty(hts_code, country)
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
 
-        tax301 = 0
+        MRN = MRN.strip().lower()
+        MRN_rate = -1.0
+        MRN_irregular_rate = -1.0
+        MRN_total = -1.0
+
+        if MRN == 'free':
+            print("MRN is free, turning it to 0.0")
+            MRN_rate = 0.0
+
+        if "%" in MRN:
+            print("mrn is regular: has percentage, extracting float")
+            percent = float(MRN.replace("%", ""))
+            MRN_rate = percent # return rate multipier
+
+        # ¢ per kg
+        match_cent_per_kg = re.match(r'([\d.]+)¢/kg', MRN)
+        if match_cent_per_kg:
+            # print("MRN is cents per kg")
+            cents = float(match_cent_per_kg.group(1))
+            print("cents: ", cents)
+            MRN_irregular_rate = round(cents/100, 5)
+            print("MRN_irregular_rate: ", MRN_irregular_rate, " and type ", type(MRN_irregular_rate))
+            
+            print("weight is ", weight, " and qty is ", quantity)
+            float_weight = float(weight)
+            float_quantity = float(quantity)
+            MRN_total = (cents / 100) * float_weight * float_quantity # return dollar amt
+            print("MRN_total: ", MRN_total, " and type ", type(MRN_total))
+
+        # $ per kg
+        match_dollar_per_kg = re.match(r'\$([\d.]+)/kg', MRN)
+        if match_dollar_per_kg:
+            print("MRN is dollars per kg")
+            MRN_irregular_rate = float(match_dollar_per_kg.group(1))
+            MRN_total = MRN_irregular_rate * weight * quantity # return dollar amt
+
+        tax301 = 0.0
         if country == "China":
             # Removes all the . period char and last two digits
-            cleaned_code = hts_code.replace(".", "")[:-2]
-            tax301 = get301Percent(cleaned_code)
+            cleaned_code = hts_code.replace(".", "")
+            cleaned_code_new = ""
+
+            if len(cleaned_code) == 10:
+                cleaned_code_new = cleaned_code[:-2]
+            else:
+                cleaned_code_new = cleaned_code
+    
+            print("cleaned_code new: ", cleaned_code_new)
+            tax301 = float(get301Percent(cleaned_code_new))
         
         taxVAT = getVAT_AI(country, prod_desc)
         if not taxVAT:
@@ -83,9 +127,16 @@ def calcLanding():
         shipping = float(data.get('shipping', 0))
         insurance = float(data.get('insurance', 0))
 
-        landing_cost = getLanding(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), MRN_float)
-        print("Landing:" , landing_cost)
-        return jsonify({"landing_cost": landing_cost}), 200
+        print("tax301 type in calcLanding", type(tax301))
+        # print("tax301:", tax301)
+
+        # all of these floats should not be divided by 100 yet
+        if MRN_rate != -1.0: # the duty tax is a rate
+            landing_cost = getLanding_MRN_rate(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), MRN_rate)
+        elif MRN_total != -1.0: # the duty tax is an amount
+            landing_cost = getLanding_MRN_amt(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), MRN, MRN_total)
+        
+        return jsonify(landing_cost), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

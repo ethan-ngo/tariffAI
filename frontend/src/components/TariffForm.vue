@@ -189,7 +189,7 @@ export default {
         // Emit htsus result to chatbot
         emitter.emit('htsusResult', data); // Send data to chatbot
       } catch (error) {
-        this.result = { error: error.message };
+        // this.result = { error: error.message };
         console.log('HTSUS Classification error:', error);
       }
     },
@@ -202,6 +202,7 @@ export default {
         country: '',
         quantity: '',
         weight: '',
+        weight_unit: '',
         productValue: '',
         shippingCost: '',
         insuranceCost: ''
@@ -258,19 +259,28 @@ export default {
             prod_desc: this.productDesc,
             country: this.country,
             prod_value: this.productValue,
+            weight: this.weight,
+            weight_unit: this.weightUnit,
             quantity: this.quantity,
             shipping: this.shippingCost,
             insurance: this.insuranceCost,
           })
         });
+
+        if (!response.ok) {
+          // const errorData = await response.json();
+          // const errorMsg = errorData.error || "An unknown error occurred.";
+          emitter.emit('botError', `Please make sure you filled out all required fields with valid information.`);
+          return;
+        }
+
         const data = await response.json();
-        this.result = data.landing_cost;
-        console.log('Landing API result:', data); // <-- Console log the result
+        // this.result = data.landing_cost;
 
         // Emit htsus result to chatbot
-        emitter.emit('landedCostResult', data.landing_cost); // Send data to chatbot
+        emitter.emit('landedCostResult', data); // Send data to chatbot
       } catch (error) {
-        this.result = { error: error.message };
+        // this.result = { error: error.message };
         console.log('Landing API error:', error);
       }
     }

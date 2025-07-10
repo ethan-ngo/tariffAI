@@ -31,19 +31,20 @@ Returns:
 def get301Percent(code: str) -> float:
     # Searches for code from API
     found = get301Desc(code)
+    print("found ", found)
     if not found:
-        return "0.0"
+        return 0.0
     
     # Checks to see if code was deleted
     desc, note = found[0], found[1]
     noteList = note.split(" ")
     for word in noteList:
         if word == "deleted":
-            return "0.0"
+            return 0.0
 
     # Matches percentage from item string
     match = re.search(r'\d+(?:\.\d+)?%', desc)
-    return match.group().replace("%", "")
+    return float(match.group().replace("%", ""))
 
 # driver = webdriver.Chrome()
 # driver.get("https://ustr.gov/issue-areas/enforcement/section-301-investigations/search")
