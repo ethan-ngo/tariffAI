@@ -1,7 +1,12 @@
 <template>
   <aside class="sidebar" :class="{ 'mobile-hidden': !props.showSidebar }">
     <header class="sidebar-header">
-      <h2>Inventory</h2>
+      <div class="header-left">
+        <h2>Inventory</h2>
+        <button class="download-btn" @click="downloadItems" title="Download Report">
+          <img src="..\assets\download-file-svgrepo-com.png" class="download-icon" />
+        </button>
+      </div>
       <button class="close-btn" @click="emit('toggleSidebar')">×</button>
     </header>
 
@@ -42,7 +47,7 @@
 <script setup>
 import { ref, computed, defineProps, defineEmits, onMounted } from 'vue'
 import emitter from '../eventBus' 
-
+import { createPDF } from '@/utils/report'
 const props = defineProps({
   showSidebar: Boolean
 })
@@ -109,6 +114,10 @@ function updateQuantity(id, change) {
 
 function removeItem(id) {
   items.value = items.value.filter(item => item.id !== id)
+}
+
+function downloadItems(){
+  createPDF(items.value)
 }
 </script>
 
@@ -286,6 +295,26 @@ function removeItem(id) {
 
 .total-value {
   color: #ececf1;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.download-btn {
+  font-size: 1.2rem;
+  background: transparent;
+  border: none;
+  color: #ececf1;
+  cursor: pointer;
+}
+.download-btn:hover {
+  color: #8ab4f8;
+}
+.download-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 
 .sidebar-overlay {

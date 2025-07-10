@@ -281,6 +281,7 @@ export default {
         data.prod_value = this.productValue
         data.insurance = this.insuranceCost
         data.shipping = this.shippingCost
+        data.weight = this.weight + this.weightUnit
 
         // Emit htsus result to chatbot
         emitter.emit('landedCostResult', data); // Send data to chatbot
