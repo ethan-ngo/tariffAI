@@ -20,7 +20,7 @@ def getLanding_MRN_rate(prod_value: float, quantity: int, shipping: float, insur
 
     print("dutytotal: ", dutyTotal)
           
-    vatTotal = (VAT / 100) * dutyTotal
+    vatTotal = (VAT / 100) * (dutyTotal + subtotal)
     print("vatTotal ", vatTotal)
 
     landing_cost = subtotal + dutyTotal + vatTotal
@@ -50,7 +50,7 @@ def getLanding_MRN_amt(prod_value: float, quantity: int, shipping: float, insura
 
     print("dutytotal: ", dutyTotal)
           
-    vatTotal = (VAT / 100) * dutyTotal
+    vatTotal = (VAT / 100) * (dutyTotal + subtotal)
     print("vatTotal ", vatTotal)
 
     landing_cost = subtotal + dutyTotal + vatTotal

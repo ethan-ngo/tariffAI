@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div v-if="!showSidebar" class="open-cart-btn-wrapper">
-      <button class="open-cart-btn" @click="showSidebar = true">Open Cart</button>
+      <button class="open-cart-btn" @click="showSidebar = true">Open Items</button>
     </div>
     <ItemCart :showSidebar="showSidebar" @toggleSidebar="showSidebar = !showSidebar" />
     <div class="main-content" :class="{ 'cart-open': showSidebar }">

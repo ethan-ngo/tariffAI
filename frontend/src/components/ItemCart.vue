@@ -1,13 +1,18 @@
 <template>
   <aside class="sidebar" :class="{ 'mobile-hidden': !props.showSidebar }">
     <header class="sidebar-header">
-      <h2>Shopping Cart</h2>
+      <div class="header-left">
+        <h2>Inventory</h2>
+        <button class="download-btn" @click="downloadItems" title="Download Report">
+          <img src="..\assets\download-file-svgrepo-com.png" class="download-icon" />
+        </button>
+      </div>
       <button class="close-btn" @click="emit('toggleSidebar')">×</button>
     </header>
 
     <section class="sidebar-content">
       <div v-if="items.length === 0" class="empty-cart">
-        <p>Your cart is empty.</p>
+        <p>Submit calculations to get started.</p>
       </div>
       <ul v-else class="cart-list">
         <li v-for="item in items" :key="item.id" class="cart-item">
@@ -17,9 +22,9 @@
             </svg>
           </button>
           <div class="item-info">
-            <div class="item-name">{{ item.name }}</div>
+            <div class="item-name">{{ item.prod_desc }}</div>
             <div class="item-code">{{ item.htsus }}</div>
-            <div class="item-price">${{ item.price.toFixed(2) }}</div>
+            <div class="item-price">${{ item.landing_cost.toFixed(2) }}</div>
           </div>
           <div class="item-qty">
             <button @click="updateQuantity(item.id, -1)" :disabled="item.quantity <= 1">-</button>
@@ -40,38 +45,79 @@
 </template>
 
 <script setup>
-import { ref, computed, defineProps, defineEmits } from 'vue'
-
+import { ref, computed, defineProps, defineEmits, onMounted } from 'vue'
+import emitter from '../eventBus' 
+import { createPDF } from '@/utils/report'
 const props = defineProps({
   showSidebar: Boolean
 })
 
 const emit = defineEmits(['toggleSidebar'])
 
-const items = ref([
-  { id: 1, name: "Premium Wireless Headphones", htsus: "8518.30.2000", price: 199.99, quantity: 1 },
-  { id: 2, name: "Smart Watch", htsus: "9102.12.8000", price: 299.99, quantity: 2 },
-  { id: 3, name: "Bluetooth Speaker", htsus: "8518.22.0000", price: 79.99, quantity: 1 },
-  { id: 4, name: "Laptop Stand", htsus: "7615.19.5000", price: 49.99, quantity: 1 },
-  { id: 5, name: "USB-C Cable", htsus: "8544.42.2000", price: 14.99, quantity: 3 },
-  { id: 6, name: "Wireless Mouse", htsus: "8471.60.9050", price: 39.99, quantity: 1 },
-  { id: 7, name: "External SSD", htsus: "8471.70.6000", price: 129.99, quantity: 1 }
-])
+const items = ref([])
+onMounted(async () => {
+  emitter.on('landedCostResult', (data) => {
+    const newId = items.value.length > 0
+      ? Math.max(...items.value.map(item => item.id || 0)) + 1
+      : 1;
+
+    items.value.push({
+      id: newId,
+      ...data
+    });
+  });
+})
 
 const total = computed(() =>
-  items.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  items.value.reduce((sum, item) => sum + item.landing_cost, 0)
 )
 
+function calcLanding(prod_value, quantity, shipping, insurance, MRN, tax301, VAT) {
+  const subtotal = prod_value * quantity + shipping + insurance
+  const mrn_duty = MRN / 100 * subtotal
+  const tax301_duty = tax301 / 100 * subtotal
+  const vat_duty = VAT / 100 * (mrn_duty + tax301_duty + subtotal)
+  
+  const landing = subtotal + mrn_duty + tax301_duty + vat_duty
+  return {
+    "landing": landing,
+    "mrn_duty": mrn_duty,
+    "tax301_duty": tax301_duty, 
+    "vat_total": vat_duty
+  }
+}
 function updateQuantity(id, change) {
-  items.value = items.value.map(item =>
-    item.id === id
-      ? { ...item, quantity: Math.max(1, item.quantity + change) }
-      : item
-  )
+  items.value = items.value.map(item => {
+    if (item.id === id) {
+      const newQuantity = Math.max(1, item.quantity + change);
+      const landing = calcLanding(
+        item.prod_value || 0,
+        newQuantity,
+        item.shipping || 0,
+        item.insurance || 0,
+        item.mrn_rate || 0,
+        item.tax301_rate || 0,
+        item.vat_rate || 0
+      );
+      return {
+        ...item,
+        quantity: newQuantity,
+        landing_cost: landing.landing,
+        mrn_duty: landing.mrn_duty,
+        tax301_duty: landing.tax301_duty,
+        vat_total: landing.vat_total,
+      };
+    }
+    return item;
+  });
 }
 
 function removeItem(id) {
   items.value = items.value.filter(item => item.id !== id)
+}
+
+function downloadItems(){
+  createPDF(items.value)
 }
 </script>
 
@@ -249,6 +295,26 @@ function removeItem(id) {
 
 .total-value {
   color: #ececf1;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.download-btn {
+  font-size: 1.2rem;
+  background: transparent;
+  border: none;
+  color: #ececf1;
+  cursor: pointer;
+}
+.download-btn:hover {
+  color: #8ab4f8;
+}
+.download-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 
 .sidebar-overlay {

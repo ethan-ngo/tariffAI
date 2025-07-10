@@ -1,6 +1,5 @@
 <template>
   <div class="tariff-form-container">
-    <h1>{{ msg }}</h1>
 
     <form class="tariff-form">
       <p class="description-text">
@@ -268,12 +267,19 @@ export default {
         if (!response.ok) {
           // const errorData = await response.json();
           // const errorMsg = errorData.error || "An unknown error occurred.";
-          emitter.emit('botError', `Please make sure you filled out all required fields with valid information.`);
+          emitter.emit('botError', "An error has occured, please try again");
           return;
         }
 
         const data = await response.json();
         // this.result = data.landing_cost;
+        data.quantity = this.quantity;
+        data.prod_desc = this.productDesc;
+        data.htsus = this.code
+        data.prod_value = this.productValue
+        data.insurance = this.insuranceCost
+        data.shipping = this.shippingCost
+        data.weight = this.weight + this.weightUnit
 
         // Emit htsus result to chatbot
         emitter.emit('landedCostResult', data); // Send data to chatbot
