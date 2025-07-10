@@ -33,7 +33,8 @@ def getLanding_MRN_rate(prod_value: float, quantity: int, shipping: float, insur
         "duty_total": round(dutyTotal, 2),
         "vat_rate": VAT,
         "vat_total": round(vatTotal, 2),
-        "landing_cost": round(landing_cost, 2)
+        "landing_cost": round(landing_cost, 2), 
+        "regular": True
     }
 
 def getLanding_MRN_amt(prod_value: float, quantity: int, shipping: float, insurance: int, tax301: float, VAT: float, MRN_rate, MRN_amt: float) -> float:
@@ -62,39 +63,6 @@ def getLanding_MRN_amt(prod_value: float, quantity: int, shipping: float, insura
         "duty_total": round(dutyTotal, 2),
         "vat_rate": VAT,
         "vat_total": round(vatTotal, 2),
-        "landing_cost": round(landing_cost, 2)
+        "landing_cost": round(landing_cost, 2),
+        "regular": False
     }
-
-# def parse_mrn_duty(mrn: str, weight: float, quantity: int) -> float:
-#     """
-#     Parses MRN and returns the duty as a flat dollar amount.
-#     Handles percentage rates and specific duties (e.g. ¢/kg, $/each).
-#     """
-#     mrn = mrn.strip().lower()
-
-#     if mrn == 'free':
-#         return 0.0
-
-#     if "%" in mrn:
-#         try:
-#             percent = float(mrn.replace("%", ""))
-#             return (percent) # return rate multipier
-#         except ValueError:
-#             return 0.0
-
-#     # ¢ per kg
-#     match_cent_per_kg = re.match(r'([\d.]+)¢/kg', mrn)
-#     if match_cent_per_kg:
-#         cents = float(match_cent_per_kg.group(1))
-#         return (cents / 100) * weight * quantity # return dollar amt
-
-#     # $ per kg
-#     match_dollar_per_kg = re.match(r'\$([\d.]+)/kg', mrn)
-#     if match_dollar_per_kg:
-#         rate = float(match_dollar_per_kg.group(1))
-#         return rate * weight * quantity # return dollar amt
-
-#     return 0.0
-
-
-

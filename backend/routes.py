@@ -61,7 +61,10 @@ def calcLanding():
         weight_unit = data.get('weight_unit')
         quantity = data.get('quantity')
 
-        MRN = get_final_HTS_duty(hts_code, country)
+        try:
+            MRN = get_final_HTS_duty(hts_code, country)
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
 
         MRN = MRN.strip().lower()
         MRN_rate = -1.0
@@ -69,22 +72,33 @@ def calcLanding():
         MRN_total = -1.0
 
         if MRN == 'free':
+            print("MRN is free, turning it to 0.0")
             MRN_rate = 0.0
 
         if "%" in MRN:
+            print("mrn is regular: has percentage, extracting float")
             percent = float(MRN.replace("%", ""))
             MRN_rate = percent # return rate multipier
 
         # ¢ per kg
         match_cent_per_kg = re.match(r'([\d.]+)¢/kg', MRN)
         if match_cent_per_kg:
+            # print("MRN is cents per kg")
             cents = float(match_cent_per_kg.group(1))
-            MRN_irregular_rate = cents/100
-            MRN_total = (cents / 100) * weight * quantity # return dollar amt
+            print("cents: ", cents)
+            MRN_irregular_rate = round(cents/100, 5)
+            print("MRN_irregular_rate: ", MRN_irregular_rate, " and type ", type(MRN_irregular_rate))
+            
+            print("weight is ", weight, " and qty is ", quantity)
+            float_weight = float(weight)
+            float_quantity = float(quantity)
+            MRN_total = (cents / 100) * float_weight * float_quantity # return dollar amt
+            print("MRN_total: ", MRN_total, " and type ", type(MRN_total))
 
         # $ per kg
         match_dollar_per_kg = re.match(r'\$([\d.]+)/kg', MRN)
         if match_dollar_per_kg:
+            print("MRN is dollars per kg")
             MRN_irregular_rate = float(match_dollar_per_kg.group(1))
             MRN_total = MRN_irregular_rate * weight * quantity # return dollar amt
 
@@ -114,13 +128,13 @@ def calcLanding():
         insurance = float(data.get('insurance', 0))
 
         print("tax301 type in calcLanding", type(tax301))
-        print("tax301:", tax301)
+        # print("tax301:", tax301)
 
         # all of these floats should not be divided by 100 yet
         if MRN_rate != -1.0: # the duty tax is a rate
             landing_cost = getLanding_MRN_rate(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), MRN_rate)
         elif MRN_total != -1.0: # the duty tax is an amount
-            landing_cost = getLanding_MRN_amt(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), MRN_irregular_rate, MRN_total)
+            landing_cost = getLanding_MRN_amt(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), MRN, MRN_total)
         
         return jsonify(landing_cost), 200
 

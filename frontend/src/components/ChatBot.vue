@@ -97,9 +97,14 @@ onMounted(async () => {
   })
 
   emitter.on('landedCostResult', async (data) => {
-    console.log(data) 
+    console.log("Received landing data: ", data) 
     const formatted2 = formatLandingBreakdown(data)
     messages.value.push({ from: 'bot', text: formatted2 });
+    await scrollToBottom();
+  })
+
+  emitter.on('botError', async (data) => {
+    messages.value.push({ from: 'bot', text: data });
     await scrollToBottom();
   })
 })
@@ -151,41 +156,37 @@ function formatLandingBreakdown(data) {
   if (!data) return "No landing cost data available.";
 
   const landingCost = data.landing_cost;
-  console.log(landingCost); 
-
   const dutyTotal = data.duty_total;
-  console.log(dutyTotal);
-
   const mrnDuty = data.mrn_duty;
-  console.log(mrnDuty);
-
   const mrnRate = data.mrn_rate;
-  console.log(mrnRate);
-
   const subtotal = data.subtotal;
-  console.log(subtotal);
-
   const tax301Duty = data.tax301_duty;
-  console.log(tax301Duty);
-
   const tax301Rate = data.tax301_rate;
-  console.log(tax301Rate);
-
   const vatRate = data.vat_rate;
-  console.log(vatRate);
-
   const vatTotal = data.vat_total;
-  console.log(vatTotal);
+  const regular = data.regular;
 
-  return (
-    `subtotal: ${subtotal}` + 
-    `mrn duty (${mrnRate}%): ${mrnDuty}\n` +
-    `tax301 duty (${tax301Rate}%): ${tax301Duty}\n` +
-    `vat total (${vatRate}%): ${vatTotal}\n` +
-    `duty total: ${dutyTotal}\n` +
-    `landing cost: ${landingCost}\n` 
-  );
-
+  if (regular) {
+    return (
+      `Subtotal: $${subtotal}<br>` +
+      `MRN Duty (${mrnRate}%): $${mrnDuty}<br>` +
+      `301 Duty (${tax301Rate}%): $${tax301Duty}<br>` +
+      `Total Duties: $${dutyTotal}<br>` + 
+      `VAT (${vatRate}%): $${vatTotal}<br>` +  
+      `Total Landed Cost: $${landingCost}`
+    );
+  }
+  else {
+    return (
+      `Subtotal: $${subtotal}<br>` +
+      `MRN Duty (${mrnRate}): $${mrnDuty}<br>` +
+      `301 Duty (${tax301Rate}%): $${tax301Duty}<br>` +
+      `Total Duties: $${dutyTotal}<br>` + 
+      `VAT (${vatRate}%): $${vatTotal}<br>` +  
+      `Total Landed Cost: $${landingCost}`
+    );
+  }
+  
 }
 
 
