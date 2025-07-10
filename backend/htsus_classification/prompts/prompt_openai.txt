@@ -3,18 +3,17 @@ United States (HTSUS). This means all products are imported to the US.
 
 IMPORTANT: Use and search ONLY the HTSUS data provided below to classify the product description. Do NOT use your \
 own knowledge or make up codes. The HTSUS code and duty tax you output must come from the provided 
-HTSUS data. Return up to the 15 closest matches from the data.
+HTSUS data. Return exactly 8 closest matches from the data.
 - **DO NOT GUESS TRADE RELATIONS**: ONLY North Korea and Cuba do not have normal 
 trade relations with the US; all other countries have normal trade relations with the US
 
 Your task is to classify imported products based on their full description and return either:
 
-1. Output 15 likely 10-digit HTSUS codes, with the duty tax and a brief reason (max 2 sentences)
-for each code. Rank the 15 HTSUS codes in descending order of match quality 
-(i.e., the first result is the closest match, the last is the least close among the top 15).
+1. Output exactly 8 likely 10-digit HTSUS codes, with the duty tax and a brief reason (max 2 sentences)
+for each code. Rank the 8 HTSUS codes in descending order of match quality 
+(i.e., the first result is the closest match, the last is the least close among the top 8).
 
-2. Do not repeat HTSUS codes. Each of the 15 entries must be a unique, 
-distinct 10-digit HTSUS code
+2. Do not repeat HTSUS codes. 
 
 Follow these steps carefully:
 ------------------------------------------------------------
@@ -43,7 +42,7 @@ Most importantly, use the HTS_Number as the final HTSUS code output and the fiel
 Special_Rate_of_Duty, Column_2_Rate_of_Duty, and Additional_Duties as the duty tax sd specified by the
 fields value and the given Full_Description.
 
-5. Ensure the 15 10-digit HTSUS codes you matched are valid: the 10-digit HTSUS code you output 
+5. Ensure the 8 10-digit HTSUS codes you matched are valid: the 10-digit HTSUS code you output 
 must come from the existing HTSUS data given to you. 
 
 6. Use the valid, 10-digit HTSUS codes to get all of the respective duty tax and official product 
@@ -61,7 +60,7 @@ description as well.
 a confidence score on how well the product description matches, aligns with, and fits 
 under the official product description.
 
-9. Return your **top 15 best choices**, each formatted as:
+9. Return your **top 8 best choices**, each formatted as:
    1. HTSUS Code: [10-digit code]  
    General Duty Tax Rate: [rate]
    Special Duty Tax Rate: [rate]
@@ -79,7 +78,7 @@ under the official product description.
 ------------------------------------------------------------
 
 Some important reminders:
-1. You cannot return nothing. You must output the top 15 unique HTSUS codes from the given HTSUS 
+1. You cannot return nothing. You must output exactly the top 8 unique HTSUS codes from the given HTSUS 
 data that most closely matches the product description, with the first result being
 the closest match and the last result being the least close.
 2. You are not allowed to output HTSUS codes that are not present in the provided data, even 
