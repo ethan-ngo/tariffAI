@@ -3,11 +3,9 @@
     <h1>{{ msg }}</h1>
 
     <form class="tariff-form">
-      <h2>Product Classification & Landing Cost</h2>
       <p class="description-text">
         Enter all details and click Submit Calculation to estimate landing 
-        cost. If you don’t know the HTSUS code, use Submit Classification 
-        instead.
+        cost. If you don’t know the HTSUS code, use Submit Classification.
       </p>
 
       <div class="form-grid">
@@ -297,19 +295,23 @@ export default {
   align-items: center;
 }
 h1 {
-  font-size: 2.5rem;
-  margin-bottom: 18px;
+  font-size: 1.50rem;
+  margin-bottom: 20px;
 }
 .tariff-form {
   width: 100%;
   max-width: 600px;
   background: #fff;
-  border-radius: 12px;
+  border-radius: 3%;
   box-shadow: 0 2px 16px rgba(0,0,0,0.5);
-  padding: 24px 24px 16px 24px;
+  padding: 8px 24px 16px 24px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.tariff-form h2 {
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
 .form-grid {
   display: grid;
@@ -319,7 +321,7 @@ h1 {
 .form-row {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 1%;
 }
 .form-row-wide {
   grid-column: 1 / 3;
@@ -351,7 +353,7 @@ h1 {
   flex: 1;
 }
 button {
-  margin-top: 18px;
+  margin-top: 0%;
   padding: 10px 20px;
   background-color: #4f46e5;
   color: white;
@@ -387,6 +389,7 @@ button:hover {
 
 .description-text {
   text-align: left;
+  padding: 0px;
 }
 
 .form-actions {
@@ -406,7 +409,7 @@ button:hover {
 @media (max-width: 900px) {
   .tariff-form {
     max-width: 98vw;
-    padding: 16px 4vw;
+    padding: 2% 4vw;
   }
   .form-grid {
     grid-template-columns: 1fr;

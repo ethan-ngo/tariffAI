@@ -1,69 +1,69 @@
-1. HTSUS Code: 6301.40.00.10  
-   General Duty Tax Rate: 8.50%  
-   Special Duty Tax Rate: Free (AU,BH, CL,CO,IL,JO,KR, MA,OM,P, PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 77.50%  
-   Additional Duties: N/A  
+1. HTSUS Code: 6404.19.37.60  
+   General Duty Tax Rate: 12.50%  
+   Special Duty Tax Rate: Free (AU,BH, CL,CO,D,E,IL, JO,KR,MA, OM,P,PA,PE, R,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 35%  
+   Additional Duties: 0%  
 
-   Official Product Description: Blankets and traveling rugs: Blankets (other than electric blankets) and traveling rugs, of synthetic fibers - Woven (666)  
-   Confidence Score: 95%  
-   Reason: The product description closely matches the official description for blankets made of synthetic fibers. The woven aspect aligns well with the input description of a blanket.  
-
-   Country of Origin: Canada  
-   Total HTS Duty Tax Rate: 8.50%  
-   Reason: Canada has normal trade relations with the US, so the general duty tax rate of 8.50% applies.  
-
-2. HTSUS Code: 6301.40.00  
-   General Duty Tax Rate: 8.50%  
-   Special Duty Tax Rate: Free (AU,BH, CL,CO,IL,JO,KR, MA,OM,P, PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 77.50%  
-   Additional Duties: N/A  
-
-   Official Product Description: Blankets and traveling rugs: Blankets (other than electric blankets) and traveling rugs, of synthetic fibers  
+   Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, with uppers of textile material other than vegetable fibers - For women  
    Confidence Score: 90%  
-   Reason: The product description aligns with the general category of blankets made of synthetic fibers. The lack of specific details may slightly lower the confidence score.  
+   Reason: The product description closely matches the official description, particularly in terms of open-toe design, slip-on type, and non-vegetable fiber uppers for women's footwear. The only slight discrepancy is the lack of explicit mention of these details in the product description.  
 
-   Country of Origin: Canada  
-   Total HTS Duty Tax Rate: 8.50%  
-   Reason: Canada has normal trade relations with the US, so the general duty tax rate of 8.50% applies.  
+   Country of Origin: China  
+   Total HTS Duty Tax Rate: 12.50%  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of 12.50% applies.
 
-3. HTSUS Code: 6301.40.00.20  
-   General Duty Tax Rate: 8.50%  
-   Special Duty Tax Rate: Free (AU,BH, CL,CO,IL,JO,KR, MA,OM,P, PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 77.50%  
-   Additional Duties: N/A  
+2. HTSUS Code: 6404.19.36.60  
+   General Duty Tax Rate: 7.50%  
+   Special Duty Tax Rate: Free (AU,BH, CL,CO,D,E,IL, JO,KR,MA, OM,P,PA,PE, R,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 35%  
+   Additional Duties: 0%  
 
-   Official Product Description: Blankets and traveling rugs: Blankets (other than electric blankets) and traveling rugs, of synthetic fibers - Other (666)  
+   Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, with uppers of vegetable fibers - For women  
    Confidence Score: 85%  
-   Reason: The product description matches the category of blankets made of synthetic fibers, although the specific type is not mentioned.  
+   Reason: The product description aligns well with the official description, focusing on the size and type of footwear for women. The confidence score is slightly lower due to the lack of specific material details in the product description.  
 
-   Country of Origin: Canada  
-   Total HTS Duty Tax Rate: 8.50%  
-   Reason: Canada has normal trade relations with the US, so the general duty tax rate of 8.50% applies.  
+   Country of Origin: China  
+   Total HTS Duty Tax Rate: 7.50%  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of 7.50% applies.
 
-4. HTSUS Code: 6301.90.00.10  
-   General Duty Tax Rate: 7.20%  
-   Special Duty Tax Rate: Free (AU,BH, CL,CO,E*,IL, JO,KR, MA,NP,OM,P, PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 90%  
-   Additional Duties: N/A  
+3. HTSUS Code: 6404.19.37.30  
+   General Duty Tax Rate: 12.50%  
+   Special Duty Tax Rate: Free (AU,BH, CL,CO,D,E,IL, JO,KR,MA, OM,P,PA,PE, R,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 35%  
+   Additional Duties: 0%  
 
-   Official Product Description: Blankets and traveling rugs: Other blankets and traveling rugs - Of artificial fibers (666)  
+   Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, with uppers of textile material other than vegetable fibers - For men  
+   Confidence Score: 85%  
+   Reason: The product description matches the official description in terms of open-toe design, slip-on type, and non-vegetable fiber uppers for men's footwear. The confidence score is slightly lower due to the lack of specific material details in the product description.  
+
+   Country of Origin: China  
+   Total HTS Duty Tax Rate: 12.50%  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of 12.50% applies.
+
+4. HTSUS Code: 6404.19.37.15  
+   General Duty Tax Rate: 12.50%  
+   Special Duty Tax Rate: Free (AU,BH, CL,CO,D,E,IL, JO,KR,MA, OM,P,PA,PE, R,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 35%  
+   Additional Duties: 0%  
+
+   Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, with uppers of textile material other than vegetable fibers - House slippers  
    Confidence Score: 80%  
-   Reason: The product description aligns with the category of blankets made of artificial fibers, although the specific type is not mentioned.  
+   Reason: The product description aligns with the official description, particularly in terms of the slip-on type and textile material for house slippers. The confidence score is slightly lower due to the lack of specific material details in the product description.  
 
-   Country of Origin: Canada  
-   Total HTS Duty Tax Rate: 7.20%  
-   Reason: Canada has normal trade relations with the US, so the general duty tax rate of 7.20% applies.  
+   Country of Origin: China  
+   Total HTS Duty Tax Rate: 12.50%  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of 12.50% applies.
 
-5. HTSUS Code: 6301.30.00.10  
-   General Duty Tax Rate: 8.40%  
-   Special Duty Tax Rate: Free (AU,BH, CL,CO,IL,JO,KR, MA,OM,P, PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 30%  
-   Additional Duties: N/A  
+5. HTSUS Code: 6404.19.36.90  
+   General Duty Tax Rate: 7.50%  
+   Special Duty Tax Rate: Free (AU,BH, CL,CO,D,E,IL, JO,KR,MA, OM,P,PA,PE, R,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 35%  
+   Additional Duties: 0%  
 
-   Official Product Description: Blankets and traveling rugs: Blankets (other than electric blankets) and traveling rugs, of cotton - Woven (369)  
+   Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: Footwear with open toes or open heels; footwear of the slip-on type, that is held to the foot without the use of laces or buckles or other fasteners, with uppers of vegetable fibers - Other  
    Confidence Score: 75%  
-   Reason: The product description matches the category of blankets made of cotton, specifically woven.  
+   Reason: The product description matches the slip-on type and vegetable fiber uppers for footwear. The confidence score is slightly lower due to the lack of specific material details in the product description.  
 
-   Country of Origin: Canada  
-   Total HTS Duty Tax Rate: 8.40%  
-   Reason: Canada has normal trade relations with the US, so the general duty tax rate of 8.40% applies.
+   Country of Origin: China  
+   Total HTS Duty Tax Rate: 7.50%  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of 7.50% applies.

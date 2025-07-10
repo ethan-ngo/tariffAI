@@ -294,7 +294,7 @@ function formatLandingBreakdown(data) {
 .chatbot-container {
   display: flex;
   flex-direction: column;
-  height: 600px;
+  height: 550px;
   width: 80%;
   background: #23232a;
   border-radius: 18px;
