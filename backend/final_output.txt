@@ -1,0 +1,27 @@
+1. HTSUS Code: 9503.00.00.13  
+General Duty Tax Rate: Free  
+Special Duty Tax Rate: Free  
+Column 2 Rate (for countries without normal trade relations with US): 70%  
+Additional Duties: 
+
+Official Product Description: Tricycles, scooters, pedal cars, dolls, and other toys for children aged 3 to 12 years: Inflatable toy balls, balloons, and punchballs intended for use by children aged 3 to 12 years  
+Confidence Score: 95%  
+Reason: The product description closely matches the official description for inflatable toy balls intended for children aged 3 to 12 years.
+
+Country of Origin: Japan  
+Total HTS Duty Tax Rate: Free  
+Reason: Japan has normal trade relations with the US, so the General Duty Tax Rate of Free applies.
+
+2. HTSUS Code: 9503.00.00.11  
+General Duty Tax Rate: Free  
+Special Duty Tax Rate: Free  
+Column 2 Rate (for countries without normal trade relations with US): 70%  
+Additional Duties: 
+
+Official Product Description: Tricycles, scooters, pedal cars, dolls, and other toys for children under 3 years: Inflatable toy balls, balloons, and punchballs intended for use by children under 3 years  
+Confidence Score: 90%  
+Reason: The product description aligns well with the official description for inflatable toy balls intended for children under 3 years.
+
+Country of Origin: Japan  
+Total HTS Duty Tax Rate: Free  
+Reason: Japan has normal trade relations with the US, so the General Duty Tax Rate of Free applies.
