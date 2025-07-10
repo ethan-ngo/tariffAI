@@ -12,15 +12,21 @@
           src="https://randomuser.me/api/portraits/men/32.jpg"
           alt="Bot"
         />
-        <div class="bubble" v-html="msg.text"></div>
+        <div class="bubble" @mouseenter="hoverIndex = idx" @mouseleave="hoverIndex = null">
+          <span v-html="msg.text"></span>
+          <button
+            v-if="hoverIndex === idx"
+            class="copy-btn"
+            @click="copyMessage(msg.text)"
+            title="Copy message"
+            aria-label="Copy message"
+          >
+            📋
+          </button>
+        </div>
         <div v-if="msg.from === 'user'" class="spacer"></div>
       </div>
     </div>
-
-    <!-- Add this button -->
-    <button v-if="hasMoreBlocks" @click="showMoreCodes" class="show-more-btn">
-      Show More HTSUS Codes
-    </button>
 
 
     <form class="chat-input-row" @submit.prevent="sendMessage">
@@ -38,7 +44,7 @@
 
 <script setup>
 
-import { ref, nextTick, onMounted, computed  } from 'vue'
+import { ref, nextTick, onMounted  } from 'vue'
 import emitter from '../eventBus' 
 
 const input = ref('')
@@ -46,6 +52,19 @@ const messagesContainer = ref(null)
 const messages = ref([
   { from: 'bot', text: 'Hello! I can classify products by HTSUS. If you want to know the HTSUS code of a product, please give me the product description and origin country of the product.' }
 ])
+
+const hoverIndex = ref(null)
+
+function copyMessage(text) {
+  // Strip HTML tags if you want pure text
+  const el = document.createElement('div')
+  el.innerHTML = text
+  const plainText = el.textContent || el.innerText || ''
+
+  navigator.clipboard.writeText(plainText).then(() => {
+    console.log("copied to clipboard") // You can replace this with nicer UI if you want
+  })
+}
 
 async function sendMessage() {
   if (!input.value.trim()) return
@@ -87,9 +106,9 @@ async function scrollToBottom() {
 const classificationBlocks = ref([]); // changed to ref for reactivity
 const currentIndex = ref(0);
 
-const hasMoreBlocks = computed(() => {
-  return classificationBlocks.value.length > currentIndex.value;
-});
+// const hasMoreBlocks = computed(() => {
+//   return classificationBlocks.value.length > currentIndex.value;
+// });
 
 // Listen for emitted results
 onMounted(async () => {
@@ -103,25 +122,23 @@ onMounted(async () => {
     await scrollToBottom();
   })
 
-  emitter.on('htsusResult', async (data) => {
+  emitter.on('htsusResult', async ({ data, linksHtml }) => {
     console.log('Received in chatbot:', data);
+    
+    console.log("links: ", linksHtml);
 
     classificationBlocks.value = parseClassification(data.classification);
     currentIndex.value = 0;
 
-    const firstBatch = getNextBlocks(3);
+    const firstBatch = getNextBlocks(3, linksHtml);
     const textToShow = firstBatch
-      ? firstBatch + "<br><br><i>Press the button below to see more codes (note if there's no button these are all the closest matches).</i>"
-      : "No classification data found.";
+      ? firstBatch : "No classification data found.";
+
+    console.log("text to show is ", textToShow)
 
     messages.value.push({ from: 'bot', text: textToShow });
 
     await scrollToBottom();
-
-    // console.log('Received in chatbot:', data)
-    // const formatted = formatClassification(data.classification);
-    // messages.value.push({ from: 'bot', text: formatted });
-    // await scrollToBottom();
   })
 
   emitter.on('sentUserCalculationRequest', async (data) => {
@@ -156,17 +173,17 @@ function parseClassification(rawText) {
 }
 
 // format individual blocks
-function formatBlock(block) {
+function formatBlock(block, linkHtml) {
   const subtitles = [
     'HTSUS Code:',
-    'General Duty Tax Rate:',
-    'Special Duty Tax Rate:',
-    'Column 2 Rate (for countries without normal trade relations with US):',
-    'Additional Duties:',
+    // 'General Duty Tax Rate:',
+    // 'Special Duty Tax Rate:',
+    // 'Column 2 Rate (for countries without normal trade relations with US):',
+    // 'Additional Duties:',
     'Official Product Description:',
     'Confidence Score:',
     'Reason:',
-    'Country of Origin:',
+    // 'Country of Origin:',
     'Total HTS Duty Tax Rate:'
   ];
 
@@ -180,31 +197,43 @@ function formatBlock(block) {
     escaped = escaped.replace(re, `<b>${sub}</b>`);
   });
 
-  return escaped.replace(/\n/g, '<br>').trim();
+  escaped = escaped.replace(/\n/g, '<br>').trim();
+
+  // Append the corresponding link HTML (assumed to be safe and already escaped)
+  
+  console.log("linkHtml in formatBlock is ", linkHtml)
+  if (linkHtml) {
+    const cleanUrl = linkHtml.replace(/^"+|"+$/g, ''); // remove leading/trailing quotes if any
+    escaped += `<br><a href="${cleanUrl}" target="_blank" rel="noopener noreferrer">View HTSUS Details</a>`;
+  }
+
+  return escaped;
 }
 
-function getNextBlocks(count = 3) {
+function getNextBlocks(count = 3, links) {
+  console.log("LINKS ARE: ", links)
   const next = classificationBlocks.value.slice(currentIndex.value, currentIndex.value + count);
+  const linksForNext = links.slice(currentIndex.value, currentIndex.value + count);
   currentIndex.value += count;
 
   if (next.length === 0) return null;
 
-  return next.map(formatBlock).join('<hr style="border:none;border-top:1px solid #ccc;margin:12px 0;">');
+  return next.map((block, i) => formatBlock(block, linksForNext[i])).join('<hr style="border:none;border-top:1px solid #ccc;margin:12px 0;">');
 }
 
 // Show more button handler
-async function showMoreCodes() {
-  const nextBlocks = getNextBlocks(3);
-  if (!nextBlocks) {  // check for null
-    messages.value.push({ from: 'bot', text: "All possible HTSUS codes have been shown." });
-  } else {
-    messages.value.push({ from: 'bot', text: nextBlocks });
-  }
-  await nextTick();
-  if (messagesContainer.value) {
-    messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
-  }
-}
+// async function showMoreCodes() {
+//   const nextBlocks = getNextBlocks(3);
+//   if (!nextBlocks) {  // check for null
+//     messages.value.push({ from: 'bot', text: "All possible HTSUS codes have been shown." });
+//   } else {
+//     messages.value.push({ from: 'bot', text: nextBlocks });
+//   }
+//   await nextTick();
+//   if (messagesContainer.value) {
+//     messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
+//   }
+// }
 
 
 // // Format the JSON result into readable chat text
@@ -264,29 +293,44 @@ function formatLandingBreakdown(data) {
   const vatTotal = data.vat_total;
   const regular = data.regular;
 
-  if (regular) {
-    return (
-      `Subtotal: $${subtotal}<br>` +
-      `MRN Duty (${mrnRate}%): $${mrnDuty}<br>` +
-      `301 Duty (${tax301Rate}%): $${tax301Duty}<br>` +
-      `Total Duties: $${dutyTotal}<br>` + 
-      `VAT (${vatRate}%): $${vatTotal}<br>` +  
-      `Total Landed Cost: $${landingCost}`
-    );
+  function fmtMoney(value) {
+    return `$${Number(value).toFixed(2)}`;
   }
-  else {
-    return (
-      `Subtotal: $${subtotal}<br>` +
-      `MRN Duty (${mrnRate}): $${mrnDuty}<br>` +
-      `301 Duty (${tax301Rate}%): $${tax301Duty}<br>` +
-      `Total Duties: $${dutyTotal}<br>` + 
-      `VAT (${vatRate}%): $${vatTotal}<br>` +  
-      `Total Landed Cost: $${landingCost}`
-    );
-  }
+
+  const mrnRateDisplay = regular ? `${mrnRate}%` : mrnRate;
+
+  return `
+    <table style="width: 100%; border-collapse: collapse; color: #ececf1;">
+      <tbody>
+        <tr>
+          <td style="padding: 6px; border-bottom: 1px solid #444;">Subtotal</td>
+          <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(subtotal)}</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px; border-bottom: 1px solid #444;">MRN Duty (${mrnRateDisplay})</td>
+          <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(mrnDuty)}</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px; border-bottom: 1px solid #444;">301 Duty (${tax301Rate}%)</td>
+          <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(tax301Duty)}</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px; border-bottom: 1px solid #444;">Total Duties</td>
+          <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(dutyTotal)}</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px; border-bottom: 1px solid #444;">VAT (${vatRate}%)</td>
+          <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(vatTotal)}</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px; font-weight: bold;">Total Landed Cost</td>
+          <td style="padding: 6px; font-weight: bold; text-align: right;">${fmtMoney(landingCost)}</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
   
 }
-
 
 </script>
 
@@ -348,6 +392,26 @@ function formatLandingBreakdown(data) {
   box-shadow: 0 2px 8px 0 rgba(20,20,20,0.10);
   word-break: break-word;
   word-wrap: break-word;
+  position: relative;
+}
+.copy-btn {
+  position: absolute;
+  bottom: -25px;    /* 6px from bottom */
+  right: 6px;      /* 6px from right */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  color: #999;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+.copy-btn:hover {
+  opacity: 1;
+  color: #4f46e5; /* or your accent color */
 }
 
 .chat-row.user .bubble {
@@ -429,6 +493,14 @@ function formatLandingBreakdown(data) {
   background-color: #6366f1;
 }
 
+.bubble a {
+  color: #4ea9ff;             /* Light blue default */
+  text-decoration: underline; /* Underlined by default */
+}
+
+.bubble a:visited {
+  color: #c084fc;             /* Light purple when visited */
+}
 
 /* Tablet styles */
 @media (max-width: 1024px) {

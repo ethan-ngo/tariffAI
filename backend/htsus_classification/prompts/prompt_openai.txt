@@ -39,7 +39,7 @@ Each HTSUS entry contains the following fields:
 
 You must treat each line as one complete HTSUS entry and parse all the fields together when evaluating matches.
 Most importantly, use the HTS_Number as the final HTSUS code output and the fields General_Rate_of_Duty, 
-Special_Rate_of_Duty, Column_2_Rate_of_Duty, and Additional_Duties as the duty tax sd specified by the
+Special_Rate_of_Duty, Column_2_Rate_of_Duty, and Additional_Duties as the duty tax specified by the
 fields value and the given Full_Description.
 
 5. Ensure the 8 10-digit HTSUS codes you matched are valid: the 10-digit HTSUS code you output 
@@ -56,23 +56,12 @@ description as well.
    - Use Column 2 rates only for North Korea and Cuba
    - Output this as well
 
-8. Compare the original product description with the official product description and return
-a confidence score on how well the product description matches, aligns with, and fits 
-under the official product description.
-
-9. Return your **top 8 best choices**, each formatted as:
+8. Return your **top 8 best choices**, each formatted as:
    1. HTSUS Code: [10-digit code]  
-   General Duty Tax Rate: [rate]
-   Special Duty Tax Rate: [rate]
-   Column 2 Rate (for countries without normal trade relations with US): [rate]
-   Additional Duties: [rate]
-
    Official Product Description: [the official description of the HTSUS code as detailed 
    in the given HTSUS data you received]
-   Confidence Score: [score percentage]
    Reason: [brief reason—2 sentences max]
-
-   Country of Origin: [country]  
+ 
    Total HTS Duty Tax Rate: [rate] 
    Reason: [brief reason]
 ------------------------------------------------------------
@@ -87,5 +76,5 @@ if they seem correct. Do not rely on external or internal knowledge.
 function, or use. Do not guess or output HTSUS codes that are not related to the product description.  
 4. Follow the format and reasoning style shown in "few_shot.txt" to output your response.
 5. All of the HTSUS codes you output must be unique and distinct from one another.
-6. You must include a Confidence Score and Reason for each HTSUS code you output.
+6. You must include a Reason for each HTSUS code you output.
 7. You must always output at least one HTSUS code. You cannot output nothing.
