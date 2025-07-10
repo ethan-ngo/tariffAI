@@ -11,114 +11,59 @@ and country of origin is "Japan"
 
 You will output the below:
 1. HTSUS Code: 9503.00.00.13  
-   General Duty Tax Rate: Free  
-   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 70%  
-   Additional Duties: 0%  
-
    Official Product Description: Tricycles, scooters, pedal cars, and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Inflatable toy balls, balloons, and punchballs, of rubber: Labeled or determined by importer as intended for use by persons aged 3 to 12 years  
-   Confidence Score: 95%  
    Reason: The product description closely matches the official description, specifically mentioning inflatable toy balls intended for children aged 3 to 12 years.  
    
-   Country of Origin: Japan  
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
 2. HTSUS Code: 9503.00.00.11  
-   General Duty Tax Rate: Free  
-   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 70%  
-   Additional Duties: 0%  
-
    Official Product Description: Tricycles, scooters, pedal cars, and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Inflatable toy balls, balloons, and punchballs, of rubber: Labeled or determined by importer as intended for use by persons under 3 years of age  
-   Confidence Score: 90%  
    Reason: The product description aligns well with the official description, focusing on inflatable toy balls intended for children under 3 years of age.  
    
-   Country of Origin: Japan  
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
 3. HTSUS Code: 9503.00.00.71  
-   General Duty Tax Rate: Free  
-   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 70%  
-   Additional Duties: 0%  
-
    Official Product Description: Tricycles, scooters, pedal cars, and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Other: Labeled or determined by importer as intended for use by persons under 3 years of age  
-   Confidence Score: 85%  
    Reason: The product description closely matches the official description, specifically mentioning toys intended for children under 3 years of age.  
    
-   Country of Origin: Japan  
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
 4. HTSUS Code: 9503.00.00.73  
-   General Duty Tax Rate: Free  
-   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 70%  
-   Additional Duties: 0%  
-
    Official Product Description: Tricycles, scooters, pedal cars, and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Other: Labeled or determined by importer as intended for use by persons aged 3 to 12 years  
-   Confidence Score: 80%  
    Reason: The product description aligns with the official description, focusing on toys intended for children aged 3 to 12 years.  
-   
-   Country of Origin: Japan  
+    
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
 5. HTSUS Code: 9503.00.00.90  
-   General Duty Tax Rate: Free  
-   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 70%  
-   Additional Duties: 0%  
-
    Official Product Description: Tricycles, scooters, pedal cars and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Other  
-   Confidence Score: 75%  
    Reason: The product description matches the general category of toys and recreational models, but lacks specific details for a higher confidence score.  
    
-   Country of Origin: Japan  
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
 6. HTSUS Code: 9505.10.40.10  
-   General Duty Tax Rate: Free  
-   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 60%  
-   Additional Duties: 0%  
-
+  
    Official Product Description: Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof: Articles for Christmas festivities and parts and accessories thereof: Christmas ornaments: Other: Of wood  
-   Confidence Score: 70%  
    Reason: The product description slightly aligns with Christmas-related articles, but lacks specific details like being made of wood.  
    
-   Country of Origin: Japan  
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
 7. HTSUS Code: 9505.10.15.00  
-   General Duty Tax Rate: Free  
-   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 20%  
-   Additional Duties: 0%  
-
    Official Product Description: Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof: Articles for Christmas festivities and parts and accessories thereof: Christmas ornaments: Other: Of wood  
-   Confidence Score: 65%  
    Reason: The product description loosely matches Christmas ornaments, but lacks the specific material of wood.  
    
-   Country of Origin: Japan  
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
 8. HTSUS Code: 9505.10.10.00  
-   General Duty Tax Rate: Free  
-   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 60%  
-   Additional Duties: 0%  
-
    Official Product Description: Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof: Articles for Christmas festivities and parts and accessories thereof: Christmas ornaments: Of glass  
-   Confidence Score: 60%  
    Reason: The product description mentions festive articles, but lacks the specific material of glass for Christmas ornaments.  
    
-   Country of Origin: Japan  
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.
 
@@ -129,16 +74,10 @@ and origin country is South Korean
 
 You will output the below:
 HTSUS Code: 6203.42.07.11
-General Duty Tax Rate: 16.6%
-Special Duty Tax Rate: 0%
-Column 2 Rate (for countries without normal trade relations with US): 90% 
-Additional Duties: 0%
-
 Official Product Description: Trousers, bib and brace overalls, breeches and shorts: 
 Of cotton: Recreational performance outerwear: Other: Men's trousers and breeches: 
 Blue denim (347)
 
-Confidence Score: 92%
 Reason: This is a very high match — the key factors of garment type, material (cotton), 
 gender, and denim fabric are clearly aligned. Heading 6203.42 shows men's or boys' 
 suits, trousers, etc. made of cotton. 07.11 further specifies blue denim.
@@ -152,7 +91,6 @@ they meet certain construction or design standards (e.g., durable cotton, functi
 and the presence of “blue denim (347)” suggests that the jeans match a common 
 statistical reporting category.
 
-Country of Origin: South Korea  
 Total HTS Duty Tax Rate: 16.6%  
 Reason: South Korea does have normal trade relations with the US and has no special duty tax rates;
 therefore, the total duty tax is the general rate, 16.6%
@@ -163,41 +101,21 @@ If the product dscription is: "women's leather boots" with origin country "Cuba"
 
 You will output the below:
 1. HTSUS Code: 6404.19.15.60  
-General Duty Tax Rate: 10.50%  
-Special Duty Tax Rate: Free  
-Column 2 Rate (for countries without normal trade relations with US): 35%  
-Additional Duties: 0%  
-
 Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: Footwear having uppers of which over 50 percent of the external surface area is leather - For women  
-Confidence Score: 95%  
 Reason: The product description aligns well with the official description, matching the key factor of leather uppers for women's footwear. The slight uncertainty arises from the lack of specific percentage mentioned in the product description.
-
-Country of Origin: Cuba  
+ 
 Total HTS Duty Tax Rate: 35%  
 Reason: Cuba does not have normal trade relations with the US, so the Column 2 Rate of 35% applies.
  
 2. HTSUS Code: 6404.19.36.60  
-General Duty Tax Rate: 7.50%  
-Special Duty Tax Rate: Free  
-Column 2 Rate (for countries without normal trade relations with US): 35%  
-Additional Duties: 0%  
-
 Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: Footwear with open toes or open heels; footwear of the slip-on type, with uppers of vegetable fibers - For women  
-Confidence Score: 90%  
 Reason: The product description matches the official description in terms of open-toe design, slip-on type, and vegetable fiber uppers for women's footwear. The only slight discrepancy is the lack of explicit mention of these details in the product description.
 
-Country of Origin: Cuba  
 Total HTS Duty Tax Rate: 35%  
 Reason: Cuba does not have normal trade relations with the US, so the Column 2 Rate of 35% applies.
 
 3. HTSUS Code: 6404.19.37.60  
-General Duty Tax Rate: 12.50%  
-Special Duty Tax Rate: Free  
-Column 2 Rate (for countries without normal trade relations with US): 35%  
-Additional Duties: 0%  
-
 Official Product Description: Footwear with outer soles of rubber, plastics, leather or composition leather and uppers of textile materials: Footwear with open toes or open heels; footwear of the slip-on type, with uppers of textile material other than vegetable fibers - For women  
-Confidence Score: 85%  
 Reason: The product description closely matches the official description, particularly in terms of open-toe design, slip-on type, and non-vegetable fiber uppers for women's footwear. The confidence score is slightly lower due to the absence of specific material details in the product description.
 
 Country of Origin: Cuba  
