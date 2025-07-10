@@ -1,9 +1,8 @@
 <template>
   <div class="tariff-form-container">
-    <h1>{{ msg }}</h1>
 
     <form class="tariff-form">
-      <h2>Product Classification & Landing Cost</h2>
+      <h2>HTS Classification & Landing Cost</h2>
       <p class="description-text">
         To get the estimated landing cost of a product (including duties, tariffs, 
         and VAT), please fill in all required fields and click "Submit Calculation."
@@ -270,12 +269,18 @@ export default {
         if (!response.ok) {
           // const errorData = await response.json();
           // const errorMsg = errorData.error || "An unknown error occurred.";
-          emitter.emit('botError', `Please make sure you filled out all required fields with valid information.`);
+          emitter.emit('botError', "An error has occured, please try again");
           return;
         }
 
         const data = await response.json();
         // this.result = data.landing_cost;
+        data.quantity = this.quantity;
+        data.prod_desc = this.productDesc;
+        data.htsus = this.code
+        data.prod_value = this.productValue
+        data.insurance = this.insuranceCost
+        data.shipping = this.shippingCost
 
         // Emit htsus result to chatbot
         emitter.emit('landedCostResult', data); // Send data to chatbot
