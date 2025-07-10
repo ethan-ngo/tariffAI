@@ -194,9 +194,9 @@ def classify_htsus(product_description, country, weight, weight_unit, quantity):
         response_json = response.json()  # Parse the JSON response
         chatbot_output = response_json.get("text", "")  # Get the "text" field safely
         # print("Simplified result:", chatbot_output)
-
-        # with open("final_output.txt", "w", encoding="utf-8") as f:          
-        #     f.write(str(chatbot_output))
+        print("received the top HTSUS codes!")
+        with open("final_output.txt", "w", encoding="utf-8") as f:          
+            f.write(str(chatbot_output))
         return chatbot_output
     else:
         print("Error:", response.status_code, response.text)

@@ -75,23 +75,24 @@ Overview: Leather handbag should be classified under:
 - Subheading 4202.21 (Handbags, with outer surface of leather, composition leather, or patent leather)
 - Classification depends on material and value
 
-1. HTSUS Code: 4202.21.3000  
-General Duty Tax Rate: 5.3%
+
+1. HTSUS Code: 4202.21.9000  
+General Duty Tax Rate: 9%
 Special Duty Tax Rate: 0%
-Column 2 Rate (for countries without normal trade relations with US): 35% 
+Column 2 Rate (for countries without normal trade relations with US): 35%  
 Additional Duties: 0%
 
 Official Product Description: Handbags, whether or not with shoulder strap, including those without handle: 
-With outer surface of leather or of composition leather: Of reptile leather
+With outer surface of leather or of composition leather: Valued over $20 each
 
-Confidence Score: 40%
-Reason: While the input matches “handbag” and “leather,” it lacks any indication that it is made from 
-reptile leather, which is specifically required for this HTSUS code. This mismatch significantly lowers confidence.
+Confidence Score: 75%
+Reason: Most leather handbags on the market are valued over $20, so this is the most probable 
+match out of the three. Still, it’s not a guaranteed match unless we confirm price.
 
 Country of Origin: Japan  
-Total HTS Duty Tax Rate: 5.3%  
+Total HTS Duty Tax Rate: 9%  
 Reason: Japan does have normal trade relations with the US and has no special duty tax rates;
-therefore, the total duty tax is the general rate, 5.3%
+therefore, the total duty tax is the general rate, 9%
 
 2. HTSUS Code: 4202.21.6000  
 General Duty Tax Rate: 10%
@@ -112,23 +113,23 @@ Total HTS Duty Tax Rate: 10%
 Reason: Japan does have normal trade relations with the US and has no special duty tax rates;
 therefore, the total duty tax is the general rate, 10%
 
-3. HTSUS Code: 4202.21.9000  
-General Duty Tax Rate: 9%
+3. HTSUS Code: 4202.21.3000  
+General Duty Tax Rate: 5.3%
 Special Duty Tax Rate: 0%
-Column 2 Rate (for countries without normal trade relations with US): 35%  
+Column 2 Rate (for countries without normal trade relations with US): 35% 
 Additional Duties: 0%
 
 Official Product Description: Handbags, whether or not with shoulder strap, including those without handle: 
-With outer surface of leather or of composition leather: Valued over $20 each
+With outer surface of leather or of composition leather: Of reptile leather
 
-Confidence Score: 75%
-Reason: Most leather handbags on the market are valued over $20, so this is the most probable 
-match out of the three. Still, it’s not a guaranteed match unless we confirm price.
+Confidence Score: 40%
+Reason: While the input matches “handbag” and “leather,” it lacks any indication that it is made from 
+reptile leather, which is specifically required for this HTSUS code. This mismatch significantly lowers confidence.
 
 Country of Origin: Japan  
-Total HTS Duty Tax Rate: 9%  
+Total HTS Duty Tax Rate: 5.3%  
 Reason: Japan does have normal trade relations with the US and has no special duty tax rates;
-therefore, the total duty tax is the general rate, 9%
+therefore, the total duty tax is the general rate, 5.3%
 
 -----------------------------------
 EXAMPLE 4:

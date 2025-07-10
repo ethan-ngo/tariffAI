@@ -97,7 +97,13 @@ onMounted(async () => {
   })
 
   emitter.on('landedCostResult', async (data) => {
-    console.log(data)
+    console.log("Received landing data: ", data) 
+    const formatted2 = formatLandingBreakdown(data)
+    messages.value.push({ from: 'bot', text: formatted2 });
+    await scrollToBottom();
+  })
+
+  emitter.on('botError', async (data) => {
     messages.value.push({ from: 'bot', text: data });
     await scrollToBottom();
   })
@@ -145,6 +151,44 @@ function formatClassification(rawText) {
 
   return formattedParts.join('<hr style="border:none;border-top:1px solid #ccc;margin:12px 0;">');
 }
+
+function formatLandingBreakdown(data) {
+  if (!data) return "No landing cost data available.";
+
+  const landingCost = data.landing_cost;
+  const dutyTotal = data.duty_total;
+  const mrnDuty = data.mrn_duty;
+  const mrnRate = data.mrn_rate;
+  const subtotal = data.subtotal;
+  const tax301Duty = data.tax301_duty;
+  const tax301Rate = data.tax301_rate;
+  const vatRate = data.vat_rate;
+  const vatTotal = data.vat_total;
+  const regular = data.regular;
+
+  if (regular) {
+    return (
+      `Subtotal: $${subtotal}<br>` +
+      `MRN Duty (${mrnRate}%): $${mrnDuty}<br>` +
+      `301 Duty (${tax301Rate}%): $${tax301Duty}<br>` +
+      `Total Duties: $${dutyTotal}<br>` + 
+      `VAT (${vatRate}%): $${vatTotal}<br>` +  
+      `Total Landed Cost: $${landingCost}`
+    );
+  }
+  else {
+    return (
+      `Subtotal: $${subtotal}<br>` +
+      `MRN Duty (${mrnRate}): $${mrnDuty}<br>` +
+      `301 Duty (${tax301Rate}%): $${tax301Duty}<br>` +
+      `Total Duties: $${dutyTotal}<br>` + 
+      `VAT (${vatRate}%): $${vatTotal}<br>` +  
+      `Total Landed Cost: $${landingCost}`
+    );
+  }
+  
+}
+
 
 </script>
 
