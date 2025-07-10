@@ -4,6 +4,7 @@ import requests
 from .htsus_classifier_openai import classify_htsus
 from tariffs.scraper301 import get301Desc
 from tariffs.scraperVAT import getVAT
+from .get_hts import get_final_HTS_duty
 
 load_dotenv()
 url = os.getenv("OPENAI_URL")
@@ -54,9 +55,9 @@ def determineIntent(query: str) -> str:
     → Clean the HTS code by removing periods and trimming or padding to 8 digits.
     → Example: 301 rate,61091000
 
-    5. Duty Rate, hts_code
+    5. Duty Rate, hts_code, country
     → Use when the user wants to know about the duty rate of a code.
-    → Example: Duty Rate,3303.00.3000
+    → Example: Duty Rate,3303.00.3000, China
 
     ### Final Rule:
     Your response must be plain text. Do **not** include any quotation marks (`"`), parentheses (`()`), brackets (`[]`), or additional comments. Return only the selected class and required values in **exactly the format above**.
@@ -122,9 +123,10 @@ def workflow(query):
             output += "<br><br>" + res[1]
     
     elif "Duty Rate" in userIntent:
-        code = userIntent.split(',')[1]
-        output = code
-        #TODO: Implement the getDuty by code.
+        _, code, country = userIntent.split(',')
+        dutyRate = get_final_HTS_duty(code, country)
+        output = dutyRate
+        
 
     return output
 
