@@ -1,27 +1,69 @@
-1. HTSUS Code: 9503.00.00.13  
-General Duty Tax Rate: Free  
-Special Duty Tax Rate: Free  
-Column 2 Rate (for countries without normal trade relations with US): 70%  
-Additional Duties: 
+1. HTSUS Code: 6301.40.00.10  
+   General Duty Tax Rate: 8.50%  
+   Special Duty Tax Rate: Free (AU,BH, CL,CO,IL,JO,KR, MA,OM,P, PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 77.50%  
+   Additional Duties: N/A  
 
-Official Product Description: Tricycles, scooters, pedal cars, dolls, and other toys for children aged 3 to 12 years: Inflatable toy balls, balloons, and punchballs intended for use by children aged 3 to 12 years  
-Confidence Score: 95%  
-Reason: The product description closely matches the official description for inflatable toy balls intended for children aged 3 to 12 years.
+   Official Product Description: Blankets and traveling rugs: Blankets (other than electric blankets) and traveling rugs, of synthetic fibers - Woven (666)  
+   Confidence Score: 95%  
+   Reason: The product description closely matches the official description for blankets made of synthetic fibers. The woven aspect aligns well with the input description of a blanket.  
 
-Country of Origin: Japan  
-Total HTS Duty Tax Rate: Free  
-Reason: Japan has normal trade relations with the US, so the General Duty Tax Rate of Free applies.
+   Country of Origin: Canada  
+   Total HTS Duty Tax Rate: 8.50%  
+   Reason: Canada has normal trade relations with the US, so the general duty tax rate of 8.50% applies.  
 
-2. HTSUS Code: 9503.00.00.11  
-General Duty Tax Rate: Free  
-Special Duty Tax Rate: Free  
-Column 2 Rate (for countries without normal trade relations with US): 70%  
-Additional Duties: 
+2. HTSUS Code: 6301.40.00  
+   General Duty Tax Rate: 8.50%  
+   Special Duty Tax Rate: Free (AU,BH, CL,CO,IL,JO,KR, MA,OM,P, PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 77.50%  
+   Additional Duties: N/A  
 
-Official Product Description: Tricycles, scooters, pedal cars, dolls, and other toys for children under 3 years: Inflatable toy balls, balloons, and punchballs intended for use by children under 3 years  
-Confidence Score: 90%  
-Reason: The product description aligns well with the official description for inflatable toy balls intended for children under 3 years.
+   Official Product Description: Blankets and traveling rugs: Blankets (other than electric blankets) and traveling rugs, of synthetic fibers  
+   Confidence Score: 90%  
+   Reason: The product description aligns with the general category of blankets made of synthetic fibers. The lack of specific details may slightly lower the confidence score.  
 
-Country of Origin: Japan  
-Total HTS Duty Tax Rate: Free  
-Reason: Japan has normal trade relations with the US, so the General Duty Tax Rate of Free applies.
+   Country of Origin: Canada  
+   Total HTS Duty Tax Rate: 8.50%  
+   Reason: Canada has normal trade relations with the US, so the general duty tax rate of 8.50% applies.  
+
+3. HTSUS Code: 6301.40.00.20  
+   General Duty Tax Rate: 8.50%  
+   Special Duty Tax Rate: Free (AU,BH, CL,CO,IL,JO,KR, MA,OM,P, PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 77.50%  
+   Additional Duties: N/A  
+
+   Official Product Description: Blankets and traveling rugs: Blankets (other than electric blankets) and traveling rugs, of synthetic fibers - Other (666)  
+   Confidence Score: 85%  
+   Reason: The product description matches the category of blankets made of synthetic fibers, although the specific type is not mentioned.  
+
+   Country of Origin: Canada  
+   Total HTS Duty Tax Rate: 8.50%  
+   Reason: Canada has normal trade relations with the US, so the general duty tax rate of 8.50% applies.  
+
+4. HTSUS Code: 6301.90.00.10  
+   General Duty Tax Rate: 7.20%  
+   Special Duty Tax Rate: Free (AU,BH, CL,CO,E*,IL, JO,KR, MA,NP,OM,P, PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 90%  
+   Additional Duties: N/A  
+
+   Official Product Description: Blankets and traveling rugs: Other blankets and traveling rugs - Of artificial fibers (666)  
+   Confidence Score: 80%  
+   Reason: The product description aligns with the category of blankets made of artificial fibers, although the specific type is not mentioned.  
+
+   Country of Origin: Canada  
+   Total HTS Duty Tax Rate: 7.20%  
+   Reason: Canada has normal trade relations with the US, so the general duty tax rate of 7.20% applies.  
+
+5. HTSUS Code: 6301.30.00.10  
+   General Duty Tax Rate: 8.40%  
+   Special Duty Tax Rate: Free (AU,BH, CL,CO,IL,JO,KR, MA,OM,P, PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 30%  
+   Additional Duties: N/A  
+
+   Official Product Description: Blankets and traveling rugs: Blankets (other than electric blankets) and traveling rugs, of cotton - Woven (369)  
+   Confidence Score: 75%  
+   Reason: The product description matches the category of blankets made of cotton, specifically woven.  
+
+   Country of Origin: Canada  
+   Total HTS Duty Tax Rate: 8.40%  
+   Reason: Canada has normal trade relations with the US, so the general duty tax rate of 8.40% applies.

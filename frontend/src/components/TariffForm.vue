@@ -5,15 +5,9 @@
     <form class="tariff-form">
       <h2>Product Classification & Landing Cost</h2>
       <p class="description-text">
-        To get the estimated landing cost of a product (including duties, tariffs, 
-        and VAT), please fill in all required fields and click "Submit Calculation."
- 
-        If the HTSUS code is unknown, you may instead provide the Product Description, 
-        Origin Country, Weight, and Quantity, and click "Submit Classification" 
-        to let the system determine the appropriate HTSUS code.
-
-        All results will be displayed in the chatbot, where you can also ask 
-        follow-up questions.
+        Enter all details and click Submit Calculation to estimate landing 
+        cost. If you don’t know the HTSUS code, use Submit Classification 
+        instead.
       </p>
 
       <div class="form-grid">
@@ -40,7 +34,7 @@
 
         <!-- Weight -->
         <div class="form-row">
-          <label for="weight">Weight:</label>
+          <label for="weight">Weight (per unit):</label>
           <div class="weight-input">
             <input type="number" id="weight" v-model="weight" step="0.01" min="0" required>
             <select id="weightUnit" v-model="weightUnit" required>
@@ -56,7 +50,7 @@
 
         <!-- Quantity -->
         <div class="form-row">
-          <label for="quantity">Quantity:</label>
+          <label for="quantity">Quantity (number of units):</label>
           <input type="number" id="quantity" v-model="quantity" min="1" required>
           <p v-if="errors.quantity" class="error-message">{{ errors.quantity }}</p>
         </div>
@@ -165,7 +159,10 @@ export default {
         // Prevent submission if errors
         return;
       }
-    
+
+      const userMsg = `I want to classify "${this.productDesc}", from "${this.country}", quantity: ${this.quantity}, weight: ${this.weight} ${this.weightUnit}`;
+      emitter.emit('sentUserPostRequest', userMsg);
+  
       // gets the top htsus codes and outputs it in the chatbot
       try {
         // Emit progress to chatbot
@@ -244,6 +241,9 @@ export default {
       if (hasError) {
         return;
       }
+
+      const userMsg = `I want the final landing cost for HTSUS code "${this.code}", product "${this.productDesc}", country "${this.country}", quantity ${this.quantity}, weight ${this.weight} ${this.weightUnit}, product value $${this.productValue}, shipping $${this.shippingCost}, insurance $${this.insuranceCost}`;
+      emitter.emit('sentUserCalculationRequest', userMsg);
 
       try {
         // Call /landing API

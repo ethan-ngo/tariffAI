@@ -204,6 +204,11 @@ def classify_htsus(product_description, country, weight, weight_unit, quantity):
 
 # Test cases
 if __name__ == "__main__":
+    prod_des = "stuffed animal"
+    country = "Japan"
+
+    print(classify_htsus(prod_des, country, 1, "kg", 1))
+    
     # classify_htsus("Men 100 cotton denim jeans") # WRONG! it outputted 6203.42.4011 & 16.6%; WRONG SHUD BE 6203.42.07.11
     # classify_htsus("Leather handbag") # works! it outputted the 3 possibilities shown in few_shot.txt
     
@@ -244,9 +249,4 @@ if __name__ == "__main__":
 
     # classify_htsus("printed circuit assembly incorporating an AMD Radeon RX 9070 XT chipset, equipped with 16GB of GDDR6 video memory, and featuring a PCI Express 5.0 x16 interface. This component is specifically designed to render and output high-resolution graphical data for display on a monitor, making it an essential part for gaming, professional content creation, and other graphically intensive computing tasks.", "China") # good
     # classify_htsus("steel,", "China") # good
-
-    prod_des = "Electric bicycle with 500W motor and 48V battery"
-    country = "China"
-
-    # print(classify_htsus(prod_des, country))
-    pass
+    

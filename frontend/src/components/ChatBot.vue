@@ -16,6 +16,13 @@
         <div v-if="msg.from === 'user'" class="spacer"></div>
       </div>
     </div>
+
+    <!-- Add this button -->
+    <button v-if="hasMoreBlocks" @click="showMoreCodes" class="show-more-btn">
+      Show More HTSUS Codes
+    </button>
+
+
     <form class="chat-input-row" @submit.prevent="sendMessage">
       <input
         v-model="input"
@@ -31,7 +38,7 @@
 
 <script setup>
 
-import { ref, nextTick, onMounted } from 'vue'
+import { ref, nextTick, onMounted, computed  } from 'vue'
 import emitter from '../eventBus' 
 
 const input = ref('')
@@ -77,20 +84,51 @@ async function scrollToBottom() {
     }
 }
 
-// Listen for emitted HTSUS result
+const classificationBlocks = ref([]); // changed to ref for reactivity
+const currentIndex = ref(0);
+
+const hasMoreBlocks = computed(() => {
+  return classificationBlocks.value.length > currentIndex.value;
+});
+
+// Listen for emitted results
 onMounted(async () => {
+    emitter.on('sentUserPostRequest', async (data) => {
+    messages.value.push({ from: 'user', text: data });
+    await scrollToBottom();
+  });
+
   emitter.on('sentPostRequest', async (data) => {
     messages.value.push({ from: 'bot', text: data });
     await scrollToBottom();
   })
 
   emitter.on('htsusResult', async (data) => {
-    console.log('Received in chatbot:', data)
-    const formatted = formatClassification(data.classification);
-    messages.value.push({ from: 'bot', text: formatted });
+    console.log('Received in chatbot:', data);
+
+    classificationBlocks.value = parseClassification(data.classification);
+    currentIndex.value = 0;
+
+    const firstBatch = getNextBlocks(3);
+    const textToShow = firstBatch
+      ? firstBatch + "<br><br><i>Press the button below to see more possible codes.</i>"
+      : "No classification data found.";
+
+    messages.value.push({ from: 'bot', text: textToShow });
+
     await scrollToBottom();
+
+    // console.log('Received in chatbot:', data)
+    // const formatted = formatClassification(data.classification);
+    // messages.value.push({ from: 'bot', text: formatted });
+    // await scrollToBottom();
   })
 
+  emitter.on('sentUserCalculationRequest', async (data) => {
+    messages.value.push({ from: 'user', text: data });
+    await scrollToBottom();
+  })
+  
   emitter.on('sentCalculationRequest', async (data) => {
     messages.value.push({ from: 'bot', text: data });
     await scrollToBottom();
@@ -109,14 +147,16 @@ onMounted(async () => {
   })
 })
 
-// Format the JSON result into readable chat text
-function formatClassification(rawText) {
-  if (!rawText) return "No classification data found.";
+// get blocks from chatbot htsus output
+function parseClassification(rawText) {
+  if (!rawText) return [];
 
-  // Match each numbered classification block (e.g., "1. HTSUS Code:...")
-  const parts = rawText.match(/\d+\.\s+HTSUS Code:.*?(?=(?:\n\d+\.|$))/gs);
-  if (!parts) return "No classification blocks found.";
+  const matches = rawText.match(/\d+\.\s+HTSUS Code:.*?(?=(?:\n\d+\.|$))/gs);
+  return matches || [];
+}
 
+// format individual blocks
+function formatBlock(block) {
   const subtitles = [
     'HTSUS Code:',
     'General Duty Tax Rate:',
@@ -130,27 +170,85 @@ function formatClassification(rawText) {
     'Total HTS Duty Tax Rate:'
   ];
 
-  const formattedParts = parts.map(block => {
-    // Escape HTML
-    let escaped = block
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+  let escaped = block
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 
-    // Bold each subtitle
-    subtitles.forEach(sub => {
-      const re = new RegExp(sub.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
-      escaped = escaped.replace(re, `<b>${sub}</b>`);
-    });
-
-    // Add line breaks
-    escaped = escaped.replace(/\n/g, '<br>');
-
-    return escaped.trim();
+  subtitles.forEach(sub => {
+    const re = new RegExp(sub.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+    escaped = escaped.replace(re, `<b>${sub}</b>`);
   });
 
-  return formattedParts.join('<hr style="border:none;border-top:1px solid #ccc;margin:12px 0;">');
+  return escaped.replace(/\n/g, '<br>').trim();
 }
+
+function getNextBlocks(count = 3) {
+  const next = classificationBlocks.value.slice(currentIndex.value, currentIndex.value + count);
+  currentIndex.value += count;
+
+  if (next.length === 0) return null;
+
+  return next.map(formatBlock).join('<hr style="border:none;border-top:1px solid #ccc;margin:12px 0;">');
+}
+
+// Show more button handler
+async function showMoreCodes() {
+  const nextBlocks = getNextBlocks(3);
+  if (!nextBlocks) {  // check for null
+    messages.value.push({ from: 'bot', text: "All possible HTSUS codes have been shown." });
+  } else {
+    messages.value.push({ from: 'bot', text: nextBlocks });
+  }
+  await nextTick();
+  if (messagesContainer.value) {
+    messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
+  }
+}
+
+
+// // Format the JSON result into readable chat text
+// function formatClassification(rawText) {
+//   if (!rawText) return "No classification data found.";
+
+//   // Match each numbered classification block (e.g., "1. HTSUS Code:...")
+//   const parts = rawText.match(/\d+\.\s+HTSUS Code:.*?(?=(?:\n\d+\.|$))/gs);
+//   if (!parts) return "No classification blocks found.";
+
+//   const subtitles = [
+//     'HTSUS Code:',
+//     'General Duty Tax Rate:',
+//     'Special Duty Tax Rate:',
+//     'Column 2 Rate (for countries without normal trade relations with US):',
+//     'Additional Duties:',
+//     'Official Product Description:',
+//     'Confidence Score:',
+//     'Reason:',
+//     'Country of Origin:',
+//     'Total HTS Duty Tax Rate:'
+//   ];
+
+//   const formattedParts = parts.map(block => {
+//     // Escape HTML
+//     let escaped = block
+//       .replace(/&/g, "&amp;")
+//       .replace(/</g, "&lt;")
+//       .replace(/>/g, "&gt;");
+
+//     // Bold each subtitle
+//     subtitles.forEach(sub => {
+//       const re = new RegExp(sub.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+//       escaped = escaped.replace(re, `<b>${sub}</b>`);
+//     });
+
+//     // Add line breaks
+//     escaped = escaped.replace(/\n/g, '<br>');
+
+//     return escaped.trim();
+//   });
+
+//   return formattedParts.join('<hr style="border:none;border-top:1px solid #ccc;margin:12px 0;">');
+// }
 
 function formatLandingBreakdown(data) {
   if (!data) return "No landing cost data available.";
@@ -196,7 +294,7 @@ function formatLandingBreakdown(data) {
 .chatbot-container {
   display: flex;
   flex-direction: column;
-  height: 800px;
+  height: 600px;
   width: 80%;
   background: #23232a;
   border-radius: 18px;
@@ -314,6 +412,23 @@ function formatLandingBreakdown(data) {
 .send-btn:hover {
   background: #6366f1;
 }
+
+.show-more-btn {
+  margin: 12px 16px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: none;
+  background-color: #4f46e5;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.18s ease;
+}
+
+.show-more-btn:hover {
+  background-color: #6366f1;
+}
+
 
 /* Tablet styles */
 @media (max-width: 1024px) {
