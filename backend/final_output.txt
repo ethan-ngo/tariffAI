@@ -1,111 +1,111 @@
-1. HTSUS Code: 9503.00.00.13  
-   General Duty Tax Rate: Free  
+1. HTSUS Code: 8539.52.00.10  
+   General Duty Tax Rate: 2%  
    Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 70%  
+   Column 2 Rate (for countries without normal trade relations with US): 20%  
    Additional Duties: 0%  
 
-   Official Product Description: Tricycles, scooters, pedal cars and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Inflatable toy balls, balloons, and punchballs, of rubber: Labeled or determined by importer as intended for use by persons aged 3 to 12 years  
+   Official Product Description: Electrical filament or discharge lamps, including sealed beam lamp units and ultraviolet or infrared lamps; arc lamps; light-emitting diode (LED) light sources; parts thereof: Light-emitting diode (LED) light sources: Light-emitting diode (LED) lamps - Of a type specified in statistical note 7(a) to this chapter  
    Confidence Score: 95%  
-   Reason: The product description closely matches the official description, specifically mentioning inflatable toy balls intended for children aged 3 to 12 years.  
+   Reason: The product description closely matches the official description of LED lamps specified in statistical note 7(a) to this chapter.  
+   
+   Country of Origin: Japan  
+   Total HTS Duty Tax Rate: 2%  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of 2% applies.  
 
-   Country of Origin: France  
-   Total HTS Duty Tax Rate: Free  
-   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.  
-
-2. HTSUS Code: 9503.00.00.11  
-   General Duty Tax Rate: Free  
+2. HTSUS Code: 8539.52.00.40  
+   General Duty Tax Rate: 2%  
    Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 70%  
+   Column 2 Rate (for countries without normal trade relations with US): 20%  
    Additional Duties: 0%  
 
-   Official Product Description: Tricycles, scooters, pedal cars and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Inflatable toy balls, balloons, and punchballs, of rubber: Labeled or determined by importer as intended for use by persons under 3 years of age  
+   Official Product Description: Electrical filament or discharge lamps, including sealed beam lamp units and ultraviolet or infrared lamps; arc lamps; light-emitting diode (LED) light sources; parts thereof: Light-emitting diode (LED) light sources: Light-emitting diode (LED) lamps - Of a type specified in statistical note 7(d) to this chapter  
    Confidence Score: 90%  
-   Reason: The product description aligns well with the official description, focusing on inflatable toy balls intended for children under 3 years of age.  
+   Reason: The product description aligns well with the official description of LED lamps specified in statistical note 7(d) to this chapter.  
+   
+   Country of Origin: Japan  
+   Total HTS Duty Tax Rate: 2%  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of 2% applies.  
 
-   Country of Origin: France  
-   Total HTS Duty Tax Rate: Free  
-   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.  
-
-3. HTSUS Code: 9503.00.00.71  
-   General Duty Tax Rate: Free  
+3. HTSUS Code: 8539.52.00.20  
+   General Duty Tax Rate: 2%  
    Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 70%  
+   Column 2 Rate (for countries without normal trade relations with US): 20%  
    Additional Duties: 0%  
 
-   Official Product Description: Tricycles, scooters, pedal cars and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Other: Labeled or determined by importer as intended for use by persons under 3 years of age  
+   Official Product Description: Electrical filament or discharge lamps, including sealed beam lamp units and ultraviolet or infrared lamps; arc lamps; light-emitting diode (LED) light sources; parts thereof: Light-emitting diode (LED) light sources: Light-emitting diode (LED) lamps - Of a type specified in statistical note 7(b) to this chapter  
    Confidence Score: 85%  
-   Reason: The product description closely matches the official description, specifically mentioning toys intended for children under 3 years of age.  
+   Reason: The product description closely matches the official description of LED lamps specified in statistical note 7(b) to this chapter.  
+   
+   Country of Origin: Japan  
+   Total HTS Duty Tax Rate: 2%  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of 2% applies.  
 
-   Country of Origin: France  
-   Total HTS Duty Tax Rate: Free  
-   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.  
-
-4. HTSUS Code: 9503.00.00.73  
+4. HTSUS Code: 8541.43.00.10  
    General Duty Tax Rate: Free  
-   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 70%  
+   Special Duty Tax Rate: Free (A+,AU,B,BH,CL,CO,D,E,IL, JO,KR,MA, OM,P,PA,PE,S,SG)  
+   Column 2 Rate of Duty: 35%  
    Additional Duties: 0%  
 
-   Official Product Description: Tricycles, scooters, pedal cars and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Other: Labeled or determined by importer as intended for use by persons aged 3 to 12 years  
+   Official Product Description: Semiconductor devices (for example, diodes, transistors, semiconductor-based transducers); photosensitive semiconductor devices, including photovoltaic cells whether or not assembled in modules or made up into panels; light-emitting diodes (LED), whether or not assembled with other light-emitting diodes (LED); mounted piezo-electric crystals; parts thereof: Photosensitive semiconductor devices, including photovoltaic cells whether or not assembled in modules or made up into panels; light-emitting diodes (LED): Photovoltaic cells assembled in modules or made up into panels - Crystalline silicon photovoltaic cells of a kind described in statistical note 10 to this chapter  
    Confidence Score: 80%  
-   Reason: The product description aligns with the official description, focusing on toys intended for children aged 3 to 12 years.  
-
-   Country of Origin: France  
+   Reason: The product description aligns with the official description of photovoltaic cells assembled in modules or made up into panels, specifically crystalline silicon photovoltaic cells.  
+   
+   Country of Origin: Japan  
    Total HTS Duty Tax Rate: Free  
-   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-5. HTSUS Code: 9505.90.40.00  
+5. HTSUS Code: 8539.21.20.40  
    General Duty Tax Rate: Free  
-   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 45%  
+   Special Duty Tax Rate: Free (A*,AU,B,BH,C,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate of Duty: 20%  
    Additional Duties: 0%  
 
-   Official Product Description: Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof: - Other: - Confetti, paper spirals or streamers, party favors and noisemakers; parts and accessories thereof  
+   Official Product Description: Electrical filament or discharge lamps, including sealed beam lamp units and ultraviolet or infrared lamps; arc lamps; light-emitting diode (LED) light sources; parts thereof: Other filament lamps, excluding ultraviolet or infrared lamps: Tungsten halogen: Designed for a voltage not exceeding 100 V - For vehicles of subheading 8701.21, 8701.22, 8701.23, 8701.24 or 8701.29 or heading 8702, 8703, 8704, 8705 or 8711  
    Confidence Score: 75%  
-   Reason: The product description matches the general category of festive articles, but lacks specific details for a higher confidence score.  
-
-   Country of Origin: France  
+   Reason: The product description matches tungsten halogen lamps designed for vehicles with a voltage not exceeding 100 V.  
+   
+   Country of Origin: Japan  
    Total HTS Duty Tax Rate: Free  
-   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-6. HTSUS Code: 9505.90.20.00  
-   General Duty Tax Rate: Free  
+6. HTSUS Code: 8539.52.00.51  
+   General Duty Tax Rate: 2%  
    Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 70%  
+   Column 2 Rate of Duty: 20%  
    Additional Duties: 0%  
 
-   Official Product Description: Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof: - Other: - Magic tricks and practical joke articles; parts and accessories thereof  
+   Official Product Description: Electrical filament or discharge lamps, including sealed beam lamp units and ultraviolet or infrared lamps; arc lamps; light-emitting diode (LED) light sources; parts thereof: Light-emitting diode (LED) light sources: Light-emitting diode (LED) lamps - Straight linear tubes or U-shaped tubes  
    Confidence Score: 70%  
-   Reason: The product description slightly aligns with magic tricks and practical joke articles, but lacks specific details for a higher confidence score.  
+   Reason: The product description somewhat aligns with the official description of LED lamps in straight linear tubes or U-shaped tubes.  
+   
+   Country of Origin: Japan  
+   Total HTS Duty Tax Rate: 2%  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of 2% applies.  
 
-   Country of Origin: France  
-   Total HTS Duty Tax Rate: Free  
-   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.  
-
-7. HTSUS Code: 9505.10.40  
-   General Duty Tax Rate: Free  
+7. HTSUS Code: 8539.22.80.40  
+   General Duty Tax Rate: 2.60%  
    Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 60%  
+   Column 2 Rate of Duty: 20%  
    Additional Duties: 0%  
 
-   Official Product Description: Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof: - Articles for Christmas festivities and parts and accessories thereof: - Other: - Of plastics  
-   Confidence Score: 70%  
-   Reason: The product description slightly aligns with Christmas-related articles, but lacks specific details like being made of plastics.  
-
-   Country of Origin: France  
-   Total HTS Duty Tax Rate: Free  
-   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.  
-
-8. HTSUS Code: 9505.10.40.20  
-   General Duty Tax Rate: Free  
-   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
-   Column 2 Rate (for countries without normal trade relations with US): 60%  
-   Additional Duties: 0%  
-
-   Official Product Description: Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof: - Articles for Christmas festivities and parts and accessories thereof: - Other: - Of plastics - Other  
+   Official Product Description: Electrical filament or discharge lamps, including sealed beam lamp units and ultraviolet or infrared lamps; arc lamps; light-emitting diode (LED) light sources; parts thereof: Other filament lamps, excluding ultraviolet or infrared lamps: Other, of a power not exceeding 200 W and for a voltage exceeding 100 V: Other - Of a power not exceeding 150 W: Other, including standard household: Of a power 15 W or more but not exceeding 150 W  
    Confidence Score: 65%  
-   Reason: The product description loosely matches Christmas-related articles, but lacks specific details like being made of plastics.  
+   Reason: The product description somewhat matches the official description of filament lamps with a power not exceeding 150 W.  
+   
+   Country of Origin: Japan  
+   Total HTS Duty Tax Rate: 2.60%  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of 2.60% applies.  
 
-   Country of Origin: France  
+8. HTSUS Code: 8539.51.00.00  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate of Duty: 35%  
+   Additional Duties: 0%  
+
+   Official Product Description: Electrical filament or discharge lamps, including sealed beam lamp units and ultraviolet or infrared lamps; arc lamps; light-emitting diode (LED) light sources; parts thereof: Light-emitting diode (LED) light sources: Light-emitting diode (LED) modules  
+   Confidence Score: 60%  
+   Reason: The product description loosely aligns with the official description of LED modules.  
+   
+   Country of Origin: Japan  
    Total HTS Duty Tax Rate: Free  
-   Reason: France has normal trade relations with the US, so the general duty tax rate of Free applies.
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.
