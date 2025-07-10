@@ -7,7 +7,7 @@
     <div class="main-content" :class="{ 'cart-open': showSidebar }">
       <div class="center-row">
         <div class="left-panel">
-          <TariffForm/>
+          <TariffForm msg="Product Classification & Landing Cost"/>
         </div>
         <div class="right-panel">
           <ChatBot />
@@ -120,6 +120,16 @@ html, body {
 .open-cart-btn:hover {
   background: #6366f1;
 }
+
+/* Ensure components fill the panel and center content vertically */
+.tariff-form-container,
+.chatbot-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 /* Tablet styles */
 @media (max-width: 1200px) {
   .center-row {

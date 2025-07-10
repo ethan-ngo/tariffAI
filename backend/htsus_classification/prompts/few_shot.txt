@@ -6,6 +6,124 @@ structure and reasoning style.
 
 -----------------------------------
 EXAMPLE 1:
+If the product dscription is: "stuffed animal" 
+and country of origin is "Japan"
+
+You will output the below:
+1. HTSUS Code: 9503.00.00.13  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 70%  
+   Additional Duties: 0%  
+
+   Official Product Description: Tricycles, scooters, pedal cars, and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Inflatable toy balls, balloons, and punchballs, of rubber: Labeled or determined by importer as intended for use by persons aged 3 to 12 years  
+   Confidence Score: 95%  
+   Reason: The product description closely matches the official description, specifically mentioning inflatable toy balls intended for children aged 3 to 12 years.  
+   
+   Country of Origin: Japan  
+   Total HTS Duty Tax Rate: Free  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+2. HTSUS Code: 9503.00.00.11  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 70%  
+   Additional Duties: 0%  
+
+   Official Product Description: Tricycles, scooters, pedal cars, and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Inflatable toy balls, balloons, and punchballs, of rubber: Labeled or determined by importer as intended for use by persons under 3 years of age  
+   Confidence Score: 90%  
+   Reason: The product description aligns well with the official description, focusing on inflatable toy balls intended for children under 3 years of age.  
+   
+   Country of Origin: Japan  
+   Total HTS Duty Tax Rate: Free  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+3. HTSUS Code: 9503.00.00.71  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 70%  
+   Additional Duties: 0%  
+
+   Official Product Description: Tricycles, scooters, pedal cars, and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Other: Labeled or determined by importer as intended for use by persons under 3 years of age  
+   Confidence Score: 85%  
+   Reason: The product description closely matches the official description, specifically mentioning toys intended for children under 3 years of age.  
+   
+   Country of Origin: Japan  
+   Total HTS Duty Tax Rate: Free  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+4. HTSUS Code: 9503.00.00.73  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 70%  
+   Additional Duties: 0%  
+
+   Official Product Description: Tricycles, scooters, pedal cars, and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Other: Labeled or determined by importer as intended for use by persons aged 3 to 12 years  
+   Confidence Score: 80%  
+   Reason: The product description aligns with the official description, focusing on toys intended for children aged 3 to 12 years.  
+   
+   Country of Origin: Japan  
+   Total HTS Duty Tax Rate: Free  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+5. HTSUS Code: 9503.00.00.90  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 70%  
+   Additional Duties: 0%  
+
+   Official Product Description: Tricycles, scooters, pedal cars and similar wheeled toys; dolls' carriages; dolls, other toys; reduced-scale models and similar recreational models, working or not; puzzles of all kinds; parts and accessories thereof - Other  
+   Confidence Score: 75%  
+   Reason: The product description matches the general category of toys and recreational models, but lacks specific details for a higher confidence score.  
+   
+   Country of Origin: Japan  
+   Total HTS Duty Tax Rate: Free  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+6. HTSUS Code: 9505.10.40.10  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 60%  
+   Additional Duties: 0%  
+
+   Official Product Description: Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof: Articles for Christmas festivities and parts and accessories thereof: Christmas ornaments: Other: Of wood  
+   Confidence Score: 70%  
+   Reason: The product description slightly aligns with Christmas-related articles, but lacks specific details like being made of wood.  
+   
+   Country of Origin: Japan  
+   Total HTS Duty Tax Rate: Free  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+7. HTSUS Code: 9505.10.15.00  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 20%  
+   Additional Duties: 0%  
+
+   Official Product Description: Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof: Articles for Christmas festivities and parts and accessories thereof: Christmas ornaments: Other: Of wood  
+   Confidence Score: 65%  
+   Reason: The product description loosely matches Christmas ornaments, but lacks the specific material of wood.  
+   
+   Country of Origin: Japan  
+   Total HTS Duty Tax Rate: Free  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+8. HTSUS Code: 9505.10.10.00  
+   General Duty Tax Rate: Free  
+   Special Duty Tax Rate: Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)  
+   Column 2 Rate (for countries without normal trade relations with US): 60%  
+   Additional Duties: 0%  
+
+   Official Product Description: Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof: Articles for Christmas festivities and parts and accessories thereof: Christmas ornaments: Of glass  
+   Confidence Score: 60%  
+   Reason: The product description mentions festive articles, but lacks the specific material of glass for Christmas ornaments.  
+   
+   Country of Origin: Japan  
+   Total HTS Duty Tax Rate: Free  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.
+
+-----------------------------------
+EXAMPLE 2:
 If the product dscription is: "Men's 100% cotton denim jeans" 
 and origin country is South Korean
 
@@ -40,99 +158,7 @@ Reason: South Korea does have normal trade relations with the US and has no spec
 therefore, the total duty tax is the general rate, 16.6%
 
 -----------------------------------
-EXAMPLE 2:
-If the product dscription is: "Electronic Integrated Circuits, Processors & Controllers, Wh/not Combined W/memories, Converters, Logic Circuits, Amplifiers, Clock" 
-and country of origin is "Canada"
-
-You will output the below:
-1. HTSUS Code: 8542.31.0000
-General Duty Tax Rate: 0%
-Special Duty Tax Rate: 0%
-Column 2 Rate (for countries without normal trade relations with US): 35% 
-Additional Duties: 0%
-
-Official Product Description: Electronic integrated circuits; parts thereof: Electronic integrated circuits: Processors 
-and controllers, whether or not combined with memories, converters, logic circuits, amplifiers, 
-clock and timing circuits, or other circuits
-
-Confidence Score: 99%
-Reason: This is an excellent match. The input description almost directly paraphrases the 
-official HTSUS line (8542.31.00). The only minor drop from 100% is due to shortened/abbreviated wording, 
-which might cause issues in basic string-matching systems — but semantically, they are the same.
-
-Country of Origin: Canada  
-Total HTS Duty Tax Rate: 0%  
-Reason: Canada does have normal trade relations with the US and has no special duty tax rates;
-therefore, the total duty tax is the general rate, 0%
-
------------------------------------
 EXAMPLE 3:
-If the product dscription is: "Leather handbag" and country of origin is "Japan"
-
-You will output the below:
-Overview: Leather handbag should be classified under:
-- Heading 4202 (Trunks, suitcases, handbags, and similar containers)
-- Subheading 4202.21 (Handbags, with outer surface of leather, composition leather, or patent leather)
-- Classification depends on material and value
-
-
-1. HTSUS Code: 4202.21.9000  
-General Duty Tax Rate: 9%
-Special Duty Tax Rate: 0%
-Column 2 Rate (for countries without normal trade relations with US): 35%  
-Additional Duties: 0%
-
-Official Product Description: Handbags, whether or not with shoulder strap, including those without handle: 
-With outer surface of leather or of composition leather: Valued over $20 each
-
-Confidence Score: 75%
-Reason: Most leather handbags on the market are valued over $20, so this is the most probable 
-match out of the three. Still, it’s not a guaranteed match unless we confirm price.
-
-Country of Origin: Japan  
-Total HTS Duty Tax Rate: 9%  
-Reason: Japan does have normal trade relations with the US and has no special duty tax rates;
-therefore, the total duty tax is the general rate, 9%
-
-2. HTSUS Code: 4202.21.6000  
-General Duty Tax Rate: 10%
-Special Duty Tax Rate: 0%
-Column 2 Rate (for countries without normal trade relations with US): 35% 
-Additional Duties: 0%
-
-Official Product Description: Handbags, whether or not with shoulder strap, including those without handle: 
-With outer surface of leather or of composition leather: Valued not over $20 each
-
-Confidence Score: 60%
-Reason: It’s a possible match only if the bag is inexpensive. Since there’s no pricing information in the 
-input, we can't be sure. The classification is plausible but not confidently correct without 
-value clarification.   
-
-Country of Origin: Japan  
-Total HTS Duty Tax Rate: 10%  
-Reason: Japan does have normal trade relations with the US and has no special duty tax rates;
-therefore, the total duty tax is the general rate, 10%
-
-3. HTSUS Code: 4202.21.3000  
-General Duty Tax Rate: 5.3%
-Special Duty Tax Rate: 0%
-Column 2 Rate (for countries without normal trade relations with US): 35% 
-Additional Duties: 0%
-
-Official Product Description: Handbags, whether or not with shoulder strap, including those without handle: 
-With outer surface of leather or of composition leather: Of reptile leather
-
-Confidence Score: 40%
-Reason: While the input matches “handbag” and “leather,” it lacks any indication that it is made from 
-reptile leather, which is specifically required for this HTSUS code. This mismatch significantly lowers confidence.
-
-Country of Origin: Japan  
-Total HTS Duty Tax Rate: 5.3%  
-Reason: Japan does have normal trade relations with the US and has no special duty tax rates;
-therefore, the total duty tax is the general rate, 5.3%
-
------------------------------------
-EXAMPLE 4:
 If the product dscription is: "women's leather boots" with origin country "Cuba"
 
 You will output the below:
