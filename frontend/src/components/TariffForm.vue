@@ -91,6 +91,14 @@
 <script>
 import emitter from '../eventBus'
 
+function buildHTSUSLinksFromDutyRates(dutyRates) {
+  return dutyRates
+    .map(([code, rate]) => {
+      console.log("rate is ", rate)
+      return `"https://hts.usitc.gov/search?query=${encodeURIComponent(code)}"`;
+    });
+}
+
 export default {
   name: 'TariffForm',
   props: {
@@ -122,6 +130,7 @@ export default {
     }
   },
   methods: {
+    
     async submitClassification() {
       // Clear previous errors
       this.errors.productDesc = '';
@@ -179,9 +188,13 @@ export default {
         });
         const data = await response.json();
         console.log('HTSUS Classification result:', data); // <-- Console log the result
+        console.log("HTSUS codes: ", data.duty_rates)
+
+        const linksHtml = buildHTSUSLinksFromDutyRates(data.duty_rates);
+        // console.log("links: ", linksHtml);
 
         // Emit htsus result to chatbot
-        emitter.emit('htsusResult', data); // Send data to chatbot
+        emitter.emit('htsusResult', { data, linksHtml }); // Send data to chatbot
       } catch (error) {
         // this.result = { error: error.message };
         console.log('HTSUS Classification error:', error);

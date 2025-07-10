@@ -122,15 +122,19 @@ onMounted(async () => {
     await scrollToBottom();
   })
 
-  emitter.on('htsusResult', async (data) => {
+  emitter.on('htsusResult', async ({ data, linksHtml }) => {
     console.log('Received in chatbot:', data);
+    
+    console.log("links: ", linksHtml);
 
     classificationBlocks.value = parseClassification(data.classification);
     currentIndex.value = 0;
 
-    const firstBatch = getNextBlocks(3);
+    const firstBatch = getNextBlocks(3, linksHtml);
     const textToShow = firstBatch
       ? firstBatch : "No classification data found.";
+
+    console.log("text to show is ", textToShow)
 
     messages.value.push({ from: 'bot', text: textToShow });
 
@@ -169,7 +173,7 @@ function parseClassification(rawText) {
 }
 
 // format individual blocks
-function formatBlock(block) {
+function formatBlock(block, linkHtml) {
   const subtitles = [
     'HTSUS Code:',
     // 'General Duty Tax Rate:',
@@ -193,16 +197,28 @@ function formatBlock(block) {
     escaped = escaped.replace(re, `<b>${sub}</b>`);
   });
 
-  return escaped.replace(/\n/g, '<br>').trim();
+  escaped = escaped.replace(/\n/g, '<br>').trim();
+
+  // Append the corresponding link HTML (assumed to be safe and already escaped)
+  
+  console.log("linkHtml in formatBlock is ", linkHtml)
+  if (linkHtml) {
+    const cleanUrl = linkHtml.replace(/^"+|"+$/g, ''); // remove leading/trailing quotes if any
+    escaped += `<br><a href="${cleanUrl}" target="_blank" rel="noopener noreferrer">View HTSUS Details</a>`;
+  }
+
+  return escaped;
 }
 
-function getNextBlocks(count = 3) {
+function getNextBlocks(count = 3, links) {
+  console.log("LINKS ARE: ", links)
   const next = classificationBlocks.value.slice(currentIndex.value, currentIndex.value + count);
+  const linksForNext = links.slice(currentIndex.value, currentIndex.value + count);
   currentIndex.value += count;
 
   if (next.length === 0) return null;
 
-  return next.map(formatBlock).join('<hr style="border:none;border-top:1px solid #ccc;margin:12px 0;">');
+  return next.map((block, i) => formatBlock(block, linksForNext[i])).join('<hr style="border:none;border-top:1px solid #ccc;margin:12px 0;">');
 }
 
 // Show more button handler
@@ -477,6 +493,14 @@ function formatLandingBreakdown(data) {
   background-color: #6366f1;
 }
 
+.bubble a {
+  color: #4ea9ff;             /* Light blue default */
+  text-decoration: underline; /* Underlined by default */
+}
+
+.bubble a:visited {
+  color: #c084fc;             /* Light purple when visited */
+}
 
 /* Tablet styles */
 @media (max-width: 1024px) {
