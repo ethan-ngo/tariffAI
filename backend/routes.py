@@ -5,6 +5,8 @@ from tariffs.scraperVAT import getVAT, getVAT_AI
 from tariffs.landingCost import getLanding_MRN_rate, getLanding_MRN_amt
 from htsus_classification.get_hts import get_final_HTS_duty
 from htsus_classification.chatbot import workflow
+from flask import Flask, request, jsonify
+from playwright.sync_api import sync_playwright
 
 from htsus_classification.htsus_classifier_openai import classify_htsus
 
@@ -45,6 +47,29 @@ def scraper_301desc(code):
         return jsonify({"description": desc, "note": note}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+# @main.route('/search-301', methods=['POST'])
+# def search_301():
+#     hts_code = request.json.get('htsus_code')
+#     print("hts code in route is ", hts_code)
+
+#     if not hts_code:
+#         return jsonify({"error": "Missing HTS code"}), 400
+
+#     with sync_playwright() as p:
+#         browser = p.chromium.launch(headless=True)
+#         page = browser.new_page()
+#         page.goto("https://ustr.gov/issue-areas/enforcement/section-301-investigations/search")
+#         page.fill('#searchbox', hts_code)
+#         page.click('button.bsearch')
+#         page.wait_for_selector('.init-result', timeout=10000)
+
+#         # You could parse the actual result text here too
+#         result_url = page.url
+#         print("result url is ", result_url)
+#         browser.close()
+
+#     return jsonify({"result_url": result_url})
 
 @main.route('/landing', methods=['POST'])
 def calcLanding():

@@ -288,6 +288,8 @@ export default {
         const data = await response.json();
         console.log("sending landed cost to chatbot")
 
+        data.htsus_code = this.code
+
         // Emit htsus result to chatbot
         emitter.emit('landedCostResult', data); // Send data to chatbot
       } catch (error) {

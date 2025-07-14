@@ -23,6 +23,10 @@ def getLanding_MRN_rate(prod_value: float, quantity: int, shipping: float, insur
     vatTotal = (VAT / 100) * (dutyTotal + subtotal)
     print("vatTotal ", vatTotal)
 
+    tax301 = tax301/100
+    MRN = MRN/100
+    VAT = VAT/100
+
     landing_cost = subtotal + dutyTotal + vatTotal
     breakdown = (
         f"Subtotal = ({prod_value} × {quantity}) + {shipping} + {insurance} = {subtotal:.2f}",
@@ -45,7 +49,8 @@ def getLanding_MRN_rate(prod_value: float, quantity: int, shipping: float, insur
         "landing_cost": round(landing_cost, 2), 
         "regular": True,
         "breakdown": breakdown,
-        "VAT_link": VAT_link
+        "VAT_link": VAT_link,
+        "htsus_code": "0"
     }
 
 def getLanding_MRN_amt(prod_value: float, quantity: int, shipping: float, insurance: int, tax301: float, VAT: float, VAT_link, MRN_rate, MRN_amt: float, cents, weight, weight_unit: str) -> float:
@@ -68,6 +73,9 @@ def getLanding_MRN_amt(prod_value: float, quantity: int, shipping: float, insura
 
     float_weight = float(weight)
     float_quantity = float(quantity) 
+
+    tax301 = tax301/100
+    VAT = VAT/100
 
     breakdown = (
         f"Subtotal = ({prod_value} × {quantity}) + {shipping} + {insurance} = {subtotal:.2f}",
@@ -92,5 +100,6 @@ def getLanding_MRN_amt(prod_value: float, quantity: int, shipping: float, insura
         "landing_cost": round(landing_cost, 2),
         "regular": False,
         "breakdown": breakdown,
-        "VAT_link": VAT_link
+        "VAT_link": VAT_link,
+        "htsus_code": "0"
     }

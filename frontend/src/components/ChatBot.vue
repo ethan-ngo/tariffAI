@@ -105,9 +105,23 @@ async function scrollToBottom() {
 
 async function scrollToTop() {
   await nextTick();
-  if (messagesContainer.value) {
-    messagesContainer.value.scrollTop = 0;  // scroll to top
-  }
+
+  if (!messagesContainer.value) return;
+
+  const container = messagesContainer.value;
+  const botMessages = container.querySelectorAll('.chat-row.bot');
+  if (botMessages.length === 0) return;
+
+  const lastBotMessage = botMessages[botMessages.length - 1];
+
+  const containerRect = container.getBoundingClientRect();
+  const messageRect = lastBotMessage.getBoundingClientRect();
+
+  // How far is the message top from container top
+  const offset = messageRect.top - containerRect.top;
+
+  // Adjust scrollTop by current scroll and the offset
+  container.scrollTop += offset;
 }
 
 const classificationBlocks = ref([]); // changed to ref for reactivity
@@ -243,9 +257,10 @@ function formatLandingBreakdown(data) {
   const regular = data.regular;
   const breakdown = data.breakdown;
   const VATLink = data.VAT_link;
-  // const htsLink = `https://hts.usitc.gov/search?query=${htsus_code}`
+  const htsLink = `https://hts.usitc.gov/search?query=${data.htsus_code}`
 
   console.log("Vat Link", VATLink)
+  console.log("htsLink", htsLink)
 
   function fmtMoney(value) {
     return `$${Number(value).toFixed(2)}`;
@@ -261,11 +276,19 @@ function formatLandingBreakdown(data) {
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(subtotal)}</td>
         </tr>
         <tr>
-          <td style="padding: 6px; border-bottom: 1px solid #444;">Base Duty (${mrnRateDisplay} base rate)</td>
+          <td style="padding: 6px; border-bottom: 1px solid #444;">
+            <a href="${htsLink}" target="_blank" rel="noopener noreferrer">
+              Base Duty (${mrnRateDisplay} base rate)
+            </a>
+          </td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(mrnDuty)}</td>
         </tr>
         <tr>
-          <td style="padding: 6px; border-bottom: 1px solid #444;">301 Duty (${tax301Rate}% rate)</td>
+          <td style="padding: 6px; border-bottom: 1px solid #444;">
+            <a href="https://ustr.gov/issue-areas/enforcement/section-301-investigations/search" target="_blank" rel="noopener noreferrer">
+              301 Duty (${tax301Rate}% rate)
+            </a>
+          </td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(tax301Duty)}</td>
         </tr>
         <tr>
@@ -273,7 +296,11 @@ function formatLandingBreakdown(data) {
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(dutyTotal)}</td>
         </tr>
         <tr>
-          <td style="padding: 6px; border-bottom: 1px solid #444;">VAT (${vatRate}% rate)</td>
+          <td style="padding: 6px; border-bottom: 1px solid #444;">
+            <a href="${VATLink}" target="_blank" rel="noopener noreferrer">
+              VAT (${vatRate}% rate)
+            </a>
+          </td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(vatTotal)}</td>
         </tr>
         <tr>
@@ -285,14 +312,6 @@ function formatLandingBreakdown(data) {
             <div style="margin-bottom: 4px;">Calculation Breakdown</div>
             <ul style="margin: 0; padding-left: 18px; color: white; font-size: 0.9em;">
               ${breakdown.map(step => `<li>${step}</li>`).join("")}
-            </ul>
-
-            <!-- Sources section -->
-            <div style="margin-top: 12px; font-weight: bold;">Sources</div>
-            <ul style="margin: 4px 0 0 0; padding-left: 18px; color: white; font-size: 0.9em;">
-              <li>
-                <a href="${VATLink}" target="_blank" rel="noopener noreferrer">VAT Source</a>
-              </li>
             </ul>
         </tr>
       </tbody>
