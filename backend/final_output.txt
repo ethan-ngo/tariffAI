@@ -1,55 +1,55 @@
-1. HTSUS Code: 6206.90.00.20  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of other textile materials - Subject to wool restraints (440)  
-   Reason: The product description matches the category of women's blouses made of other textile materials subject to wool restraints.  
+1. HTSUS Code: 7216.91.00.10  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Drilled, notched, punched or cambered  
+   Reason: The product description aligns with cold-formed steel products that are drilled, notched, punched, or cambered.  
    
-   Total HTS Duty Tax Rate: 6.70%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 6.70% applies.  
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-2. HTSUS Code: 6206.40.10.00  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of man-made fibers: - Certified hand-loomed and folklore products (641)  
-   Reason: The product description aligns with women's blouses made of man-made fibers and certified as hand-loomed or folklore products.  
+2. HTSUS Code: 7216.91.00.90  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other  
+   Reason: The product description matches cold-formed or cold-finished steel products from flat-rolled materials.  
    
-   Total HTS Duty Tax Rate: 11.30%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 11.30% applies.  
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-3. HTSUS Code: 6206.90.00.40  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of other textile materials - Other (840)  
-   Reason: The product description corresponds to women's blouses made of other textile materials falling under the general category.  
+3. HTSUS Code: 7216.91.00.20  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other: Not drilled, notched, punched or cambered  
+   Reason: The product description does not mention specific modifications like drilling, notching, punching, or cambering.  
    
-   Total HTS Duty Tax Rate: 6.70%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 6.70% applies.  
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-4. HTSUS Code: 6206.90.00.30  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of other textile materials - Subject to man-made fiber restraints (641)  
-   Reason: The product description matches women's blouses made of other textile materials subject to man-made fiber restraints.  
+4. HTSUS Code: 7216.91.00.90  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other  
+   Reason: The product description aligns with cold-formed or cold-finished steel products from flat-rolled materials.  
    
-   Total HTS Duty Tax Rate: 6.70%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 6.70% applies.  
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-5. HTSUS Code: 6206.90.00.10  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of other textile materials - Subject to cotton restraints (341)  
-   Reason: The product description aligns with women's blouses made of other textile materials subject to cotton restraints.  
+5. HTSUS Code: 7216.91.00.10  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Drilled, notched, punched or cambered  
+   Reason: The product description closely matches cold-formed steel products that are drilled, notched, punched, or cambered.  
    
-   Total HTS Duty Tax Rate: 6.70%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 6.70% applies.  
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-6. HTSUS Code: 6206.90.00  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of other textile materials  
-   Reason: The product description corresponds to women's blouses made of other textile materials in a general sense.  
+6. HTSUS Code: 7216.91.00.90  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other  
+   Reason: The product description aligns with cold-formed or cold-finished steel products from flat-rolled materials.  
    
-   Total HTS Duty Tax Rate: 6.70%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 6.70% applies.  
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-7. HTSUS Code: 6206.20.10.00  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of wool or fine animal hair: - Certified hand-loomed and folklore products (440)  
-   Reason: The product description aligns with women's blouses made of wool or fine animal hair certified as hand-loomed or folklore products.  
+7. HTSUS Code: 7216.91.00.20  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other: Not drilled, notched, punched or cambered  
+   Reason: The product description does not specify any drilling, notching, punching, or cambering of the steel products.  
    
-   Total HTS Duty Tax Rate: 8.50%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 8.50% applies.  
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-8. HTSUS Code: 6206.40.20.00  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of man-made fibers: - Other: - Containing 30 percent or more by weight of silk or silk waste (641)  
-   Reason: The product description corresponds to women's blouses made of man-made fibers containing a significant amount of silk or silk waste.  
+8. HTSUS Code: 7216.91.00.90  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other  
+   Reason: The product description aligns with cold-formed or cold-finished steel products from flat-rolled materials.  
    
-   Total HTS Duty Tax Rate: 4%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 4% applies.
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.

@@ -92,6 +92,7 @@
 import emitter from '../eventBus'
 
 function buildHTSUSLinksFromDutyRates(dutyRates) {
+console.log("getting htsus links")
   return dutyRates
     .map(([code, rate]) => {
       console.log("rate is ", rate)
@@ -258,7 +259,7 @@ export default {
       try {
         // Call /landing API
          // Emit progress to chatbot
-        const progress = `Please wait a  moment, calculating the total landing cost for "${this.code}"...`
+        const progress = `Please wait a  moment, calculating the total landed cost for "${this.code}"...`
         emitter.emit('sentCalculationRequest', progress); // Send data to chatbot
 
         const response = await fetch('http://127.0.0.1:5000/landing', {
@@ -285,14 +286,7 @@ export default {
         }
 
         const data = await response.json();
-        // this.result = data.landing_cost;
-        data.quantity = this.quantity;
-        data.prod_desc = this.productDesc;
-        data.htsus = this.code
-        data.prod_value = this.productValue
-        data.insurance = this.insuranceCost
-        data.shipping = this.shippingCost
-        data.weight = this.weight + this.weightUnit
+        console.log("sending landed cost to chatbot")
 
         // Emit htsus result to chatbot
         emitter.emit('landedCostResult', data); // Send data to chatbot

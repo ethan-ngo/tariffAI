@@ -48,6 +48,7 @@ def scraper_301desc(code):
 
 @main.route('/landing', methods=['POST'])
 def calcLanding():
+    # get data from the tariff form
     data = request.get_json()
     print(data)
     if not data:
@@ -61,16 +62,35 @@ def calcLanding():
         weight_unit = data.get('weight_unit')
         quantity = data.get('quantity')
 
+        # base duty (MRN) calculation
         try:
+            # get the base duty based on the htsus and country
             MRN = get_final_HTS_duty(hts_code, country)
         except Exception as e:
             return jsonify({"error": str(e)}), 500
 
+        # process the base duty (formatted as xx% or xx cents/kg)
         MRN = MRN.strip().lower()
         MRN_rate = -1.0
         MRN_irregular_rate = -1.0
         MRN_total = -1.0
 
+        # weight unit conversion
+        converted_weight = 0
+        if weight_unit == "kg":
+            converted_weight = weight
+        elif weight_unit == "lb":
+            converted_weight = weight * 0.453592      # 1 lb = 0.453592 kg
+        elif weight_unit == "g" or weight_unit == "gram":
+            converted_weight = weight / 1000          # 1 g = 0.001 kg
+        elif weight_unit == "oz":
+            converted_weight = weight * 0.0283495     # 1 oz = 0.0283495 kg
+        elif weight_unit == "ton":
+            converted_weight = weight * 1000          # 1 metric ton = 1000 kg
+        else:
+            raise ValueError(f"Unsupported weight unit: {weight_unit}")
+
+        # process the base duty rate
         if MRN == 'free':
             print("MRN is free, turning it to 0.0")
             MRN_rate = 0.0
@@ -82,6 +102,7 @@ def calcLanding():
 
         # ¢ per kg
         match_cent_per_kg = re.match(r'([\d.]+)¢/kg', MRN)
+        cents = 0
         if match_cent_per_kg:
             # print("MRN is cents per kg")
             cents = float(match_cent_per_kg.group(1))
@@ -89,19 +110,20 @@ def calcLanding():
             MRN_irregular_rate = round(cents/100, 5)
             print("MRN_irregular_rate: ", MRN_irregular_rate, " and type ", type(MRN_irregular_rate))
             
-            print("weight is ", weight, " and qty is ", quantity)
-            float_weight = float(weight)
+            print("weight is ", converted_weight, " and qty is ", quantity)
+            float_weight = float(converted_weight)
             float_quantity = float(quantity)
             MRN_total = (cents / 100) * float_weight * float_quantity # return dollar amt
             print("MRN_total: ", MRN_total, " and type ", type(MRN_total))
 
         # $ per kg
-        match_dollar_per_kg = re.match(r'\$([\d.]+)/kg', MRN)
-        if match_dollar_per_kg:
-            print("MRN is dollars per kg")
-            MRN_irregular_rate = float(match_dollar_per_kg.group(1))
-            MRN_total = MRN_irregular_rate * weight * quantity # return dollar amt
+        # match_dollar_per_kg = re.match(r'\$([\d.]+)/kg', MRN)
+        # if match_dollar_per_kg:
+        #     print("MRN is dollars per kg")
+        #     MRN_irregular_rate = float(match_dollar_per_kg.group(1))
+        #     MRN_total = MRN_irregular_rate * converted_weight * quantity # return dollar amt
 
+        # get the tax301 if the country is China
         tax301 = 0.0
         if country == "China":
             # Removes all the . period char and last two digits
@@ -116,12 +138,21 @@ def calcLanding():
             print("cleaned_code new: ", cleaned_code_new)
             tax301 = float(get301Percent(cleaned_code_new))
         
+        # get the VAT tax based on the country and prod description
         taxVAT = getVAT_AI(country, prod_desc)
         if not taxVAT:
             taxVAT = 0
 
         print("VAT", taxVAT)
 
+        # VAT source
+        res = getVAT(country)
+        print("res is ", res)
+        VAT_link = res[1]
+
+        print("VAT_link is", VAT_link)
+
+        # convert other values to float
         prod_value = float(data.get('prod_value', 0))
         quantity = int(data.get('quantity', 1))
         shipping = float(data.get('shipping', 0))
@@ -134,12 +165,16 @@ def calcLanding():
         if MRN_rate == -1 and MRN_irregular_rate == -1 and MRN_total == -1:
             MRN_rate = 0
 
+        # get the total landed cost
         # all of these floats should not be divided by 100 yet
         if MRN_rate != -1.0: # the duty tax is a rate
-            landing_cost = getLanding_MRN_rate(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), MRN_rate)
+            landing_cost = getLanding_MRN_rate(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), VAT_link, MRN_rate)
         elif MRN_total != -1.0: # the duty tax is an amount
-            landing_cost = getLanding_MRN_amt(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), MRN, MRN_total)
+            landing_cost = getLanding_MRN_amt(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), VAT_link, MRN, MRN_total, cents, converted_weight, "kg")
         
+        print("returning landed cost")
+        
+        # return landed cost
         return jsonify(landing_cost), 200
 
     except Exception as e:
@@ -159,15 +194,20 @@ def get_final_duty_hts_rates(classification_text):
     for block in blocks:
         # Add back "HTSUS Code:" prefix removed by split
         block = "HTSUS Code:" + block
+        print("block is ", block)
 
         # Extract HTSUS Code (number pattern after "HTSUS Code:")
         code_match = re.search(r'HTSUS Code:\s*([\d.]+)', block)
-        total_rate_match = re.search(r'Total HTS Duty Tax Rate:\s*([\d.]+%)', block)
+        total_rate_match = re.search(r'Total HTS Duty Tax Rate:\s*(Free|[\d.]+%)', block, re.IGNORECASE)
+
+        print("code_match is ", code_match, " and total rate match is ", total_rate_match)
 
         if code_match and total_rate_match:
             code = code_match.group(1)
             total_rate = total_rate_match.group(1)
             results.append((code, total_rate))
+
+    print("returning results: ", results)
 
     return results
 
@@ -206,8 +246,15 @@ def classify_htsus_path():
         updated_duty_taxes = []
 
         for code, rate in duty_taxes:
-            rate_float = float(rate.rstrip('%'))
+            if rate == "Free" or rate == "free":
+                rate_float = 0.0
+            else:
+                rate_float = float(rate.rstrip('%'))
+
+            print("appending code ", code, " and rate ", rate_float)
             updated_duty_taxes.append((code, rate_float))
+
+        print("updated duty taxes are ", updated_duty_taxes)
 
         return jsonify({"classification": result, "duty_rates": updated_duty_taxes}) 
     
