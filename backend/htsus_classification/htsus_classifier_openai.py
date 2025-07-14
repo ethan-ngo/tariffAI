@@ -49,6 +49,28 @@ def get_top_n_codes(product_description, hts_chapter, n):
 
     return documents
 
+def get_top_n_codes_from_chap99(product_description, country, htsus_code, n):
+    # Get or create the collection for that product chapter
+    collection_name = f"htsus_chapter_99"
+    chapter_collection = chroma_client.get_or_create_collection(name=collection_name)
+
+    query_string = f"htsus code is {htsus_code} and origin country is {country} and product description is {product_description}"
+
+    results = chapter_collection.query(
+        query_texts=[query_string],
+        n_results=n
+    )
+
+    documents = results.get('documents', [[]])[0]
+
+    if not documents:
+        print("No relevant HTSUS codes found.")
+        return
+    
+    print(f"Retrieved {len(documents)} HTSUS codes.")
+
+    return documents
+
 # Get the keywords from the product description
 def semantically_process_product_description(product_description):
     prompt_semantics_path = os.path.join(BASE_DIR, "prompts", "prompt_semantics.txt")
@@ -119,20 +141,47 @@ def get_chapter_number(product_description):
 # Get just the chapter number from the HTSUS chapter text
 def extract_chapter_number(text):
     match = re.search(r'\b(\d{1,2})\b', text)
-    return match.group(1) if match else None
-    
+    return match.group(1) if match else None 
+
+# helper function to get the final duty hts rates
+def get_final_duty_hts_rates(classification_text):
+    # Split by numbered sections, e.g. "1. HTSUS Code:", "2. HTSUS Code:", etc.
+    blocks = re.split(r'\n?\d+\.\sHTSUS Code:', classification_text)
+
+    # The first split element may be empty if string starts with "1. HTSUS Code:", so skip it
+    blocks = [b.strip() for b in blocks if b.strip()]
+
+    results = []
+
+    for block in blocks:
+        # Add back "HTSUS Code:" prefix removed by split
+        block = "HTSUS Code:" + block
+        print("block is ", block)
+
+        # Extract HTSUS Code (number pattern after "HTSUS Code:")
+        code_match = re.search(r'HTSUS Code:\s*([\d.]+)', block)
+        total_rate_match = re.search(r'Total HTS Duty Tax Rate:\s*(Free|[\d.]+%)', block, re.IGNORECASE)
+
+        print("code_match is ", code_match, " and total rate match is ", total_rate_match)
+
+        if code_match and total_rate_match:
+            code = code_match.group(1)
+            total_rate = total_rate_match.group(1)
+            results.append((code, total_rate))
+
+    print("returning results: ", results)
+
+    return results
+
 # Main logic: classify the product_description by HTSUS codes 
 # Returns chatbot output with HTSUS code, taxes, descriptions
 def classify_htsus(product_description, country, weight, weight_unit, quantity):
-    # Step 1: Process and simplify the product_description into 1-3 keywords
+    # Step 1: Process and simplify the product_description into keywords
     product_simplified = semantically_process_product_description(product_description)
 
     if not product_simplified: 
         print("Failed to process product description semantics. Exiting classification.")
         return
-    
-    # with open("txt_outputs/product_context.txt", "w", encoding="utf-8") as f:
-    #     f.write(str(product_simplified))   
     
     # Step 2: Get the HTSUS chapter number based on the simplified product description
     product_chapter = get_chapter_number(product_simplified + ": " + product_description)
@@ -155,10 +204,6 @@ def classify_htsus(product_description, country, weight, weight_unit, quantity):
         print("No HTSUS codes retrieved. Exiting classification.")
         return
 
-    # with open("txt_outputs/outputtext1.txt", "w", encoding="utf-8") as f:
-    #     f.write(str(top_40_codes))
-    # print("Successfully retrieved HTSUS codes based on the product description.")
-
     # Step 4: Get the top 1-3 HTSUS codes from the top 50 codes
     # Format the full prompt for OpenAI
     full_prompt = (
@@ -173,8 +218,6 @@ def classify_htsus(product_description, country, weight, weight_unit, quantity):
         + "\n".join(top_40_codes) 
     )
 
-    # with open("txt_outputs/full_prompt.txt", "w", encoding="utf-8") as f:
-    #     f.write(str(full_prompt))
 
     # Call OpenAI API to get the final HTSUS codes and duty tax
     headers = {
@@ -197,17 +240,65 @@ def classify_htsus(product_description, country, weight, weight_unit, quantity):
         print("received the top HTSUS codes!")
         with open("final_output.txt", "w", encoding="utf-8") as f:          
             f.write(str(chatbot_output))
-        return chatbot_output
+        # return chatbot_output
     else:
         print("Error:", response.status_code, response.text)
         return "Error with classification"
+    
+    response_json = response.json()  # Parse the JSON response
+    chatbot_output = response_json.get("text", "")  # Get the "text" field safely
+    duty_rates = get_final_duty_hts_rates(chatbot_output)
+    duty_rates = duty_rates[:3]
+    print("duty rates are ", duty_rates)
+
+    # get Section 99 taxes
+    top_40_codes_from_chap99 = get_top_n_codes_from_chap99(product_description, country, duty_rates[0][0], 40)
+
+    if not top_40_codes_from_chap99:
+        print("No 99 HTSUS codes retrieved. Exiting classification.")
+        return
+    
+    full_prompt_2 = (
+        f"Product description:\n{product_description}\n\n"
+        f"Country of origin:\n{country}\n\n"
+        f"Weight:\n{weight}\n\n"
+        f"Units weight is in:\n{weight_unit}\n\n"
+        f"Quantity of the product:\n{quantity}\n\n"
+        f"Instructions:\nChoose the best code from the given below that matches the product description and country of origin. Output just that HTSUS code and nothing else.\n\n"
+        "HTSUS data to choose from:\n"
+        + "\n".join(top_40_codes_from_chap99) 
+    )
+
+    # Call OpenAI API to get the final HTSUS codes and duty tax
+    headers = {
+        "Authorization": f"Bearer {api_key}",  # Replace with your actual API key
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
+    data = {
+        "text": full_prompt_2
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+
+    # Handle OpenAI response
+    if response.status_code != 200:
+        print("Error:", response.status_code, response.text)
+        return "Error with classification"
+    
+    response_json = response.json()  # Parse the JSON response
+    chatbot_output = response_json.get("text", "")  # Get the "text" field safely
+    print("chap 99 code is ", chatbot_output)
+
+    return ""
 
 # Test cases
 if __name__ == "__main__":
-    prod_des = "stuffed animal"
-    country = "Japan"
+    prod_des = "steel"
+    country = "China"
 
-    print(classify_htsus(prod_des, country, 1, "kg", 1))
+    res = (classify_htsus(prod_des, country, 1, "kg", 1))
+
     
     # classify_htsus("Men 100 cotton denim jeans") # WRONG! it outputted 6203.42.4011 & 16.6%; WRONG SHUD BE 6203.42.07.11
     # classify_htsus("Leather handbag") # works! it outputted the 3 possibilities shown in few_shot.txt

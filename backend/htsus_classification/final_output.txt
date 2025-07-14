@@ -1,0 +1,55 @@
+1. HTSUS Code: 7216.91.00.10  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Drilled, notched, punched or cambered  
+   Reason: The product description aligns with cold-formed steel products that are drilled, notched, punched, or cambered.  
+   
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+2. HTSUS Code: 7216.91.00.90  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other  
+   Reason: The product description matches the category of cold-formed or cold-finished steel products.  
+   
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+3. HTSUS Code: 7216.91.00  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products  
+   Reason: The product description corresponds to cold-formed or cold-finished steel products.  
+   
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+4. HTSUS Code: 7216.91.00.90  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other  
+   Reason: The product description aligns with cold-formed or cold-finished steel products.  
+   
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+5. HTSUS Code: 7216.91.00.10  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Drilled, notched, punched or cambered  
+   Reason: The product description closely matches cold-formed steel products that are drilled, notched, punched, or cambered.  
+   
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+6. HTSUS Code: 7216.91.00.90  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other  
+   Reason: The product description fits the category of cold-formed or cold-finished steel products.  
+   
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+7. HTSUS Code: 7216.91.00  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products  
+   Reason: The product description corresponds to cold-formed or cold-finished steel products.  
+   
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+8. HTSUS Code: 7216.91.00.90  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other  
+   Reason: The product description aligns with cold-formed or cold-finished steel products.  
+   
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.
