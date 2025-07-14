@@ -82,6 +82,7 @@ def calcLanding():
 
         # ¢ per kg
         match_cent_per_kg = re.match(r'([\d.]+)¢/kg', MRN)
+        cents = 0
         if match_cent_per_kg:
             # print("MRN is cents per kg")
             cents = float(match_cent_per_kg.group(1))
@@ -138,7 +139,7 @@ def calcLanding():
         if MRN_rate != -1.0: # the duty tax is a rate
             landing_cost = getLanding_MRN_rate(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), MRN_rate)
         elif MRN_total != -1.0: # the duty tax is an amount
-            landing_cost = getLanding_MRN_amt(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), MRN, MRN_total)
+            landing_cost = getLanding_MRN_amt(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), MRN, MRN_total, cents, weight)
         
         return jsonify(landing_cost), 200
 
@@ -159,15 +160,20 @@ def get_final_duty_hts_rates(classification_text):
     for block in blocks:
         # Add back "HTSUS Code:" prefix removed by split
         block = "HTSUS Code:" + block
+        print("block is ", block)
 
         # Extract HTSUS Code (number pattern after "HTSUS Code:")
         code_match = re.search(r'HTSUS Code:\s*([\d.]+)', block)
-        total_rate_match = re.search(r'Total HTS Duty Tax Rate:\s*([\d.]+%)', block)
+        total_rate_match = re.search(r'Total HTS Duty Tax Rate:\s*(Free|[\d.]+%)', block, re.IGNORECASE)
+
+        print("code_match is ", code_match, " and total rate match is ", total_rate_match)
 
         if code_match and total_rate_match:
             code = code_match.group(1)
             total_rate = total_rate_match.group(1)
             results.append((code, total_rate))
+
+    print("returning results: ", results)
 
     return results
 
@@ -206,8 +212,15 @@ def classify_htsus_path():
         updated_duty_taxes = []
 
         for code, rate in duty_taxes:
-            rate_float = float(rate.rstrip('%'))
+            if rate == "Free" or rate == "free":
+                rate_float = 0.0
+            else:
+                rate_float = float(rate.rstrip('%'))
+
+            print("appending code ", code, " and rate ", rate_float)
             updated_duty_taxes.append((code, rate_float))
+
+        print("updated duty taxes are ", updated_duty_taxes)
 
         return jsonify({"classification": result, "duty_rates": updated_duty_taxes}) 
     

@@ -21,7 +21,7 @@
             title="Copy message"
             aria-label="Copy message"
           >
-            📋
+            <img src="../assets/copy.png" alt="Copy" class="copy-icon" />
           </button>
         </div>
         <div v-if="msg.from === 'user'" class="spacer"></div>
@@ -292,6 +292,7 @@ function formatLandingBreakdown(data) {
   const vatRate = data.vat_rate;
   const vatTotal = data.vat_total;
   const regular = data.regular;
+  const breakdown = data.breakdown;
 
   function fmtMoney(value) {
     return `$${Number(value).toFixed(2)}`;
@@ -307,11 +308,11 @@ function formatLandingBreakdown(data) {
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(subtotal)}</td>
         </tr>
         <tr>
-          <td style="padding: 6px; border-bottom: 1px solid #444;">MRN Duty (${mrnRateDisplay})</td>
+          <td style="padding: 6px; border-bottom: 1px solid #444;">Base Duty (${mrnRateDisplay} base rate)</td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(mrnDuty)}</td>
         </tr>
         <tr>
-          <td style="padding: 6px; border-bottom: 1px solid #444;">301 Duty (${tax301Rate}%)</td>
+          <td style="padding: 6px; border-bottom: 1px solid #444;">301 Duty (${tax301Rate}% rate)</td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(tax301Duty)}</td>
         </tr>
         <tr>
@@ -319,12 +320,20 @@ function formatLandingBreakdown(data) {
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(dutyTotal)}</td>
         </tr>
         <tr>
-          <td style="padding: 6px; border-bottom: 1px solid #444;">VAT (${vatRate}%)</td>
+          <td style="padding: 6px; border-bottom: 1px solid #444;">VAT (${vatRate}% rate)</td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(vatTotal)}</td>
         </tr>
         <tr>
           <td style="padding: 6px; font-weight: bold;">Total Landed Cost</td>
           <td style="padding: 6px; font-weight: bold; text-align: right;">${fmtMoney(landingCost)}</td>
+        </tr>
+        <tr>
+          <td colspan="2" style="padding: 12px 6px 6px 6px; border-top: 1px solid #666;">
+            <div style="margin-bottom: 4px;">Calculation Breakdown</div>
+            <ul style="margin: 0; padding-left: 18px; color: white; font-size: 0.9em;">
+              ${breakdown.map(step => `<li>${step}</li>`).join("")}
+            </ul>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -408,6 +417,13 @@ function formatLandingBreakdown(data) {
   padding: 2px;
   border-radius: 4px;
 }
+
+.copy-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain; /* Keeps aspect ratio clean */
+}
+
 
 .copy-btn:hover {
   opacity: 1;
@@ -493,13 +509,13 @@ function formatLandingBreakdown(data) {
   background-color: #6366f1;
 }
 
-.bubble a {
-  color: #4ea9ff;             /* Light blue default */
-  text-decoration: underline; /* Underlined by default */
+.bubble ::v-deep a {
+  color: #4ea9ff; /* light blue */
+  text-decoration: underline;
 }
 
-.bubble a:visited {
-  color: #c084fc;             /* Light purple when visited */
+.bubble ::v-deep a:visited {
+  color: #c084fc; /* light purple */
 }
 
 /* Tablet styles */

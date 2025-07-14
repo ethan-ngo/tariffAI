@@ -1,55 +1,55 @@
-1. HTSUS Code: 6206.90.00.20  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of other textile materials - Subject to wool restraints (440)  
-   Reason: The product description matches the category of women's blouses made of other textile materials subject to wool restraints.  
+1. HTSUS Code: 0802.42.00.00  
+   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Chestnuts (Castanea spp.): - Shelled  
+   Reason: The product description specifically mentions chestnuts, which are shelled.  
    
-   Total HTS Duty Tax Rate: 6.70%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 6.70% applies.  
+   Total HTS Duty Tax Rate: Free  
+   Reason: The product matches the official description for shelled chestnuts, resulting in a duty tax rate of Free.  
 
-2. HTSUS Code: 6206.40.10.00  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of man-made fibers: - Certified hand-loomed and folklore products (641)  
-   Reason: The product description aligns with women's blouses made of man-made fibers and certified as hand-loomed or folklore products.  
+2. HTSUS Code: 0802.41.00.00  
+   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Chestnuts (Castanea spp.): - In shell  
+   Reason: The product description aligns with chestnuts in the shell.  
    
-   Total HTS Duty Tax Rate: 11.30%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 11.30% applies.  
+   Total HTS Duty Tax Rate: Free  
+   Reason: The product matches the official description for chestnuts in the shell, resulting in a duty tax rate of Free.  
 
-3. HTSUS Code: 6206.90.00.40  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of other textile materials - Other (840)  
-   Reason: The product description corresponds to women's blouses made of other textile materials falling under the general category.  
+3. HTSUS Code: 0802.92.90.00  
+   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Other: - Pine nuts, shelled: - Other  
+   Reason: While the product is not pine nuts, the category of "Other nuts" may apply.  
    
-   Total HTS Duty Tax Rate: 6.70%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 6.70% applies.  
+   Total HTS Duty Tax Rate: 5¢/kg  
+   Reason: The duty tax rate for this category is 5¢/kg, as the product falls under the broader classification of "Other nuts."  
 
-4. HTSUS Code: 6206.90.00.30  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of other textile materials - Subject to man-made fiber restraints (641)  
-   Reason: The product description matches women's blouses made of other textile materials subject to man-made fiber restraints.  
+4. HTSUS Code: 0802.91.90.00  
+   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Other: - Pine nuts, in shell: - Other  
+   Reason: Although the product is not pine nuts, it falls under the category of "Other nuts."  
    
-   Total HTS Duty Tax Rate: 6.70%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 6.70% applies.  
+   Total HTS Duty Tax Rate: 1.3¢/kg  
+   Reason: The duty tax rate for this category is 1.3¢/kg, as the product is classified under "Other nuts."  
 
-5. HTSUS Code: 6206.90.00.10  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of other textile materials - Subject to cotton restraints (341)  
-   Reason: The product description aligns with women's blouses made of other textile materials subject to cotton restraints.  
+5. HTSUS Code: 0802.52.00.00  
+   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Pistachios: - Shelled  
+   Reason: While the product is not pistachios, it falls under the broader category of "Other nuts."  
    
-   Total HTS Duty Tax Rate: 6.70%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 6.70% applies.  
+   Total HTS Duty Tax Rate: 1.9¢/kg  
+   Reason: The duty tax rate for this category is 1.9¢/kg, as the product is classified under "Other nuts."  
 
-6. HTSUS Code: 6206.90.00  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of other textile materials  
-   Reason: The product description corresponds to women's blouses made of other textile materials in a general sense.  
+6. HTSUS Code: 0802.31.00.00  
+   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Walnuts: - In shell  
+   Reason: Although the product is not walnuts, it falls under the broader category of "Other nuts."  
    
-   Total HTS Duty Tax Rate: 6.70%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 6.70% applies.  
+   Total HTS Duty Tax Rate: 7¢/kg  
+   Reason: The duty tax rate for this category is 7¢/kg, as the product is classified under "Other nuts."  
 
-7. HTSUS Code: 6206.20.10.00  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of wool or fine animal hair: - Certified hand-loomed and folklore products (440)  
-   Reason: The product description aligns with women's blouses made of wool or fine animal hair certified as hand-loomed or folklore products.  
+7. HTSUS Code: 0813.20.20  
+   Official Product Description: Fruit, dried, other than that of headings 0801 to 0806; mixtures of nuts or dried fruits of this chapter: - Prunes: - Other  
+   Reason: While the product is not prunes, it falls under the broader category of dried fruits.  
    
-   Total HTS Duty Tax Rate: 8.50%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 8.50% applies.  
+   Total HTS Duty Tax Rate: 14%  
+   Reason: The duty tax rate for this category is 14%, as the product is classified under dried fruits.  
 
-8. HTSUS Code: 6206.40.20.00  
-   Official Product Description: Women's or girls' blouses, shirts and shirt-blouses: - Of man-made fibers: - Other: - Containing 30 percent or more by weight of silk or silk waste (641)  
-   Reason: The product description corresponds to women's blouses made of man-made fibers containing a significant amount of silk or silk waste.  
+8. HTSUS Code: 0813.40.20  
+   Official Product Description: Fruit, dried, other than that of headings 0801 to 0806; mixtures of nuts or dried fruits of this chapter: - Other fruit: - Berries: - Other  
+   Reason: The product description aligns with the category of dried fruits, specifically berries.  
    
-   Total HTS Duty Tax Rate: 4%  
-   Reason: The country of origin has normal trade relations with the US, so the general duty tax rate of 4% applies.
+   Total HTS Duty Tax Rate: 1.4¢/kg  
+   Reason: The duty tax rate for this category is 1.4¢/kg, as the product is classified under dried fruits.

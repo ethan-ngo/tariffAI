@@ -92,6 +92,7 @@
 import emitter from '../eventBus'
 
 function buildHTSUSLinksFromDutyRates(dutyRates) {
+console.log("getting htsus links")
   return dutyRates
     .map(([code, rate]) => {
       console.log("rate is ", rate)
