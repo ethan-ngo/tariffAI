@@ -1,55 +1,55 @@
-1. HTSUS Code: 0802.42.00.00  
-   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Chestnuts (Castanea spp.): - Shelled  
-   Reason: The product description specifically mentions chestnuts, which are shelled.  
+1. HTSUS Code: 7216.91.00.10  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Drilled, notched, punched or cambered  
+   Reason: The product description aligns with cold-formed steel products that are drilled, notched, punched, or cambered.  
    
    Total HTS Duty Tax Rate: Free  
-   Reason: The product matches the official description for shelled chestnuts, resulting in a duty tax rate of Free.  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-2. HTSUS Code: 0802.41.00.00  
-   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Chestnuts (Castanea spp.): - In shell  
-   Reason: The product description aligns with chestnuts in the shell.  
+2. HTSUS Code: 7216.91.00.90  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other  
+   Reason: The product description matches cold-formed or cold-finished steel products from flat-rolled materials.  
    
    Total HTS Duty Tax Rate: Free  
-   Reason: The product matches the official description for chestnuts in the shell, resulting in a duty tax rate of Free.  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-3. HTSUS Code: 0802.92.90.00  
-   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Other: - Pine nuts, shelled: - Other  
-   Reason: While the product is not pine nuts, the category of "Other nuts" may apply.  
+3. HTSUS Code: 7216.91.00.20  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other: Not drilled, notched, punched or cambered  
+   Reason: The product description does not mention specific modifications like drilling, notching, punching, or cambering.  
    
-   Total HTS Duty Tax Rate: 5¢/kg  
-   Reason: The duty tax rate for this category is 5¢/kg, as the product falls under the broader classification of "Other nuts."  
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-4. HTSUS Code: 0802.91.90.00  
-   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Other: - Pine nuts, in shell: - Other  
-   Reason: Although the product is not pine nuts, it falls under the category of "Other nuts."  
+4. HTSUS Code: 7216.91.00.90  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other  
+   Reason: The product description aligns with cold-formed or cold-finished steel products from flat-rolled materials.  
    
-   Total HTS Duty Tax Rate: 1.3¢/kg  
-   Reason: The duty tax rate for this category is 1.3¢/kg, as the product is classified under "Other nuts."  
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-5. HTSUS Code: 0802.52.00.00  
-   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Pistachios: - Shelled  
-   Reason: While the product is not pistachios, it falls under the broader category of "Other nuts."  
+5. HTSUS Code: 7216.91.00.10  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Drilled, notched, punched or cambered  
+   Reason: The product description closely matches cold-formed steel products that are drilled, notched, punched, or cambered.  
    
-   Total HTS Duty Tax Rate: 1.9¢/kg  
-   Reason: The duty tax rate for this category is 1.9¢/kg, as the product is classified under "Other nuts."  
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-6. HTSUS Code: 0802.31.00.00  
-   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Walnuts: - In shell  
-   Reason: Although the product is not walnuts, it falls under the broader category of "Other nuts."  
+6. HTSUS Code: 7216.91.00.90  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other  
+   Reason: The product description aligns with cold-formed or cold-finished steel products from flat-rolled materials.  
    
-   Total HTS Duty Tax Rate: 7¢/kg  
-   Reason: The duty tax rate for this category is 7¢/kg, as the product is classified under "Other nuts."  
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-7. HTSUS Code: 0813.20.20  
-   Official Product Description: Fruit, dried, other than that of headings 0801 to 0806; mixtures of nuts or dried fruits of this chapter: - Prunes: - Other  
-   Reason: While the product is not prunes, it falls under the broader category of dried fruits.  
+7. HTSUS Code: 7216.91.00.20  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other: Not drilled, notched, punched or cambered  
+   Reason: The product description does not specify any drilling, notching, punching, or cambering of the steel products.  
    
-   Total HTS Duty Tax Rate: 14%  
-   Reason: The duty tax rate for this category is 14%, as the product is classified under dried fruits.  
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-8. HTSUS Code: 0813.40.20  
-   Official Product Description: Fruit, dried, other than that of headings 0801 to 0806; mixtures of nuts or dried fruits of this chapter: - Other fruit: - Berries: - Other  
-   Reason: The product description aligns with the category of dried fruits, specifically berries.  
+8. HTSUS Code: 7216.91.00.90  
+   Official Product Description: Angles, shapes and sections of iron or nonalloy steel: - Other: - Cold-formed or cold-finished from flat-rolled products - Other  
+   Reason: The product description aligns with cold-formed or cold-finished steel products from flat-rolled materials.  
    
-   Total HTS Duty Tax Rate: 1.4¢/kg  
-   Reason: The duty tax rate for this category is 1.4¢/kg, as the product is classified under dried fruits.
+   Total HTS Duty Tax Rate: Free  
+   Reason: China has normal trade relations with the US, so the general duty tax rate of Free applies.

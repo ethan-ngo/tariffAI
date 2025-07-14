@@ -126,7 +126,6 @@ def workflow(query):
         _, code, country = userIntent.split(',')
         dutyRate = get_final_HTS_duty(code, country)
         output = dutyRate
-        
 
     return output
 

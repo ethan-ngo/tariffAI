@@ -103,6 +103,13 @@ async function scrollToBottom() {
     }
 }
 
+async function scrollToTop() {
+  await nextTick();
+  if (messagesContainer.value) {
+    messagesContainer.value.scrollTop = 0;  // scroll to top
+  }
+}
+
 const classificationBlocks = ref([]); // changed to ref for reactivity
 const currentIndex = ref(0);
 
@@ -138,7 +145,7 @@ onMounted(async () => {
 
     messages.value.push({ from: 'bot', text: textToShow });
 
-    await scrollToBottom();
+    await scrollToTop();
   })
 
   emitter.on('sentUserCalculationRequest', async (data) => {
@@ -151,11 +158,11 @@ onMounted(async () => {
     await scrollToBottom();
   })
 
-  emitter.on('landedCostResult', async (data) => {
+  emitter.on('landedCostResult', async ( data ) => {
     console.log("Received landing data: ", data) 
     const formatted2 = formatLandingBreakdown(data)
     messages.value.push({ from: 'bot', text: formatted2 });
-    await scrollToBottom();
+    await scrollToTop();
   })
 
   emitter.on('botError', async (data) => {
@@ -221,64 +228,6 @@ function getNextBlocks(count = 3, links) {
   return next.map((block, i) => formatBlock(block, linksForNext[i])).join('<hr style="border:none;border-top:1px solid #ccc;margin:12px 0;">');
 }
 
-// Show more button handler
-// async function showMoreCodes() {
-//   const nextBlocks = getNextBlocks(3);
-//   if (!nextBlocks) {  // check for null
-//     messages.value.push({ from: 'bot', text: "All possible HTSUS codes have been shown." });
-//   } else {
-//     messages.value.push({ from: 'bot', text: nextBlocks });
-//   }
-//   await nextTick();
-//   if (messagesContainer.value) {
-//     messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
-//   }
-// }
-
-
-// // Format the JSON result into readable chat text
-// function formatClassification(rawText) {
-//   if (!rawText) return "No classification data found.";
-
-//   // Match each numbered classification block (e.g., "1. HTSUS Code:...")
-//   const parts = rawText.match(/\d+\.\s+HTSUS Code:.*?(?=(?:\n\d+\.|$))/gs);
-//   if (!parts) return "No classification blocks found.";
-
-//   const subtitles = [
-//     'HTSUS Code:',
-//     'General Duty Tax Rate:',
-//     'Special Duty Tax Rate:',
-//     'Column 2 Rate (for countries without normal trade relations with US):',
-//     'Additional Duties:',
-//     'Official Product Description:',
-//     'Confidence Score:',
-//     'Reason:',
-//     'Country of Origin:',
-//     'Total HTS Duty Tax Rate:'
-//   ];
-
-//   const formattedParts = parts.map(block => {
-//     // Escape HTML
-//     let escaped = block
-//       .replace(/&/g, "&amp;")
-//       .replace(/</g, "&lt;")
-//       .replace(/>/g, "&gt;");
-
-//     // Bold each subtitle
-//     subtitles.forEach(sub => {
-//       const re = new RegExp(sub.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
-//       escaped = escaped.replace(re, `<b>${sub}</b>`);
-//     });
-
-//     // Add line breaks
-//     escaped = escaped.replace(/\n/g, '<br>');
-
-//     return escaped.trim();
-//   });
-
-//   return formattedParts.join('<hr style="border:none;border-top:1px solid #ccc;margin:12px 0;">');
-// }
-
 function formatLandingBreakdown(data) {
   if (!data) return "No landing cost data available.";
 
@@ -293,6 +242,10 @@ function formatLandingBreakdown(data) {
   const vatTotal = data.vat_total;
   const regular = data.regular;
   const breakdown = data.breakdown;
+  const VATLink = data.VAT_link;
+  // const htsLink = `https://hts.usitc.gov/search?query=${htsus_code}`
+
+  console.log("Vat Link", VATLink)
 
   function fmtMoney(value) {
     return `$${Number(value).toFixed(2)}`;
@@ -333,7 +286,14 @@ function formatLandingBreakdown(data) {
             <ul style="margin: 0; padding-left: 18px; color: white; font-size: 0.9em;">
               ${breakdown.map(step => `<li>${step}</li>`).join("")}
             </ul>
-          </td>
+
+            <!-- Sources section -->
+            <div style="margin-top: 12px; font-weight: bold;">Sources</div>
+            <ul style="margin: 4px 0 0 0; padding-left: 18px; color: white; font-size: 0.9em;">
+              <li>
+                <a href="${VATLink}" target="_blank" rel="noopener noreferrer">VAT Source</a>
+              </li>
+            </ul>
         </tr>
       </tbody>
     </table>
