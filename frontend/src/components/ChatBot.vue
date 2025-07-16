@@ -358,6 +358,7 @@ function formatLandingBreakdown(data) {
   box-shadow: 0 4px 32px 0 rgba(0,0,0,0.18);
   overflow: hidden;
   border: 1.5px solid #292933;
+  margin: 0 auto;   /* centers horizontally */
 }
 
 .chat-messages {

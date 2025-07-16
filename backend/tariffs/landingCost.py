@@ -39,8 +39,7 @@ def getLanding_MRN_rate(prod_value: float, quantity: int, shipping: float, insur
         f"Reciprocal Duties = {subtotal:.2f} × {float(total_reciprocal_taxes/100):.2f} = {reciprocal_duty:.2f}",
         f"Total Duties = {tax301_duty:.2f} + {mrn_duty:.2f} + {reciprocal_duty:.2f} = {dutyTotal:.2f}",
         f"VAT = {float(VAT/100):.2f} × ({subtotal:.2f} + {dutyTotal:.2f}) = {vatTotal:.2f}",
-        f"Landed Cost = {subtotal:.2f} + {dutyTotal:.2f} + {vatTotal:.2f} = {landing_cost:.2f}",
-
+        f"Landed Cost = {subtotal:.2f} + {dutyTotal:.2f} + {vatTotal:.2f} = {landing_cost:.2f}",  
     )
 
     return {
