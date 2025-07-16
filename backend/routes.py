@@ -5,6 +5,7 @@ from tariffs.scraperVAT import getVAT, getVAT_AI
 from tariffs.landingCost import getLanding_MRN_rate, getLanding_MRN_amt
 from htsus_classification.get_hts import get_final_HTS_duty
 from htsus_classification.chatbot import workflow
+from htsus_classification.chapter99 import getReciprocal
 from flask import Flask, request, jsonify
 from playwright.sync_api import sync_playwright
 
@@ -195,7 +196,7 @@ def calcLanding():
 
         # get reciprocal taxes
         # list of tuple (rate, date) -> date it's effective for active taxes
-        # taxes_date = some_function(prod_desc, country)
+        # taxes_date = getReciprocal(prod_desc, country)
         taxes_date = [("10%","date1"), ("20%", "date2")] # CHANGE: THIS IS A PLACEHOLDER
         taxes_float_date = []
 
