@@ -292,6 +292,21 @@ export default {
 
         // Emit htsus result to chatbot
         emitter.emit('landedCostResult', data); // Send data to chatbot
+
+        const combinedData = {
+          ...data,           // all fields returned from API
+          prod_desc: this.productDesc,
+          quantity: this.quantity,
+          productValue: this.productValue,
+          weight: this.weight,
+          shipping: this.shippingCost,
+          insurance: this.insuranceCost,
+          weightUnit: this.weightUnit,
+          htsus_code: this.code   // (you already added this)
+        };
+
+        emitter.emit('landedCostResult2', combinedData);
+
       } catch (error) {
         // this.result = { error: error.message };
         console.log('Landing API error:', error);

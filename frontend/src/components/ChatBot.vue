@@ -270,7 +270,7 @@ function formatLandingBreakdown(data) {
     return `$${Number(value).toFixed(2)}`;
   }
 
-  const mrnRateDisplay = regular ? `${mrnRate}` : mrnRate;
+  const mrnRateDisplay = regular ? `${mrnRate}%` : mrnRate;
 
   return `
     <table style="width: 100%; border-collapse: collapse; color: #ececf1;">
@@ -282,7 +282,7 @@ function formatLandingBreakdown(data) {
         <tr>
           <td style="padding: 6px; border-bottom: 1px solid #444;">
             <a href="${htsLink}" target="_blank" rel="noopener noreferrer">
-              Base Duty (${mrnRateDisplay}% base rate)
+              Base Duty (${mrnRateDisplay} base rate)
             </a>
           </td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(mrnDuty)}</td>
@@ -300,7 +300,7 @@ function formatLandingBreakdown(data) {
             ${reciprocalTaxes.length > 0 ? `
               <tr>
                 <td style="padding: 6px; border-bottom: 1px solid #444;">
-                  <a href="" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.tradecomplianceresourcehub.com/2025/07/16/trump-2-0-tariff-tracker/" target="_blank" rel="noopener noreferrer">
                     Reciprocal Duty (${reciprocalTotalRate}% rate)
                   </a>
                 </td>
@@ -367,7 +367,7 @@ function formatLandingBreakdown(data) {
   padding: 24px 16px 12px 16px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 32px;
   scroll-behavior: smooth;
 }
 
@@ -410,8 +410,8 @@ function formatLandingBreakdown(data) {
 }
 .copy-btn {
   position: absolute;
-  bottom: -25px;    /* 6px from bottom */
-  right: 6px;      /* 6px from right */
+  bottom: -32px;    /* 6px from bottom */
+  right: 4px;      /* 6px from right */
   background: transparent;
   border: none;
   cursor: pointer;
@@ -425,8 +425,8 @@ function formatLandingBreakdown(data) {
 }
 
 .copy-icon {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   object-fit: contain; /* Keeps aspect ratio clean */
 }
 

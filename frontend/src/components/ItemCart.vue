@@ -56,15 +56,24 @@ const emit = defineEmits(['toggleSidebar'])
 
 const items = ref([])
 onMounted(async () => {
-  emitter.on('landedCostResult', (data) => {
-    const newId = items.value.length > 0
-      ? Math.max(...items.value.map(item => item.id || 0)) + 1
-      : 1;
+  emitter.on('landedCostResult2', (data) => {
+    console.log("Received landedCostResult data in item cart:", data); 
 
-    items.value.push({
-      id: newId,
-      ...data
-    });
+    try {
+      const newId = items.value.length > 0
+        ? Math.max(...items.value.map(item => item.id || 0)) + 1
+        : 1;
+
+      items.value.push({
+        id: newId,
+        ...data
+      });
+
+      // Put log inside try block
+      console.log("Plain items data: ", JSON.parse(JSON.stringify(items.value)));
+    } catch (err) {
+      console.error("Error after pushing item:", err);
+    }
   });
 })
 
