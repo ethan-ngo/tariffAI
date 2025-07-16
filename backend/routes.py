@@ -8,7 +8,7 @@ from htsus_classification.chatbot import workflow
 from flask import Flask, request, jsonify
 from playwright.sync_api import sync_playwright
 
-from htsus_classification.htsus_classifier_openai import classify_htsus
+from htsus_classification.htsus_classifier_openai import classify_htsus, get_final_duty_hts_rates
 
 main = Blueprint('main', __name__)
 
@@ -48,29 +48,6 @@ def scraper_301desc(code):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# @main.route('/search-301', methods=['POST'])
-# def search_301():
-#     hts_code = request.json.get('htsus_code')
-#     print("hts code in route is ", hts_code)
-
-#     if not hts_code:
-#         return jsonify({"error": "Missing HTS code"}), 400
-
-#     with sync_playwright() as p:
-#         browser = p.chromium.launch(headless=True)
-#         page = browser.new_page()
-#         page.goto("https://ustr.gov/issue-areas/enforcement/section-301-investigations/search")
-#         page.fill('#searchbox', hts_code)
-#         page.click('button.bsearch')
-#         page.wait_for_selector('.init-result', timeout=10000)
-
-#         # You could parse the actual result text here too
-#         result_url = page.url
-#         print("result url is ", result_url)
-#         browser.close()
-
-#     return jsonify({"result_url": result_url})
-
 @main.route('/landing', methods=['POST'])
 def calcLanding():
     # get data from the tariff form
@@ -100,20 +77,20 @@ def calcLanding():
         MRN_irregular_rate = -1.0
         MRN_total = -1.0
 
-        # weight unit conversion
-        converted_weight = 0
-        if weight_unit == "kg":
-            converted_weight = weight
-        elif weight_unit == "lb":
-            converted_weight = weight * 0.453592      # 1 lb = 0.453592 kg
-        elif weight_unit == "g" or weight_unit == "gram":
-            converted_weight = weight / 1000          # 1 g = 0.001 kg
-        elif weight_unit == "oz":
-            converted_weight = weight * 0.0283495     # 1 oz = 0.0283495 kg
-        elif weight_unit == "ton":
-            converted_weight = weight * 1000          # 1 metric ton = 1000 kg
-        else:
-            raise ValueError(f"Unsupported weight unit: {weight_unit}")
+        # # weight unit conversion
+        # converted_weight = 0
+        # if weight_unit == "kg":
+        #     converted_weight = weight
+        # elif weight_unit == "lb":
+        #     converted_weight = weight * 0.453592      # 1 lb = 0.453592 kg
+        # elif weight_unit == "g" or weight_unit == "gram":
+        #     converted_weight = weight / 1000          # 1 g = 0.001 kg
+        # elif weight_unit == "oz":
+        #     converted_weight = weight * 0.0283495     # 1 oz = 0.0283495 kg
+        # elif weight_unit == "ton":
+        #     converted_weight = weight * 1000          # 1 metric ton = 1000 kg
+        # else:
+        #     raise ValueError(f"Unsupported weight unit: {weight_unit}")
 
         # process the base duty rate
         if MRN == 'free':
@@ -135,19 +112,58 @@ def calcLanding():
             MRN_irregular_rate = round(cents/100, 5)
             print("MRN_irregular_rate: ", MRN_irregular_rate, " and type ", type(MRN_irregular_rate))
             
+            # weight unit conversion
+            converted_weight = 0
+            if weight_unit == "kg":
+                converted_weight = weight
+            elif weight_unit == "lb":
+                converted_weight = weight * 0.453592      # 1 lb = 0.453592 kg
+            elif weight_unit == "g":
+                converted_weight = weight / 1000          # 1 g = 0.001 kg
+            elif weight_unit == "oz":
+                converted_weight = weight * 0.0283495     # 1 oz = 0.0283495 kg
+            elif weight_unit == "ton":
+                converted_weight = weight * 1000          # 1 metric ton = 1000 kg
+            else:
+                raise ValueError(f"Unsupported weight unit: {weight_unit}")
+        
             print("weight is ", converted_weight, " and qty is ", quantity)
             float_weight = float(converted_weight)
             float_quantity = float(quantity)
             MRN_total = (cents / 100) * float_weight * float_quantity # return dollar amt
             print("MRN_total: ", MRN_total, " and type ", type(MRN_total))
 
-        # $ per kg
-        # match_dollar_per_kg = re.match(r'\$([\d.]+)/kg', MRN)
-        # if match_dollar_per_kg:
-        #     print("MRN is dollars per kg")
-        #     MRN_irregular_rate = float(match_dollar_per_kg.group(1))
-        #     MRN_total = MRN_irregular_rate * converted_weight * quantity # return dollar amt
+        # ¢ per liter
+        match_cent_per_liter = re.search(r'([\d.]+)¢\s*/\s*L\b', MRN, re.IGNORECASE)
+        cents = 0
+        if match_cent_per_liter:
+            cents = float(match_cent_per_liter.group(1))
+            print("cents: ", cents)
+            MRN_irregular_rate = round(cents / 100, 5)
+            print("MRN_irregular_rate: ", MRN_irregular_rate, " and type ", type(MRN_irregular_rate))
+            
+            # volume unit conversion
+            converted_volume = 0
+            if weight_unit == "kg":
+                converted_volume = weight  # treat as liters
+            elif weight_unit == "lb":
+                converted_volume = weight * 0.453592  # 1 lb → ~0.453 L (assume 1:1 density approx)
+            elif weight_unit == "g":
+                converted_volume = weight / 1000      # 1 g = 0.001 L
+            elif weight_unit == "oz":
+                converted_volume = weight * 0.0295735 # 1 oz ≈ 29.57 mL = 0.02957 L
+            elif weight_unit == "ton":
+                converted_volume = weight * 1000      # 1 metric ton = 1000 L (approximation)
+            else:
+                raise ValueError(f"Unsupported volume unit: {weight_unit}")
+            
+            print("volume is ", converted_volume, " and qty is ", quantity)
+            float_volume = float(converted_volume)
+            float_quantity = float(quantity)
+            MRN_total = (cents / 100) * float_volume * float_quantity  # return dollar amt
+            print("MRN_total: ", MRN_total, " and type ", type(MRN_total))
 
+        
         # get the tax301 if the country is China
         tax301 = 0.0
         if country == "China":
@@ -204,37 +220,6 @@ def calcLanding():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
-
-# helper function to get the final duty hts rates
-def get_final_duty_hts_rates(classification_text):
-    # Split by numbered sections, e.g. "1. HTSUS Code:", "2. HTSUS Code:", etc.
-    blocks = re.split(r'\n?\d+\.\sHTSUS Code:', classification_text)
-
-    # The first split element may be empty if string starts with "1. HTSUS Code:", so skip it
-    blocks = [b.strip() for b in blocks if b.strip()]
-
-    results = []
-
-    for block in blocks:
-        # Add back "HTSUS Code:" prefix removed by split
-        block = "HTSUS Code:" + block
-        print("block is ", block)
-
-        # Extract HTSUS Code (number pattern after "HTSUS Code:")
-        code_match = re.search(r'HTSUS Code:\s*([\d.]+)', block)
-        total_rate_match = re.search(r'Total HTS Duty Tax Rate:\s*(Free|[\d.]+%)', block, re.IGNORECASE)
-
-        print("code_match is ", code_match, " and total rate match is ", total_rate_match)
-
-        if code_match and total_rate_match:
-            code = code_match.group(1)
-            total_rate = total_rate_match.group(1)
-            results.append((code, total_rate))
-
-    print("returning results: ", results)
-
-    return results
 
 # get hts from the chatbot
 @main.route('/classifier/htsus', methods=['POST'])
@@ -258,9 +243,6 @@ def classify_htsus_path():
         quantity = data.get('quantity')
         if not quantity:
             return jsonify({"error": "Missing 'quantity' in JSON data"}), 400  
-        
-        # print(f"product_description: {product_description}")
-        # print(f"origin_country: {origin_country}")
         
         result = classify_htsus(product_description, origin_country, weight, weight_unit, quantity)
 

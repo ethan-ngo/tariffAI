@@ -1,55 +1,55 @@
-1. HTSUS Code: 0802.42.00.00  
-   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Chestnuts (Castanea spp.): - Shelled  
-   Reason: The product description specifically mentions chestnuts, which are shelled.  
-   
-   Total HTS Duty Tax Rate: Free  
-   Reason: The country of origin, Japan, has normal trade relations with the US, so the general duty tax rate of Free applies.  
-
-2. HTSUS Code: 0802.41.00.00  
-   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Chestnuts (Castanea spp.): - In shell  
-   Reason: The product description mentions chestnuts, which are in shell.  
+1. HTSUS Code: 0304.53.00.10  
+   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: - Other, fresh or chilled: - Fish of the families Bregmacerotidae, Euclichthyidae, Gadidae, Macrouridae, Melanonidae, Merlucciidae, Moridae and Muraenolepididae - Cod: - Atlantic Cod  
+   Reason: The product description matches the specific type of fish, which is Atlantic Cod.  
    
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-3. HTSUS Code: 0802.92.90.00  
-   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Other: - Pine nuts, shelled: - Other  
-   Reason: Although the product is not pine nuts, the description aligns with other nuts that are shelled.  
+2. HTSUS Code: 0304.44.00.10  
+   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: - Fresh or chilled fillets of other fish: - Fish of the families Bregmacerotidae, Euclichthyidae, Gadidae, Macrouridae, Melanonidae, Merlucciidae, Moridae and Muraenolepididae - Cod: - Atlantic Cod  
+   Reason: The product description aligns with the specific type of fish, which is Atlantic Cod.  
    
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-4. HTSUS Code: 0802.92.10.00  
-   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Other: - Pine nuts, shelled: - Pignolia  
-   Reason: The product is not pine nuts, but the description matches other nuts that are shelled.  
+3. HTSUS Code: 0302.51.00.10  
+   Official Product Description: Fish, fresh or chilled, excluding fish fillets and other fish meat of heading 0304: - Fish of the families Bregmacerotidae, Euclichthyidae Gadidae, Macrouridae, Melanonidae, Merlucciidae, Moridae and Muraenolepididae, excluding edible fish offal of subheadings 0302.91 to 0302.99: - Cod (Gadus morhua, Gadus ogac, Gadus macrocephalus) - Atlantic  
+   Reason: The product description matches the specific type of fish, which is Atlantic Cod.  
    
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-5. HTSUS Code: 0802.91.90.00  
-   Official Product Description: Other nuts, fresh or dried, whether or not shelled or peeled: - Other: - Pine nuts, in shell: - Other  
-   Reason: Although the product is not pine nuts, the description aligns with other nuts that are in shell.  
+4. HTSUS Code: 0304.53.00.15  
+   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: - Other, fresh or chilled: - Fish of the families Bregmacerotidae, Euclichthyidae, Gadidae, Macrouridae, Melanonidae, Merlucciidae, Moridae and Muraenolepididae - Cod: - Other  
+   Reason: The product description specifies Cod, which aligns with the official description.  
    
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-6. HTSUS Code: 0813.20.20  
-   Official Product Description: Fruit, dried, other than that of headings 0801 to 0806; mixtures of nuts or dried fruits of this chapter: - Prunes: - Other  
-   Reason: The product description does not match prunes, but it falls under the category of dried fruits.  
+5. HTSUS Code: 0304.44.00.15  
+   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: - Fresh or chilled fillets of other fish: - Fish of the families Bregmacerotidae, Euclichthyidae, Gadidae, Macrouridae, Melanonidae, Merlucciidae, Moridae and Muraenolepididae - Cod: - Other  
+   Reason: The product description mentions Cod, which is consistent with the official description.  
    
-   Total HTS Duty Tax Rate: 14%  
-   Reason: Japan has normal trade relations with the US, so the general duty tax rate of 14% applies.  
+   Total HTS Duty Tax Rate: Free  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-7. HTSUS Code: 0813.40.20  
-   Official Product Description: Fruit, dried, other than that of headings 0801 to 0806; mixtures of nuts or dried fruits of this chapter: - Other fruit: - Berries: - Other  
-   Reason: Although the product is not berries, it falls under the category of dried fruits.  
+6. HTSUS Code: 0304.95.90.00  
+   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: - Other, frozen: - Fish of the families Bregmacerotidae, Euclichthyidae, Gadidae, Macrouridae, Melanonidae, Merlucciidae, Moridae and Muraenolepididae, other than Alaska Pollock (Theragra chalcogramma): - Other  
+   Reason: The product description does not specify a particular type of fish, but it falls under the general category of frozen fish fillets.  
    
-   Total HTS Duty Tax Rate: 1.4¢/kg  
-   Reason: Japan has normal trade relations with the US, so the general duty tax rate of 1.4¢/kg applies.  
+   Total HTS Duty Tax Rate: 6%  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of 6% applies.  
 
-8. HTSUS Code: 0813.40.30  
-   Official Product Description: Fruit, dried, other than that of headings 0801 to 0806; mixtures of nuts or dried fruits of this chapter: - Other fruit: - Cherries  
-   Reason: The product description does not match cherries, but it falls under the category of dried fruits.  
+7. HTSUS Code: 0304.52.00.90  
+   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: - Other, fresh or chilled: - Salmonidae - Other  
+   Reason: The product description does not match the specific type of fish mentioned in the official description.  
    
-   Total HTS Duty Tax Rate: 10.6¢/kg  
-   Reason: Japan has normal trade relations with the US, so the general duty tax rate of 10.6¢/kg applies.
+   Total HTS Duty Tax Rate: Free  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+8. HTSUS Code: 0304.71.50.00  
+   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: - Frozen fillets of the families Bregmacerotidae, Euclichthyidae, Gadidae, Macrouridae, Melanonidae, Merlucciidae, Moridae and Muraenolepididae: - Cod (Gadus morhua, Gadus ogac,Gadus macrocephalus): - Other  
+   Reason: The product description mentions Cod, which aligns with the official description.  
+   
+   Total HTS Duty Tax Rate: Free  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.

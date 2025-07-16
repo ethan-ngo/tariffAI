@@ -266,7 +266,7 @@ function formatLandingBreakdown(data) {
     return `$${Number(value).toFixed(2)}`;
   }
 
-  const mrnRateDisplay = regular ? `${mrnRate}%` : mrnRate;
+  const mrnRateDisplay = regular ? `${mrnRate}` : mrnRate;
 
   return `
     <table style="width: 100%; border-collapse: collapse; color: #ececf1;">
@@ -286,7 +286,7 @@ function formatLandingBreakdown(data) {
         <tr>
           <td style="padding: 6px; border-bottom: 1px solid #444;">
             <a href="https://ustr.gov/issue-areas/enforcement/section-301-investigations/search" target="_blank" rel="noopener noreferrer">
-              301 Duty (${tax301Rate}% rate)
+              301 Duty (${tax301Rate} rate)
             </a>
           </td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(tax301Duty)}</td>
@@ -298,7 +298,7 @@ function formatLandingBreakdown(data) {
         <tr>
           <td style="padding: 6px; border-bottom: 1px solid #444;">
             <a href="${VATLink}" target="_blank" rel="noopener noreferrer">
-              VAT (${vatRate}% rate)
+              VAT (${vatRate} rate)
             </a>
           </td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(vatTotal)}</td>
@@ -341,7 +341,7 @@ function formatLandingBreakdown(data) {
   padding: 24px 16px 12px 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 20px;
   scroll-behavior: smooth;
 }
 
@@ -395,6 +395,7 @@ function formatLandingBreakdown(data) {
   color: #999;
   padding: 2px;
   border-radius: 4px;
+  z-index: 9999;         /* ensures it appears above all */
 }
 
 .copy-icon {

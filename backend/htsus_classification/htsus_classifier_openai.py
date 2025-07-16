@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 import requests
 import chromadb
 import re
+import openai 
+import csv
 
 # Load environment variables from .env file
 load_dotenv()
@@ -49,12 +51,12 @@ def get_top_n_codes(product_description, hts_chapter, n):
 
     return documents
 
-def get_top_n_codes_from_chap99(product_description, country, htsus_code, n):
+def get_top_n_codes_from_chap99(product_description, official_description, country, htsus_code, n):
     # Get or create the collection for that product chapter
     collection_name = f"htsus_chapter_99"
     chapter_collection = chroma_client.get_or_create_collection(name=collection_name)
 
-    query_string = f"htsus code is {htsus_code} and origin country is {country} and product description is {product_description}"
+    query_string = f"origin country is {country}. production description is {product_description} for htsus code is {htsus_code} with official product description is {official_description}"
 
     results = chapter_collection.query(
         query_texts=[query_string],
@@ -67,7 +69,11 @@ def get_top_n_codes_from_chap99(product_description, country, htsus_code, n):
         print("No relevant HTSUS codes found.")
         return
     
-    print(f"Retrieved {len(documents)} HTSUS codes.")
+    print(f"Retrieved {len(documents)} HTSUS codes from chap 99.")
+
+    with open("chap_99_codes.txt", "w") as f:
+        for doc in documents:
+            f.write(str(doc) + "\n")
 
     return documents
 
@@ -173,6 +179,37 @@ def get_final_duty_hts_rates(classification_text):
 
     return results
 
+def ask_assistant_about_chap99(htsus_code, country, file_id):
+    question = f"What Chapter 99 codes apply to HTSUS {htsus_code} from {country}?"
+
+    thread = openai.beta.threads.create()
+    openai.beta.threads.messages.create(
+        thread_id=thread.id,
+        role="user",
+        content=question,
+        file_ids=[file_id]
+    )
+
+    run = openai.beta.threads.runs.create(
+        thread_id=thread.id,
+        assistant_id=YOUR_ASSISTANT_ID
+    )
+
+    while run.status not in ["completed", "failed"]:
+        time.sleep(1)
+        run = openai.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
+
+    messages = openai.beta.threads.messages.list(thread_id=thread.id)
+    return messages.data[-1].content[0].text.value
+
+def find_description_by_hts_code(csv_filepath, search_code):
+    with open(csv_filepath, newline='', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            if row['HTS_Number'] == search_code:
+                return row['Description']
+    return None  # not found
+
 # Main logic: classify the product_description by HTSUS codes 
 # Returns chatbot output with HTSUS code, taxes, descriptions
 def classify_htsus(product_description, country, weight, weight_unit, quantity):
@@ -218,7 +255,6 @@ def classify_htsus(product_description, country, weight, weight_unit, quantity):
         + "\n".join(top_40_codes) 
     )
 
-
     # Call OpenAI API to get the final HTSUS codes and duty tax
     headers = {
         "Authorization": f"Bearer {api_key}",  # Replace with your actual API key
@@ -240,57 +276,10 @@ def classify_htsus(product_description, country, weight, weight_unit, quantity):
         print("received the top HTSUS codes!")
         with open("final_output.txt", "w", encoding="utf-8") as f:          
             f.write(str(chatbot_output))
-        # return chatbot_output
+        return chatbot_output
     else:
         print("Error:", response.status_code, response.text)
         return "Error with classification"
-    
-    response_json = response.json()  # Parse the JSON response
-    chatbot_output = response_json.get("text", "")  # Get the "text" field safely
-    duty_rates = get_final_duty_hts_rates(chatbot_output)
-    duty_rates = duty_rates[:3]
-    print("duty rates are ", duty_rates)
-
-    # get Section 99 taxes
-    top_40_codes_from_chap99 = get_top_n_codes_from_chap99(product_description, country, duty_rates[0][0], 40)
-
-    if not top_40_codes_from_chap99:
-        print("No 99 HTSUS codes retrieved. Exiting classification.")
-        return
-    
-    full_prompt_2 = (
-        f"Product description:\n{product_description}\n\n"
-        f"Country of origin:\n{country}\n\n"
-        f"Weight:\n{weight}\n\n"
-        f"Units weight is in:\n{weight_unit}\n\n"
-        f"Quantity of the product:\n{quantity}\n\n"
-        f"Instructions:\nChoose the best code from the given below that matches the product description and country of origin. Output just that HTSUS code and nothing else.\n\n"
-        "HTSUS data to choose from:\n"
-        + "\n".join(top_40_codes_from_chap99) 
-    )
-
-    # Call OpenAI API to get the final HTSUS codes and duty tax
-    headers = {
-        "Authorization": f"Bearer {api_key}",  # Replace with your actual API key
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-    }
-    data = {
-        "text": full_prompt_2
-    }
-
-    response = requests.post(url, headers=headers, json=data)
-
-    # Handle OpenAI response
-    if response.status_code != 200:
-        print("Error:", response.status_code, response.text)
-        return "Error with classification"
-    
-    response_json = response.json()  # Parse the JSON response
-    chatbot_output = response_json.get("text", "")  # Get the "text" field safely
-    print("chap 99 code is ", chatbot_output)
-
-    return ""
 
 # Test cases
 if __name__ == "__main__":
