@@ -105,9 +105,23 @@ async function scrollToBottom() {
 
 async function scrollToTop() {
   await nextTick();
-  if (messagesContainer.value) {
-    messagesContainer.value.scrollTop = 0;  // scroll to top
-  }
+
+  if (!messagesContainer.value) return;
+
+  const container = messagesContainer.value;
+  const botMessages = container.querySelectorAll('.chat-row.bot');
+  if (botMessages.length === 0) return;
+
+  const lastBotMessage = botMessages[botMessages.length - 1];
+
+  const containerRect = container.getBoundingClientRect();
+  const messageRect = lastBotMessage.getBoundingClientRect();
+
+  // How far is the message top from container top
+  const offset = messageRect.top - containerRect.top;
+
+  // Adjust scrollTop by current scroll and the offset
+  container.scrollTop += offset;
 }
 
 const classificationBlocks = ref([]); // changed to ref for reactivity
@@ -238,14 +252,19 @@ function formatLandingBreakdown(data) {
   const subtotal = data.subtotal;
   const tax301Duty = data.tax301_duty;
   const tax301Rate = data.tax301_rate;
+  const reciprocalDuty = data.reciprocal_duty;
+  const reciprocalTaxes = data.reciprocal_rates;
+  const reciprocalTotalRate = data.reciprocal_total_rate;
   const vatRate = data.vat_rate;
   const vatTotal = data.vat_total;
   const regular = data.regular;
   const breakdown = data.breakdown;
   const VATLink = data.VAT_link;
-  // const htsLink = `https://hts.usitc.gov/search?query=${htsus_code}`
+  const htsLink = `https://hts.usitc.gov/search?query=${data.htsus_code}`
 
-  console.log("Vat Link", VATLink)
+  // console.log("Vat Link", VATLink)
+  // console.log("htsLink", htsLink)
+  console.log("reciprocal rate is ", reciprocalTotalRate, " duty is ", reciprocalDuty, " and all is ", reciprocalTaxes)
 
   function fmtMoney(value) {
     return `$${Number(value).toFixed(2)}`;
@@ -261,19 +280,53 @@ function formatLandingBreakdown(data) {
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(subtotal)}</td>
         </tr>
         <tr>
-          <td style="padding: 6px; border-bottom: 1px solid #444;">Base Duty (${mrnRateDisplay} base rate)</td>
+          <td style="padding: 6px; border-bottom: 1px solid #444;">
+            <a href="${htsLink}" target="_blank" rel="noopener noreferrer">
+              Base Duty (${mrnRateDisplay} base rate)
+            </a>
+          </td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(mrnDuty)}</td>
         </tr>
         <tr>
-          <td style="padding: 6px; border-bottom: 1px solid #444;">301 Duty (${tax301Rate}% rate)</td>
+          <td style="padding: 6px; border-bottom: 1px solid #444;">
+            <a href="https://ustr.gov/issue-areas/enforcement/section-301-investigations/search" target="_blank" rel="noopener noreferrer">
+              301 Duty (${tax301Rate}% rate)
+            </a>
+          </td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(tax301Duty)}</td>
+        </tr>
+        <tr>
+          <td>
+            ${reciprocalTaxes.length > 0 ? `
+              <tr>
+                <td style="padding: 6px; border-bottom: 1px solid #444;">
+                  <a href="https://www.tradecomplianceresourcehub.com/2025/07/16/trump-2-0-tariff-tracker/" target="_blank" rel="noopener noreferrer">
+                    Reciprocal Duty (${reciprocalTotalRate}% rate)
+                  </a>
+                </td>
+                <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(reciprocalDuty)}</td>
+              </tr>
+              ${reciprocalTaxes.map(([rate, date]) => `
+                <tr>
+                  <td style="padding: 6px; border-bottom: 1px solid #444; font-size: 0.85em;">
+                    – ${rate}% effective ${date}
+                  </td>
+                  <td style="padding: 6px; border-bottom: 1px solid #444;"></td>
+                </tr>
+              `).join("")}
+            ` : ""}
+          </td>
         </tr>
         <tr>
           <td style="padding: 6px; border-bottom: 1px solid #444;">Total Duties</td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(dutyTotal)}</td>
         </tr>
         <tr>
-          <td style="padding: 6px; border-bottom: 1px solid #444;">VAT (${vatRate}% rate)</td>
+          <td style="padding: 6px; border-bottom: 1px solid #444;">
+            <a href="${VATLink}" target="_blank" rel="noopener noreferrer">
+              VAT (${vatRate}% rate)
+            </a>
+          </td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(vatTotal)}</td>
         </tr>
         <tr>
@@ -286,19 +339,10 @@ function formatLandingBreakdown(data) {
             <ul style="margin: 0; padding-left: 18px; color: white; font-size: 0.9em;">
               ${breakdown.map(step => `<li>${step}</li>`).join("")}
             </ul>
-
-            <!-- Sources section -->
-            <div style="margin-top: 12px; font-weight: bold;">Sources</div>
-            <ul style="margin: 4px 0 0 0; padding-left: 18px; color: white; font-size: 0.9em;">
-              <li>
-                <a href="${VATLink}" target="_blank" rel="noopener noreferrer">VAT Source</a>
-              </li>
-            </ul>
         </tr>
       </tbody>
     </table>
   `;
-  
 }
 
 </script>
@@ -314,6 +358,7 @@ function formatLandingBreakdown(data) {
   box-shadow: 0 4px 32px 0 rgba(0,0,0,0.18);
   overflow: hidden;
   border: 1.5px solid #292933;
+  margin: 0 auto;   /* centers horizontally */
 }
 
 .chat-messages {
@@ -322,7 +367,7 @@ function formatLandingBreakdown(data) {
   padding: 24px 16px 12px 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 32px;
   scroll-behavior: smooth;
 }
 
@@ -365,8 +410,8 @@ function formatLandingBreakdown(data) {
 }
 .copy-btn {
   position: absolute;
-  bottom: -25px;    /* 6px from bottom */
-  right: 6px;      /* 6px from right */
+  bottom: -32px;    /* 6px from bottom */
+  right: 4px;      /* 6px from right */
   background: transparent;
   border: none;
   cursor: pointer;
@@ -376,11 +421,12 @@ function formatLandingBreakdown(data) {
   color: #999;
   padding: 2px;
   border-radius: 4px;
+  z-index: 9999;         /* ensures it appears above all */
 }
 
 .copy-icon {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   object-fit: contain; /* Keeps aspect ratio clean */
 }
 

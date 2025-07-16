@@ -43,6 +43,7 @@ html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 #app {
@@ -75,7 +76,7 @@ html, body {
 
 .center-row {
   display: flex;
-  gap: 30px;
+  gap: 10px;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -87,7 +88,7 @@ html, body {
 .right-panel {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; /* centers chatbot horizontally */
   min-height: 600px;
 }
 
@@ -98,17 +99,22 @@ html, body {
 }
 
 .right-panel {
-  max-width: 1000px;
-  width: 100%;
+  margin-right: 5%;
   flex: 2;
+  width: 100%;
+  max-width: 100%;         /* prevent it from exceeding viewport */
+}
+.open-cart-btn-wrapper {
+  z-index: 2000;
 }
 .open-cart-btn {
-  top: 20px;
-  left: 20px;
-  z-index: 1100;
+  /* top: 20px;
+  left: 20px; */
   padding: 8px 12px;
+  margin: 5%;
   background: #4f46e5;
   color: white;
+  white-space: nowrap;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
