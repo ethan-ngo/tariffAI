@@ -252,6 +252,9 @@ function formatLandingBreakdown(data) {
   const subtotal = data.subtotal;
   const tax301Duty = data.tax301_duty;
   const tax301Rate = data.tax301_rate;
+  const reciprocalDuty = data.reciprocal_duty;
+  const reciprocalTaxes = data.reciprocal_rates;
+  const reciprocalTotalRate = data.reciprocal_total_rate;
   const vatRate = data.vat_rate;
   const vatTotal = data.vat_total;
   const regular = data.regular;
@@ -259,8 +262,9 @@ function formatLandingBreakdown(data) {
   const VATLink = data.VAT_link;
   const htsLink = `https://hts.usitc.gov/search?query=${data.htsus_code}`
 
-  console.log("Vat Link", VATLink)
-  console.log("htsLink", htsLink)
+  // console.log("Vat Link", VATLink)
+  // console.log("htsLink", htsLink)
+  console.log("reciprocal rate is ", reciprocalTotalRate, " duty is ", reciprocalDuty, " and all is ", reciprocalTaxes)
 
   function fmtMoney(value) {
     return `$${Number(value).toFixed(2)}`;
@@ -278,7 +282,7 @@ function formatLandingBreakdown(data) {
         <tr>
           <td style="padding: 6px; border-bottom: 1px solid #444;">
             <a href="${htsLink}" target="_blank" rel="noopener noreferrer">
-              Base Duty (${mrnRateDisplay} base rate)
+              Base Duty (${mrnRateDisplay}% base rate)
             </a>
           </td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(mrnDuty)}</td>
@@ -286,10 +290,32 @@ function formatLandingBreakdown(data) {
         <tr>
           <td style="padding: 6px; border-bottom: 1px solid #444;">
             <a href="https://ustr.gov/issue-areas/enforcement/section-301-investigations/search" target="_blank" rel="noopener noreferrer">
-              301 Duty (${tax301Rate} rate)
+              301 Duty (${tax301Rate}% rate)
             </a>
           </td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(tax301Duty)}</td>
+        </tr>
+        <tr>
+          <td>
+            ${reciprocalTaxes.length > 0 ? `
+              <tr>
+                <td style="padding: 6px; border-bottom: 1px solid #444;">
+                  <a href="" target="_blank" rel="noopener noreferrer">
+                    Reciprocal Duty (${reciprocalTotalRate}% rate)
+                  </a>
+                </td>
+                <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(reciprocalDuty)}</td>
+              </tr>
+              ${reciprocalTaxes.map(([rate, date]) => `
+                <tr>
+                  <td style="padding: 6px; border-bottom: 1px solid #444; font-size: 0.85em;">
+                    – ${rate}% effective ${date}
+                  </td>
+                  <td style="padding: 6px; border-bottom: 1px solid #444;"></td>
+                </tr>
+              `).join("")}
+            ` : ""}
+          </td>
         </tr>
         <tr>
           <td style="padding: 6px; border-bottom: 1px solid #444;">Total Duties</td>
@@ -298,7 +324,7 @@ function formatLandingBreakdown(data) {
         <tr>
           <td style="padding: 6px; border-bottom: 1px solid #444;">
             <a href="${VATLink}" target="_blank" rel="noopener noreferrer">
-              VAT (${vatRate} rate)
+              VAT (${vatRate}% rate)
             </a>
           </td>
           <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(vatTotal)}</td>
@@ -317,7 +343,6 @@ function formatLandingBreakdown(data) {
       </tbody>
     </table>
   `;
-  
 }
 
 </script>

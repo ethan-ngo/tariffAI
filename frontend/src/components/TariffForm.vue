@@ -54,21 +54,21 @@
 
         <!-- Product Value -->
         <div class="form-row">
-          <label for="productValue">Product Value:</label>
+          <label for="productValue">Product Value (per unit):</label>
           <input type="number" id="productValue" v-model="productValue" min="0" step="0.01" placeholder="Enter product value">
           <p v-if="errors.productValue" class="error-message">{{ errors.productValue }}</p>
         </div>
 
         <!-- Shipping Cost -->
         <div class="form-row">
-          <label for="shippingCost">Shipping Cost:</label>
+          <label for="shippingCost">Shipping Cost (total):</label>
           <input type="number" id="shippingCost" v-model="shippingCost" min="0" step="0.01" placeholder="Enter shipping cost">
           <p v-if="errors.shippingCost" class="error-message">{{ errors.shippingCost }}</p>
         </div>
 
         <!-- Insurance Cost -->
         <div class="form-row">
-          <label for="insuranceCost">Insurance Cost:</label>
+          <label for="insuranceCost">Insurance Cost (total):</label>
           <input type="number" id="insuranceCost" v-model="insuranceCost" min="0" step="0.01" placeholder="Enter insurance cost">
           <p v-if="errors.insuranceCost" class="error-message">{{ errors.insuranceCost }}</p>
         </div>

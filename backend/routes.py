@@ -193,6 +193,16 @@ def calcLanding():
 
         print("VAT_link is", VAT_link)
 
+        # get reciprocal taxes
+        # list of tuple (rate, date) -> date it's effective for active taxes
+        # taxes_date = some_function(prod_desc, country)
+        taxes_date = [("10%","date1"), ("20%", "date2")] # CHANGE: THIS IS A PLACEHOLDER
+        taxes_float_date = []
+
+        for pair in taxes_date:
+            tax_float = float(pair[0].strip('%'))
+            taxes_float_date.append((tax_float,pair[1]))
+
         # convert other values to float
         prod_value = float(data.get('prod_value', 0))
         quantity = int(data.get('quantity', 1))
@@ -209,9 +219,9 @@ def calcLanding():
         # get the total landed cost
         # all of these floats should not be divided by 100 yet
         if MRN_rate != -1.0: # the duty tax is a rate
-            landing_cost = getLanding_MRN_rate(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), VAT_link, MRN_rate)
+            landing_cost = getLanding_MRN_rate(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), VAT_link, MRN_rate, taxes_float_date)
         elif MRN_total != -1.0: # the duty tax is an amount
-            landing_cost = getLanding_MRN_amt(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), VAT_link, MRN, MRN_total, cents, converted_weight, "kg")
+            landing_cost = getLanding_MRN_amt(prod_value, quantity, shipping, insurance, tax301, float(taxVAT), VAT_link, MRN, MRN_total, cents, converted_weight, weight_unit, taxes_float_date)
         
         print("returning landed cost")
         
