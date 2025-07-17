@@ -64,7 +64,7 @@ def getRecipricalByCountry(country) -> tuple[str, str]:
             countryRate = countryCells[2].text.split("%")[0]
             status = countryCells[1].text.split("\n\n")[0].replace("\n", " ")
             if "Threatened" in status:
-                return None
+                return (0, status + " - " + countryRate)
             else:
                 return (countryRate, status)
 
@@ -99,17 +99,15 @@ def getReciprocal(product_desc, country):
     prompt = f""""
     You are a tariff data extractor.
 
-    Extract the most relevant **implemented** tariff on **{product_desc}** imported from **{country}**, using the HTML table provided.
+    Extract the most relevant and ***recent*** tariff on **{product_desc}** imported from **{country}**, using the HTML table provided.
 
     ### Rules:
-    - Extract from the provided HTML only if a tariff has been **implemented** (e.g. "effective Mar. 12, 2025").
-    - Check the **"Additional Information"** column for **exceptions**, such as:
+    - Consider the **"Additional Information"** column for **exceptions**, such as:
         - “Reciprocal tariff exception”
         - “Not subject to tariffs”
         - Section 232 exclusions
-    - If no tariff is clearly implemented, return **nothing**.
-    - Return only valid JSON, with these exact fields:
-    {{"tariff_rate": <number, no percent sign>, "status": "<full summary of the policy status>"}}
+    - Return in this format with these exact fields:
+    tariff_rate:<number, no percent sign>~status:<full summary in **status column**>
 
     HTML content:
     {productHeader}
@@ -117,6 +115,7 @@ def getReciprocal(product_desc, country):
     """
     print(prompt)
     prodReciprocal = callOpenAI(prompt)
-    return [allReciprocal, countryReciprocal, prodReciprocal]
-
-print(getReciprocal("hoe", "Philippines"))
+    tariffRate, status = prodReciprocal.split('~')
+    parsedTariff = tariffRate.split(':')[1]
+    parsedStatus = status.split(':')[1]
+    return [allReciprocal, countryReciprocal, (parsedTariff, parsedStatus)]
