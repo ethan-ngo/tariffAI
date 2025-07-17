@@ -5,7 +5,7 @@ from tariffs.scraperVAT import getVAT, getVAT_AI
 from tariffs.landingCost import getLanding_MRN_rate, getLanding_MRN_amt
 from htsus_classification.get_hts import get_final_HTS_duty
 from htsus_classification.chatbot import workflow
-# from htsus_classification.chapter99 import getReciprocal
+from htsus_classification.chapter99 import getReciprocal
 from flask import Flask, request, jsonify
 
 from htsus_classification.htsus_classifier_openai import classify_htsus, get_final_duty_hts_rates
