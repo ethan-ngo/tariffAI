@@ -154,3 +154,4 @@ def getReciprocal(product_desc, country):
     parsedTariff = tariffRate.split(':')[1]
     parsedStatus = status.split(':')[1]
     return [allReciprocal, countryReciprocal, (parsedTariff, category + " " + parsedStatus)]
+
