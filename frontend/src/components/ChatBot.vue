@@ -330,7 +330,7 @@ function formatLandingBreakdown(data) {
               ${reciprocalTaxes.map(([rate, date]) => `
                 <tr>
                   <td style="padding: 6px; border-bottom: 1px solid #444; font-size: 0.85em;">
-                    – ${rate}% effective ${date}
+                    – ${rate}% ${date}
                   </td>
                   <td style="padding: 6px; border-bottom: 1px solid #444;"></td>
                 </tr>
