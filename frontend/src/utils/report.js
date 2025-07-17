@@ -40,13 +40,9 @@ function createPDF(items) {
       const rateStr = rate.toString().toLowerCase();
       return rateStr.includes('/') || rateStr.includes('c') ? rateStr : `${rateStr}%`;
     }],
-    ['Base Duty', item => item.mrn_duty != null ? `$${item.mrn_duty.toFixed(2)}` : '-'],
     ['301 Rate', item => formatRate(item.tax301_rate)],
-    ['301 Duty', item => item.tax301_duty != null ? `$${item.tax301_duty.toFixed(2)}` : '-'],
     ['Reciprocal Rate', item => formatRate(item.reciprocal_total_rate)],
-    ['Reciprocal Duty', item => item.reciprocal_duty != null ? `$${item.reciprocal_duty.toFixed(2)}` : '-'],
     ['VAT Rate', item => formatRate(item.vat_rate)],
-    ['VAT', item => item.vat_total != null ? `$${item.vat_total.toFixed(2)}` : '-'],
     ['Landed Cost', item => item.landing_cost != null ? `$${item.landing_cost.toFixed(2)}` : '-'],
   ];
 

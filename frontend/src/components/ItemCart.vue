@@ -81,10 +81,11 @@ const total = computed(() =>
   items.value.reduce((sum, item) => sum + item.landing_cost, 0)
 )
 
-function calcLanding(prod_value, quantity, shipping, insurance, MRN, tax301, VAT) {
+function calcLanding(prod_value, quantity, shipping, insurance, MRN, tax301, VAT, reciprocal) {
   const subtotal = prod_value * quantity + shipping + insurance
   const mrn_duty = MRN / 100 * subtotal
   const tax301_duty = tax301 / 100 * subtotal
+  const reciprocal_duty = reciprocal / 100 * subtotal
   const vat_duty = VAT / 100 * (mrn_duty + tax301_duty + subtotal)
   
   const landing = subtotal + mrn_duty + tax301_duty + vat_duty
@@ -92,7 +93,8 @@ function calcLanding(prod_value, quantity, shipping, insurance, MRN, tax301, VAT
     "landing": landing,
     "mrn_duty": mrn_duty,
     "tax301_duty": tax301_duty, 
-    "vat_total": vat_duty
+    "vat_total": vat_duty,
+    "reciprocal_duty": reciprocal_duty,
   }
 }
 function updateQuantity(id, change) {
@@ -100,13 +102,14 @@ function updateQuantity(id, change) {
     if (item.id === id) {
       const newQuantity = Math.max(1, item.quantity + change);
       const landing = calcLanding(
-        item.prod_value || 0,
+        item.productValue || 0,
         newQuantity,
         item.shipping || 0,
         item.insurance || 0,
         item.mrn_rate || 0,
         item.tax301_rate || 0,
-        item.vat_rate || 0
+        item.vat_rate || 0,
+        item.reciprocal_total_rate || 0
       );
       return {
         ...item,
@@ -115,6 +118,7 @@ function updateQuantity(id, change) {
         mrn_duty: landing.mrn_duty,
         tax301_duty: landing.tax301_duty,
         vat_total: landing.vat_total,
+        reciprocal_duty: landing.reciprocal_duty
       };
     }
     return item;
@@ -125,6 +129,7 @@ function removeItem(id) {
   items.value = items.value.filter(item => item.id !== id)
 }
 
+// TODO: Change to JSON
 function downloadItems(){
   createPDF(items.value)
 }
@@ -205,7 +210,7 @@ function downloadItems(){
 .remove-btn {
   position: absolute;
   top: 14px;
-  right: 14px;
+  left: 14px;
   background: #2d232a;
   border: none;
   border-radius: 50%;
