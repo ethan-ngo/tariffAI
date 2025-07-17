@@ -25,10 +25,7 @@
 
         <!-- Origin Country -->
         <div class="form-row">
-          <!-- <label for="country">Origin Country:</label>
-          <input type="text" id="country" v-model="country" required>
-          <p v-if="errors.country" class="error-message">{{ errors.country }}</p> -->
-          <label for="countries">Origin Country (one or more):</label>
+          <label for="countries">Origin Country (at least 1):</label>
             <input
               type="text"
               id="countries"
@@ -90,7 +87,7 @@
         </div>
       </div>
 
-      <!-- Buttons aligned side by side -->
+      <!-- Buttons for processing -->
       <div class="form-actions">
         <button type="button" @click="submitClassification">Submit Classification</button>
         <button type="button" @click="submitCalculation">Submit Calculation</button>
@@ -108,11 +105,10 @@
 <script>
 import emitter from '../eventBus'
 
+// get links to the official HTSUS website using the HTSUS codes
 function buildHTSUSLinksFromDutyRates(dutyRates) {
-console.log("getting htsus links")
   return dutyRates
-    .map(([code, rate]) => {
-      console.log("rate is ", rate)
+    .map(([code, ]) => {
       return `"https://hts.usitc.gov/search?query=${encodeURIComponent(code)}"`;
     });
 }
@@ -149,17 +145,19 @@ export default {
     }
   },
   methods: {
+    // from the tariff form country input, add the country to the countries list to be used later
     addCountry() {
       const trimmed = this.countryInput.trim();
       if (trimmed && !this.countries.includes(trimmed)) {
         this.countries.push(trimmed);
       }
       this.countryInput = '';
-    },
+    }, // remove country from countries list
     removeCountry(index) {
       this.countries.splice(index, 1);
     },
     
+    // classifies by htsus code by using the product description, origin country, weight
     async submitClassification() {
       // Clear previous errors
       this.errors.productDesc = '';
@@ -218,20 +216,18 @@ export default {
           })
         });
         const data = await response.json();
-        console.log('HTSUS Classification result:', data); // <-- Console log the result
-        console.log("HTSUS codes: ", data.duty_rates)
 
         const linksHtml = buildHTSUSLinksFromDutyRates(data.duty_rates);
-        // console.log("links: ", linksHtml);
 
         // Emit htsus result to chatbot
         emitter.emit('htsusResult', { data, linksHtml }); // Send data to chatbot
       } catch (error) {
-        // this.result = { error: error.message };
+        this.result = { error: error.message };
         console.log('HTSUS Classification error:', error);
       }
     },
-
+    
+    // calculate the landing cost for one country 
     async submitCalculation() {
       // Clear previous errors
       this.errors = {
@@ -287,8 +283,7 @@ export default {
       emitter.emit('sentUserCalculationRequest', userMsg);
 
       try {
-        // Call /landing API
-         // Emit progress to chatbot
+        // Emit progress to chatbot
         const progress = `Please wait a  moment, calculating the total landed cost for "${this.code}"...`
         emitter.emit('sentCalculationRequest', progress); // Send data to chatbot
 
@@ -311,15 +306,11 @@ export default {
         });
 
         if (!response.ok) {
-          // const errorData = await response.json();
-          // const errorMsg = errorData.error || "An unknown error occurred.";
           emitter.emit('botError', "An error has occured, please try again");
           return;
         }
 
         const data = await response.json();
-        console.log("sending landed cost to chatbot")
-
         data.htsus_code = this.code
 
         const data2 = {
@@ -331,7 +322,7 @@ export default {
         emitter.emit('landedCostResult', data2); // Send data to chatbot
 
         const combinedData = {
-          ...data2,           // all fields returned from API
+          ...data2,       
           prod_desc: this.productDesc,
           quantity: this.quantity,
           productValue: this.productValue,
@@ -345,11 +336,12 @@ export default {
         emitter.emit('landedCostResult2', combinedData);
 
       } catch (error) {
-        // this.result = { error: error.message };
+        this.result = { error: error.message };
         console.log('Landing API error:', error);
       }
     },
 
+    // get a pdf comparing the duty rates for multiple countries
     async compareCountries() {
       // Clear previous errors
       this.errors = {
@@ -402,9 +394,7 @@ export default {
       }
 
       const countryList = this.countries.join(', ');
-      const userMsg = `I to compare tariff rates for HTSUS ${this.code} across: ${countryList}`;
-      emitter.emit('wantCompareCountriesRequest', userMsg);
-
+      emitter.emit('wantCompareCountriesRequest', `I to compare tariff rates for HTSUS ${this.code} across: ${countryList}`);
       emitter.emit('sentCompareCountriesRequest', `Processing tariff rates for HTSUS ${this.code} across: ${countryList}, please wait...`);
 
       const compareResults = [];
@@ -432,7 +422,7 @@ export default {
           data.htsus_code = this.code
 
           const combinedData = {
-            ...data,           // all fields returned from API
+            ...data,     
             prod_desc: this.productDesc,
             quantity: this.quantity,
             productValue: this.productValue,
@@ -445,13 +435,13 @@ export default {
 
           compareResults.push(combinedData);
 
-          // console.log("combined data is ", combinedData)
-
         } catch (error) {
+          this.result = { error: error.message };
           console.error(`Error for country ${country}:`, error);
         }
       }
 
+      // emit final array of all results to generate and output the pdf
       emitter.emit('compareCountriesRes', compareResults);
     }
   }
@@ -577,6 +567,36 @@ button:hover {
   margin-top: 4px;
   font-style: italic;
 }
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 14px;       /* smaller font */
+  line-height: 1;
+  padding: 0 6px;        /* smaller horizontal padding */
+  cursor: pointer;
+  border-radius: 50%;
+  width: 18px;           /* set fixed width and height */
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.remove-btn:hover {
+  color: #f44336;        /* red on hover */
+}
+
+.country-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Adds space between country tags */
+  justify-content: center;
+  margin-top: 6px;
+}
+
 
 @media (max-width: 900px) {
   .tariff-form {

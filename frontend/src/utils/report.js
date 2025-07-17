@@ -152,7 +152,6 @@ function create_table_PDF(results) {
   y += 10;
 
   const fields = [
-    // ['Country', item => item.origin_country],
     ['HTSUS Code', item => item.htsus_code],
     ['Product Description', item => item.prod_desc],
     ['Quantity', item => item.quantity],
