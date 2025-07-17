@@ -191,6 +191,7 @@ onMounted(async () => {
 
   // listen for final compare countries result
   emitter.on('compareCountriesRes', async (data) => {
+    console.log("received compare results final: ", data)
     const pdfUrl = create_table_PDF(data);
     messages.value.push({ 
       from: 'bot', 
@@ -431,7 +432,7 @@ function formatLandingBreakdown(data) {
 }
 .copy-btn {
   position: absolute;
-  bottom: -32px;    /* 6px from bottom */
+  bottom: -30px;    /* 6px from bottom */
   right: 4px;      /* 6px from right */
   background: transparent;
   border: none;

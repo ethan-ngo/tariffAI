@@ -1,10 +1,13 @@
 import os
 from dotenv import load_dotenv
 import requests
-from .htsus_classifier_openai import classify_htsus
+import html
+import re
+from .htsus_classifier_openai import classify_htsus, get_final_duty_hts_rates
 from tariffs.scraper301 import get301Desc
 from tariffs.scraperVAT import getVAT
 from .get_hts import get_final_HTS_duty
+from urllib.parse import quote
 
 load_dotenv()
 url = os.getenv("OPENAI_URL")
@@ -28,7 +31,6 @@ def callOpenAI(query: str) -> str:
         return chatbot_output
     else:
         return ("Error:", response.status_code, response.text)
-
 
 def determineIntent(query: str) -> str:
     prompt = f"""
@@ -68,18 +70,89 @@ def determineIntent(query: str) -> str:
     res = callOpenAI(prompt)
     return res
 
+# get individual classification blocks starting with #. HTSUS Code:
+def parse_classification_blocks(raw_text, max_blocks=3):
+    """Extract individual blocks starting with 1. HTSUS Code: ..."""
+    pattern = r'\d+\.\s+HTSUS Code:.*?(?=(?:\n\d+\.|$))'
+    matches = re.findall(pattern, raw_text, re.DOTALL)
+    return matches[:max_blocks]
+
+# format each htsus code block & add the HTSUS link
+def format_classification_block(block, link=None):
+    subtitles = [
+        'HTSUS Code:',
+        'Official Product Description:',
+        'Confidence Score:',
+        'Reason:',
+        'Total HTS Duty Tax Rate:',
+    ]
+
+    # Escape HTML special chars
+    escaped = (
+        block.replace('&', "&amp;")
+             .replace('<', "&lt;")
+             .replace('>', "&gt;")
+    )
+
+    # Bold subtitles
+    for sub in subtitles:
+        escaped = re.sub(
+            re.escape(sub),
+            f"<b>{sub}</b>",
+            escaped
+        )
+
+    # Add <br> for formatting
+    escaped = escaped.strip().replace('\n', '<br>')
+
+    # Append HTSUS link if available
+    if link:
+        escaped += f'<br><a href="{link}" target="_blank" rel="noopener noreferrer">View HTSUS Details</a>'
+
+    return escaped
+
+# get the final html classification output
+def generate_classification_html(classification_result, prod_desc, country):
+    blocks = parse_classification_blocks(classification_result)
+    
+    # Extract HTS codes from the blocks
+    hts_codes = []
+    for block in blocks:
+        match = re.search(r'HTSUS Code:\s*([0-9\.]+)', block)
+        hts_codes.append(match.group(1) if match else '')
+
+    # Generate links
+    hts_links = [f"https://hts.usitc.gov/search?query={quote(code)}" if code else '' for code in hts_codes]
+
+    # Format each block with its link
+    formatted_blocks = [
+        format_classification_block(block, link)
+        for block, link in zip(blocks, hts_links)
+    ]
+
+    # Join all formatted blocks
+    full_output = f"HTSUS Classification for '{prod_desc}' from {country}:<br><br>"
+    full_output += '<br><br>'.join(formatted_blocks)
+
+    return full_output
+
 def workflow(query):
     print(query)
     userIntent = determineIntent(query)
-    print(userIntent)
+    userIntent = userIntent.lower()
+    print("userIntent: ", userIntent, " of type ", type(userIntent))
     output = "I am unable to answer"
 
-    if "HTS_Classifcation" in userIntent:
-        _, prod_desc, country, weight, weight_unit, quantity = [x.strip() for x in userIntent.split(',')]
-        classification_result = classify_htsus(prod_desc, country, weight, weight_unit, quantity)
-        output = f"HTSUS Classification for '{prod_desc}' from {country}:\n{classification_result}"
+    duty_keywords = ["duty rate", "duty", "duty tariff", "base duty", "mrn rate", "mrn", "rate"]
 
-    elif userIntent == "General HTS Questions":
+    if userIntent.startswith("hts_classification"):
+        _, prod_desc, country, weight, weight_unit, quantity = [x.strip() for x in userIntent.split(',')]
+        print("prod_desc is ", prod_desc, " country is ", country, " weight is ", weight, " weight unit is ", weight_unit, " quantity is ", quantity)
+
+        classification_result = classify_htsus(prod_desc, country, weight, weight_unit, quantity)
+        output = generate_classification_html(classification_result, prod_desc, country)
+
+    elif userIntent == "general hts questions":
         prompt = f"""
         You are an intelligent customs assistant specializing in the Harmonized Tariff Schedule of the United States (HTSUS). Your job is to accurately and clearly answer general questions related to:
 
@@ -111,21 +184,25 @@ def workflow(query):
         """
         output = callOpenAI(prompt)
 
-    elif "VAT rate" in userIntent:
+    elif "vat rate" in userIntent:
         country = userIntent.split(',')[1]
         res = getVAT(country)
         output = f'{res[0]}<br><br>Source: <a href="{res[1]}" target="_blank">{res[1]}</a>'
+    
     elif "301 rate" in userIntent:
         code = userIntent.split(',')[1]
         res = get301Desc(code)
         output = res[0]
         if res[1]:
             output += "<br><br>" + res[1]
-    
-    elif "Duty Rate" in userIntent:
+        
+        # Wrap output in a hyperlink
+        output = f'{output} <br><br><a href="https://ustr.gov/issue-areas/enforcement/section-301-investigations/search" target="_blank">Source</a>'
+
+    elif any(keyword in userIntent for keyword in duty_keywords):
         _, code, country = userIntent.split(',')
         dutyRate = get_final_HTS_duty(code, country)
-        output = dutyRate
+        output = f'{dutyRate} <br><br><a href="https://hts.usitc.gov/search?query={quote(code)}">Source</a>'
 
     return output
 

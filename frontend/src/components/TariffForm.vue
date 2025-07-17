@@ -203,13 +203,14 @@ export default {
         emitter.emit('sentPostRequest', progress); // Send data to chatbot
 
         const country = this.countries[0]
+        const formatted_country = country.charAt(0).toUpperCase() + country.slice(1).toLowerCase();
 
         const response = await fetch('http://127.0.0.1:5000/classifier/htsus', {
               method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             product_description: this.productDesc,
-            origin_country: country,
+            origin_country: formatted_country,
             weight: this.weight,
             weight_unit: this.weightUnit,
             quantity: this.quantity
@@ -288,6 +289,7 @@ export default {
         emitter.emit('sentCalculationRequest', progress); // Send data to chatbot
 
         const country = this.countries[0]
+        const formatted_country = country.charAt(0).toUpperCase() + country.slice(1).toLowerCase();
 
         const response = await fetch('http://127.0.0.1:5000/landing', {
           method: 'POST',
@@ -295,7 +297,7 @@ export default {
           body: JSON.stringify({
             hts_code: this.code,
             prod_desc: this.productDesc,
-            country: country,
+            country: formatted_country,
             prod_value: this.productValue,
             weight: this.weight,
             weight_unit: this.weightUnit,
@@ -315,7 +317,7 @@ export default {
 
         const data2 = {
           ...data, 
-          origin_country: country
+          origin_country: formatted_country
         }
 
         // Emit htsus result to chatbot
@@ -401,13 +403,15 @@ export default {
 
       for (const country of this.countries) {
         try {
+          const formatted_country = country.charAt(0).toUpperCase() + country.slice(1).toLowerCase();
+
           const response = await fetch('http://127.0.0.1:5000/landing', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               hts_code: this.code,
               prod_desc: this.productDesc,
-              country: country,
+              country: formatted_country,
               prod_value: this.productValue,
               weight: this.weight,
               weight_unit: this.weightUnit,
@@ -430,10 +434,11 @@ export default {
             shipping: this.shippingCost,
             insurance: this.insuranceCost,
             weightUnit: this.weightUnit,
-            origin_country: country   
+            origin_country: formatted_country   
           };
 
           compareResults.push(combinedData);
+          console.log("combinedData is ", combinedData);
 
         } catch (error) {
           this.result = { error: error.message };
@@ -442,6 +447,7 @@ export default {
       }
 
       // emit final array of all results to generate and output the pdf
+      console.log("compare results final is ", compareResults)
       emitter.emit('compareCountriesRes', compareResults);
     }
   }
