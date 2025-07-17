@@ -5,6 +5,7 @@
       <p class="description-text">
         Enter all details and click Submit Calculation to estimate landed 
         cost. If you don’t know the HTSUS code, use Submit Classification.
+        Use Compare Countries to get the estimated duties for multiple countries.
       </p>
 
       <div class="form-grid">
@@ -24,9 +25,24 @@
 
         <!-- Origin Country -->
         <div class="form-row">
-          <label for="country">Origin Country:</label>
+          <!-- <label for="country">Origin Country:</label>
           <input type="text" id="country" v-model="country" required>
-          <p v-if="errors.country" class="error-message">{{ errors.country }}</p>
+          <p v-if="errors.country" class="error-message">{{ errors.country }}</p> -->
+          <label for="countries">Origin Country (one or more):</label>
+            <input
+              type="text"
+              id="countries"
+              v-model="countryInput"
+              placeholder="Type and press Enter to add country"
+              @keyup.enter.prevent="addCountry"
+            />
+            <div class="country-tags">
+              <span v-for="(c, index) in countries" :key="index" class="tag">
+                {{ c }}
+                <button type="button" class="remove-btn" @click="removeCountry(index)">×</button>
+              </span>
+            </div>
+            <p v-if="errors.countries" class="error-message">{{ errors.countries }}</p>
         </div>
 
         <!-- Weight -->
@@ -78,6 +94,7 @@
       <div class="form-actions">
         <button type="button" @click="submitClassification">Submit Classification</button>
         <button type="button" @click="submitCalculation">Submit Calculation</button>
+        <button type="button" @click="compareCountries">Compare Countries</button>
       </div>
     </form>
 
@@ -107,7 +124,8 @@ export default {
   },
   data() {
     return {
-      country: '',
+      countryInput: '',
+      countries: [], // store multiple countries
       productDesc: '',
       quantity: 1,
       weight: 0,
@@ -116,7 +134,7 @@ export default {
       errors: {
         code: '',
         productDesc: '',
-        country: '',
+        countries: '',
         quantity: '',
         weight: '',
         productValue: '',
@@ -131,11 +149,21 @@ export default {
     }
   },
   methods: {
+    addCountry() {
+      const trimmed = this.countryInput.trim();
+      if (trimmed && !this.countries.includes(trimmed)) {
+        this.countries.push(trimmed);
+      }
+      this.countryInput = '';
+    },
+    removeCountry(index) {
+      this.countries.splice(index, 1);
+    },
     
     async submitClassification() {
       // Clear previous errors
       this.errors.productDesc = '';
-      this.errors.country = '';
+      this.errors.countries = '';
       this.errors.quantity = '';
       this.errors.weight = '';
       this.result = null;
@@ -147,8 +175,8 @@ export default {
         hasError = true;
       }
 
-      if (!this.country || this.country.trim() === '') {
-        this.errors.country = "Please select a country.";
+      if (this.countries.length === 0) {
+        this.errors.countries = "Please enter at least one country.";
         hasError = true;
       }
 
@@ -176,12 +204,14 @@ export default {
         const progress = `Please wait a  moment, classifying "${this.productDesc}"...`
         emitter.emit('sentPostRequest', progress); // Send data to chatbot
 
+        const country = this.countries[0]
+
         const response = await fetch('http://127.0.0.1:5000/classifier/htsus', {
               method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             product_description: this.productDesc,
-            origin_country: this.country,
+            origin_country: country,
             weight: this.weight,
             weight_unit: this.weightUnit,
             quantity: this.quantity
@@ -207,7 +237,7 @@ export default {
       this.errors = {
         code: '',
         productDesc: '',
-        country: '',
+        countries: '',
         quantity: '',
         weight: '',
         weight_unit: '',
@@ -229,8 +259,8 @@ export default {
         hasError = true;
       }
 
-      if (!this.country || this.country.trim() === '') {
-        this.errors.country = "Please select a country.";
+      if (this.countries.length === 0) {
+        this.errors.countries = "Please enter at least one country.";
         hasError = true;
       }
 
@@ -262,13 +292,15 @@ export default {
         const progress = `Please wait a  moment, calculating the total landed cost for "${this.code}"...`
         emitter.emit('sentCalculationRequest', progress); // Send data to chatbot
 
+        const country = this.countries[0]
+
         const response = await fetch('http://127.0.0.1:5000/landing', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             hts_code: this.code,
             prod_desc: this.productDesc,
-            country: this.country,
+            country: country,
             prod_value: this.productValue,
             weight: this.weight,
             weight_unit: this.weightUnit,
@@ -290,11 +322,16 @@ export default {
 
         data.htsus_code = this.code
 
+        const data2 = {
+          ...data, 
+          origin_country: country
+        }
+
         // Emit htsus result to chatbot
-        emitter.emit('landedCostResult', data); // Send data to chatbot
+        emitter.emit('landedCostResult', data2); // Send data to chatbot
 
         const combinedData = {
-          ...data,           // all fields returned from API
+          ...data2,           // all fields returned from API
           prod_desc: this.productDesc,
           quantity: this.quantity,
           productValue: this.productValue,
@@ -302,7 +339,7 @@ export default {
           shipping: this.shippingCost,
           insurance: this.insuranceCost,
           weightUnit: this.weightUnit,
-          htsus_code: this.code   // (you already added this)
+          htsus_code: this.code,
         };
 
         emitter.emit('landedCostResult2', combinedData);
@@ -311,6 +348,111 @@ export default {
         // this.result = { error: error.message };
         console.log('Landing API error:', error);
       }
+    },
+
+    async compareCountries() {
+      // Clear previous errors
+      this.errors = {
+        code: '',
+        productDesc: '',
+        countries: '',
+        quantity: '',
+        weight: '',
+        weight_unit: '',
+        productValue: '',
+        shippingCost: '',
+        insuranceCost: ''
+      };
+      this.result = null;
+
+      let hasError = false;
+
+      if (!this.code || this.code.trim() === '') {
+        this.errors.code = "Please enter an HTSUS code.";
+        hasError = true;
+      }
+
+      if (!this.productDesc || this.productDesc.trim() === '') {
+        this.errors.productDesc = "Please enter a product description.";
+        hasError = true;
+      }
+
+      if (this.countries.length === 0) {
+        this.errors.countries = "Please enter at least one country.";
+        hasError = true;
+      }
+
+      if (!this.quantity || this.quantity < 1) {
+        this.errors.quantity = "Please enter a valid quantity.";
+        hasError = true;
+      }
+
+      if (!this.weight || this.weight <= 0) {
+        this.errors.weight = "Please enter a valid weight.";
+        hasError = true;
+      }
+
+      if (!this.productValue || this.productValue < 0) {
+        this.errors.productValue = "Please enter a valid product value.";
+        hasError = true;
+      }
+
+      if (hasError) {
+        return;
+      }
+
+      const countryList = this.countries.join(', ');
+      const userMsg = `I to compare tariff rates for HTSUS ${this.code} across: ${countryList}`;
+      emitter.emit('wantCompareCountriesRequest', userMsg);
+
+      emitter.emit('sentCompareCountriesRequest', `Processing tariff rates for HTSUS ${this.code} across: ${countryList}, please wait...`);
+
+      const compareResults = [];
+
+      for (const country of this.countries) {
+        try {
+          const response = await fetch('http://127.0.0.1:5000/landing', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              hts_code: this.code,
+              prod_desc: this.productDesc,
+              country: country,
+              prod_value: this.productValue,
+              weight: this.weight,
+              weight_unit: this.weightUnit,
+              quantity: this.quantity,
+              shipping: this.shippingCost,
+              insurance: this.insuranceCost,
+            })
+          });
+
+          
+          const data = await response.json();
+          data.htsus_code = this.code
+
+          const combinedData = {
+            ...data,           // all fields returned from API
+            prod_desc: this.productDesc,
+            quantity: this.quantity,
+            productValue: this.productValue,
+            weight: this.weight,
+            shipping: this.shippingCost,
+            insurance: this.insuranceCost,
+            weightUnit: this.weightUnit,
+            origin_country: country   
+          };
+
+          compareResults.push(combinedData);
+
+          // console.log("combined data is ", combinedData)
+
+        } catch (error) {
+          console.error(`Error for country ${country}:`, error);
+        }
+      }
+
+      emitter.emit('compareCountriesRes', compareResults);
     }
   }
 }
