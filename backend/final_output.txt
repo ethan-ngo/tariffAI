@@ -1,55 +1,55 @@
-1. HTSUS Code: 0304.53.00.10  
-   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: - Other, fresh or chilled: - Fish of the families Bregmacerotidae, Euclichthyidae, Gadidae, Macrouridae, Melanonidae, Merlucciidae, Moridae and Muraenolepididae - Cod: - Atlantic Cod  
-   Reason: The product description matches the specific type of fish, which is Atlantic Cod.  
+1. HTSUS Code: 0304.43.00.20  
+   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: Fresh or chilled fillets of other fish: Flat Fish (Pleuronectidae, Bothidae, Cynoglossidae, Soleidae, Scophthalmidae, and Citharidae) - Flounder  
+   Reason: The product description closely matches the official description of fresh or chilled fillets of flat fish, specifically flounder.  
    
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-2. HTSUS Code: 0304.44.00.10  
-   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: - Fresh or chilled fillets of other fish: - Fish of the families Bregmacerotidae, Euclichthyidae, Gadidae, Macrouridae, Melanonidae, Merlucciidae, Moridae and Muraenolepididae - Cod: - Atlantic Cod  
-   Reason: The product description aligns with the specific type of fish, which is Atlantic Cod.  
+2. HTSUS Code: 0304.43.00.25  
+   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: Fresh or chilled fillets of other fish: Flat Fish (Pleuronectidae, Bothidae, Cynoglossidae, Soleidae, Scophthalmidae, and Citharidae) - Greenland turbot (Greenland halibut), (Reinhardtius hippoglossoides)  
+   Reason: The product description aligns with fresh or chilled fillets of flat fish, including Greenland turbot.  
    
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-3. HTSUS Code: 0302.51.00.10  
-   Official Product Description: Fish, fresh or chilled, excluding fish fillets and other fish meat of heading 0304: - Fish of the families Bregmacerotidae, Euclichthyidae Gadidae, Macrouridae, Melanonidae, Merlucciidae, Moridae and Muraenolepididae, excluding edible fish offal of subheadings 0302.91 to 0302.99: - Cod (Gadus morhua, Gadus ogac, Gadus macrocephalus) - Atlantic  
-   Reason: The product description matches the specific type of fish, which is Atlantic Cod.  
+3. HTSUS Code: 0304.43.00.10  
+   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: Fresh or chilled fillets of other fish: Flat Fish (Pleuronectidae, Bothidae, Cynoglossidae, Soleidae, Scophthalmidae, and Citharidae) - Sole  
+   Reason: The product description slightly matches the official description of fresh or chilled fillets of flat fish, such as sole.  
    
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-4. HTSUS Code: 0304.53.00.15  
-   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: - Other, fresh or chilled: - Fish of the families Bregmacerotidae, Euclichthyidae, Gadidae, Macrouridae, Melanonidae, Merlucciidae, Moridae and Muraenolepididae - Cod: - Other  
-   Reason: The product description specifies Cod, which aligns with the official description.  
+4. HTSUS Code: 0304.43.00.15  
+   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: Fresh or chilled fillets of other fish: Flat Fish (Pleuronectidae, Bothidae, Cynoglossidae, Soleidae, Scophthalmidae, and Citharidae) - Paice  
+   Reason: The product description loosely aligns with fresh or chilled fillets of flat fish, like plaice.  
    
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-5. HTSUS Code: 0304.44.00.15  
-   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: - Fresh or chilled fillets of other fish: - Fish of the families Bregmacerotidae, Euclichthyidae, Gadidae, Macrouridae, Melanonidae, Merlucciidae, Moridae and Muraenolepididae - Cod: - Other  
-   Reason: The product description mentions Cod, which is consistent with the official description.  
+5. HTSUS Code: 0304.59.00.45  
+   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: Other, fresh or chilled: Other - Flat Fish: Flounder  
+   Reason: The product description somewhat matches the official description of fresh or chilled fillets of flat fish, including flounder.  
    
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-6. HTSUS Code: 0304.95.90.00  
-   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: - Other, frozen: - Fish of the families Bregmacerotidae, Euclichthyidae, Gadidae, Macrouridae, Melanonidae, Merlucciidae, Moridae and Muraenolepididae, other than Alaska Pollock (Theragra chalcogramma): - Other  
-   Reason: The product description does not specify a particular type of fish, but it falls under the general category of frozen fish fillets.  
-   
-   Total HTS Duty Tax Rate: 6%  
-   Reason: Japan has normal trade relations with the US, so the general duty tax rate of 6% applies.  
-
-7. HTSUS Code: 0304.52.00.90  
-   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: - Other, fresh or chilled: - Salmonidae - Other  
-   Reason: The product description does not match the specific type of fish mentioned in the official description.  
+6. HTSUS Code: 0304.43.00.10  
+   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: Fresh or chilled fillets of other fish: Flat Fish (Pleuronectidae, Bothidae, Cynoglossidae, Soleidae, Scophthalmidae, and Citharidae) - Sole  
+   Reason: The product description slightly aligns with the official description of fresh or chilled fillets of flat fish, such as sole.  
    
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
 
-8. HTSUS Code: 0304.71.50.00  
-   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: - Frozen fillets of the families Bregmacerotidae, Euclichthyidae, Gadidae, Macrouridae, Melanonidae, Merlucciidae, Moridae and Muraenolepididae: - Cod (Gadus morhua, Gadus ogac,Gadus macrocephalus): - Other  
-   Reason: The product description mentions Cod, which aligns with the official description.  
+7. HTSUS Code: 0304.43.00.25  
+   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: Fresh or chilled fillets of other fish: Flat Fish (Pleuronectidae, Bothidae, Cynoglossidae, Soleidae, Scophthalmidae, and Citharidae) - Greenland turbot (Greenland halibut), (Reinhardtius hippoglossoides)  
+   Reason: The product description aligns with fresh or chilled fillets of flat fish, including Greenland turbot.  
+   
+   Total HTS Duty Tax Rate: Free  
+   Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.  
+
+8. HTSUS Code: 0304.43.00.10  
+   Official Product Description: Fish fillets and other fish meat (whether or not minced), fresh, chilled or frozen: Fresh or chilled fillets of other fish: Flat Fish (Pleuronectidae, Bothidae, Cynoglossidae, Soleidae, Scophthalmidae, and Citharidae) - Sole  
+   Reason: The product description slightly matches the official description of fresh or chilled fillets of flat fish, such as sole.  
    
    Total HTS Duty Tax Rate: Free  
    Reason: Japan has normal trade relations with the US, so the general duty tax rate of Free applies.
