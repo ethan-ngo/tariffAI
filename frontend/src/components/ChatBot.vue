@@ -297,62 +297,62 @@ function formatLandingBreakdown(data) {
     <table style="width: 100%; border-collapse: collapse; color: #ececf1;">
       <tbody>
         <tr>
-          <td style="padding: 6px; border-bottom: 1px solid #444;">Subtotal</td>
-          <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(subtotal)}</td>
+          <td style="padding: 4px; border-bottom: 1px solid #444;">Subtotal</td>
+          <td style="padding: 4px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(subtotal)}</td>
         </tr>
         <tr>
-          <td style="padding: 6px; border-bottom: 1px solid #444;">
+          <td style="padding: 4px; border-bottom: 1px solid #444;">
             <a href="${htsLink}" target="_blank" rel="noopener noreferrer">
               Base Duty (${mrnRateDisplay} base rate)
             </a>
           </td>
-          <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(mrnDuty)}</td>
+          <td style="padding: 4px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(mrnDuty)}</td>
         </tr>
         <tr>
-          <td style="padding: 6px; border-bottom: 1px solid #444;">
+          <td style="padding: 4px; border-bottom: 1px solid #444;">
             <a href="https://ustr.gov/issue-areas/enforcement/section-301-investigations/search" target="_blank" rel="noopener noreferrer">
               301 Duty (${tax301Rate}% rate)
             </a>
           </td>
-          <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(tax301Duty)}</td>
+          <td style="padding: 4px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(tax301Duty)}</td>
         </tr>
         <tr>
           <td>
             ${reciprocalTaxes.length > 0 ? `
               <tr>
-                <td style="padding: 6px; border-bottom: 1px solid #444;">
+                <td style="padding: 4px; border-bottom: 1px solid #444;">
                   <a href="https://www.tradecomplianceresourcehub.com/2025/07/16/trump-2-0-tariff-tracker/" target="_blank" rel="noopener noreferrer">
                     Reciprocal Duty (${reciprocalTotalRate}% rate)
                   </a>
                 </td>
-                <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(reciprocalDuty)}</td>
+                <td style="padding: 4px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(reciprocalDuty)}</td>
               </tr>
               ${reciprocalTaxes.map(([rate, date]) => `
                 <tr>
-                  <td style="padding: 6px; border-bottom: 1px solid #444; font-size: 0.85em;">
+                  <td colspan="2" style="padding: 4px; border-bottom: 1px solid #444; font-size: 0.85em;">
                     – ${rate}% ${date}
                   </td>
-                  <td style="padding: 6px; border-bottom: 1px solid #444;"></td>
+                  <td style="padding: 4px; border-bottom: 1px solid #444;"></td>
                 </tr>
               `).join("")}
             ` : ""}
           </td>
         </tr>
         <tr>
-          <td style="padding: 6px; border-bottom: 1px solid #444;">Total Duties</td>
-          <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(dutyTotal)}</td>
+          <td style="padding: 4px; border-bottom: 1px solid #444;">Total Duties</td>
+          <td style="padding: 4px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(dutyTotal)}</td>
         </tr>
         <tr>
-          <td style="padding: 6px; border-bottom: 1px solid #444;">
+          <td style="padding: 4px; border-bottom: 1px solid #444;">
             <a href="${VATLink}" target="_blank" rel="noopener noreferrer">
               VAT (${vatRate}% rate)
             </a>
           </td>
-          <td style="padding: 6px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(vatTotal)}</td>
+          <td style="padding: 4px; border-bottom: 1px solid #444; text-align: right;">${fmtMoney(vatTotal)}</td>
         </tr>
         <tr>
-          <td style="padding: 6px; font-weight: bold;">Total Landed Cost</td>
-          <td style="padding: 6px; font-weight: bold; text-align: right;">${fmtMoney(landingCost)}</td>
+          <td style="padding: 4px; font-weight: bold;">Total Landed Cost</td>
+          <td style="padding: 4px; font-weight: bold; text-align: right;">${fmtMoney(landingCost)}</td>
         </tr>
         <tr>
           <td colspan="2" style="padding: 12px 6px 6px 6px; border-top: 1px solid #666;">
