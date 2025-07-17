@@ -62,7 +62,7 @@ def getRecipricalByCountry(country) -> tuple[str, str]:
     rows = country_table.find_elements(By.TAG_NAME, "tr")
     for row in rows:
         cells = row.find_elements(By.TAG_NAME, "td")
-        if cells and cells[0].text.contains(country):
+        if cells and country in cells[0].text:
             countryCells = row.find_elements(By.TAG_NAME, "td")
             countryRate = countryCells[2].text.split("%")[0]
             status = countryCells[1].text.split("\n\n")[0].replace("\n", " ")
