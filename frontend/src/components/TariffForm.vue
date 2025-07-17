@@ -3,13 +3,13 @@
 
     <form class="tariff-form">
       <p class="description-text">
-        Enter all details and click Submit Calculation to estimate landing 
+        Enter all details and click Submit Calculation to estimate landed 
         cost. If you don’t know the HTSUS code, use Submit Classification.
       </p>
 
       <div class="form-grid">
         <!-- HTSUS Code -->
-        <div class="form-row">
+        <div class="form-row form-row-wide">
           <label for="code">HTSUS Code (for calculation):</label>
           <input type="text" id="code" v-model="code">
           <p v-if="errors.code" class="error-message">{{ errors.code }}</p>
@@ -54,21 +54,21 @@
 
         <!-- Product Value -->
         <div class="form-row">
-          <label for="productValue">Product Value:</label>
+          <label for="productValue">Product Value (per unit):</label>
           <input type="number" id="productValue" v-model="productValue" min="0" step="0.01" placeholder="Enter product value">
           <p v-if="errors.productValue" class="error-message">{{ errors.productValue }}</p>
         </div>
 
         <!-- Shipping Cost -->
         <div class="form-row">
-          <label for="shippingCost">Shipping Cost:</label>
+          <label for="shippingCost">Shipping Cost (total cost):</label>
           <input type="number" id="shippingCost" v-model="shippingCost" min="0" step="0.01" placeholder="Enter shipping cost">
           <p v-if="errors.shippingCost" class="error-message">{{ errors.shippingCost }}</p>
         </div>
 
         <!-- Insurance Cost -->
         <div class="form-row">
-          <label for="insuranceCost">Insurance Cost:</label>
+          <label for="insuranceCost">Insurance Cost (total cost):</label>
           <input type="number" id="insuranceCost" v-model="insuranceCost" min="0" step="0.01" placeholder="Enter insurance cost">
           <p v-if="errors.insuranceCost" class="error-message">{{ errors.insuranceCost }}</p>
         </div>
@@ -288,8 +288,25 @@ export default {
         const data = await response.json();
         console.log("sending landed cost to chatbot")
 
+        data.htsus_code = this.code
+
         // Emit htsus result to chatbot
         emitter.emit('landedCostResult', data); // Send data to chatbot
+
+        const combinedData = {
+          ...data,           // all fields returned from API
+          prod_desc: this.productDesc,
+          quantity: this.quantity,
+          productValue: this.productValue,
+          weight: this.weight,
+          shipping: this.shippingCost,
+          insurance: this.insuranceCost,
+          weightUnit: this.weightUnit,
+          htsus_code: this.code   // (you already added this)
+        };
+
+        emitter.emit('landedCostResult2', combinedData);
+
       } catch (error) {
         // this.result = { error: error.message };
         console.log('Landing API error:', error);
@@ -313,7 +330,7 @@ h1 {
 }
 .tariff-form {
   width: 100%;
-  max-width: 600px;
+  max-width: 500px;
   background: #fff;
   border-radius: 3%;
   box-shadow: 0 2px 16px rgba(0,0,0,0.5);
@@ -432,7 +449,7 @@ button:hover {
     grid-column: 1 / 2;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 500px) {
   h1 {
     font-size: 1.5rem;
   }
