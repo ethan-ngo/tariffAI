@@ -7,7 +7,6 @@ from htsus_classification.get_hts import get_final_HTS_duty
 from htsus_classification.chatbot import workflow
 from htsus_classification.chapter99 import getReciprocal
 from flask import Flask, request, jsonify
-from playwright.sync_api import sync_playwright
 
 from htsus_classification.htsus_classifier_openai import classify_htsus, get_final_duty_hts_rates
 
@@ -195,14 +194,14 @@ def calcLanding():
         print("VAT_link is", VAT_link)
 
         # get reciprocal taxes
-        # list of tuple (rate, date) -> date it's effective for active taxes
-        # taxes_date = getReciprocal(prod_desc, country)
-        taxes_date = [("10%","date1"), ("20%", "date2")] # CHANGE: THIS IS A PLACEHOLDER
+        taxes_date = getReciprocal(prod_desc, country)
         taxes_float_date = []
 
         for pair in taxes_date:
             tax_float = float(pair[0].strip('%'))
-            taxes_float_date.append((tax_float,pair[1]))
+            if tax_float != 0.0:
+                taxes_float_date.append((tax_float,pair[1]))
+        print(taxes_float_date)
 
         # convert other values to float
         prod_value = float(data.get('prod_value', 0))
