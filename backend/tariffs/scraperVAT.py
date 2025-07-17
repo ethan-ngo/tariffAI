@@ -5,9 +5,27 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-api_key = os.getenv("GEMINI_API_KEY")
-genai.configure(api_key=api_key)
-model = genai.GenerativeModel("gemini-2.0-flash")
+url = os.getenv("OPENAI_URL")
+api_key = os.getenv("OPENAI_API_KEY")
+
+def callOpenAI(query: str) -> str:
+    headers = {
+        "Authorization": f"Bearer {api_key}",  # Replace with your actual API key
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
+    data = {
+        "text": query
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+
+    if response.status_code == 200:
+        response_json = response.json()  # Parse the JSON response
+        chatbot_output = response_json.get("text", "")  # Get the "text" field safely
+        return chatbot_output
+    else:
+        return ("Error:", response.status_code, response.text)
 
 response = requests.get("https://taxsummaries.pwc.com/quick-charts/value-added-tax-vat-rates", verify=False)
 soup = BeautifulSoup(response.text, 'html.parser')
@@ -34,9 +52,10 @@ def getVAT(target_country: str) -> tuple[str, str]:
     return None
 
 def getVAT_AI(target_country: str, prod_desc: str) -> float:
-    res = model.generate_content(contents=f"""
+    prompt = f"""
     What is the best estimate of the VATrate in {target_country} for {prod_desc}?
     If multiple rates exist, choose the most typical or average one. The output should be a single number (e.g., 18.0) with no text or symbols.
     If the rate is not explicitly available, make a reasonable numeric estimate based on similar products or general VAT guidelines.
-    """)
-    return float(res.text.strip())
+    """
+    res = callOpenAI(prompt)
+    return float(res.strip())
