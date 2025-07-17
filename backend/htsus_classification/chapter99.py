@@ -6,6 +6,27 @@ import os
 from dotenv import load_dotenv
 import requests
 import re
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+
+options = Options()
+options.add_argument('--headless')
+service = Service(executable_path='.\htsus_classification\chromedriver.exe')
+driver = webdriver.Chrome(service=service, options=options)
+driver.get("https://www.tradecomplianceresourcehub.com/2025/07/14/trump-2-0-tariff-tracker/")
+time.sleep(2)
+
+# Extract the table objects from driver
+table = driver.find_elements(By.TAG_NAME, "table")
+country_table, prod_table= table[0], table[1]
+
+# Extract the list of products from table
+prod_rows = prod_table.find_elements(By.TAG_NAME, "tr")
+productSet = set()
+for row in prod_rows[1:]:
+    product = row.find_element(By.TAG_NAME,"td").text
+    productSet.add(product)
+productHeader = prod_rows[0].get_attribute("outerHTML")
 
 load_dotenv()
 url = os.getenv("OPENAI_URL")
@@ -30,14 +51,14 @@ def callOpenAI(query: str) -> str:
     else:
         return ("Error:", response.status_code, response.text)
 
-def getAllReciprocal(country_table) -> tuple[str, str]:
+def getAllReciprocal() -> tuple[str, str]:
     allRow = country_table.find_elements(By.TAG_NAME, "tr")[1]
     allCells = allRow.find_elements(By.TAG_NAME, "td")
     allRate = allCells[2].text.split("%")[0]
     allStatus = allCells[1].text.split("\n\n")[0].replace("\n", " ")
     return (allRate, "Baseline " + allStatus)
 
-def getRecipricalByCountry(country_table, country) -> tuple[str, str]:
+def getRecipricalByCountry(country) -> tuple[str, str]:
     rows = country_table.find_elements(By.TAG_NAME, "tr")
     for row in rows:
         cells = row.find_elements(By.TAG_NAME, "td")
@@ -50,7 +71,7 @@ def getRecipricalByCountry(country_table, country) -> tuple[str, str]:
             else:
                 return (countryRate, country + " " + status)
 
-def getReciprocalByProduct(prod_table, product):
+def getReciprocalByProduct(product):
     rows = prod_table.find_elements(By.TAG_NAME, "tr")
     for row in rows:
         cells = row.find_elements(By.TAG_NAME, "td")
@@ -85,24 +106,9 @@ def formatHTML(tableHTML):
 
 
 def getReciprocal(product_desc, country):
-    driver = webdriver.Chrome()
-    driver.get("https://www.tradecomplianceresourcehub.com/2025/07/14/trump-2-0-tariff-tracker/")
-    time.sleep(2)
 
-    # Extract the table objects from driver
-    table = driver.find_elements(By.TAG_NAME, "table")
-    country_table, prod_table= table[0], table[1]
-
-    # Extract the list of products from table
-    prod_rows = prod_table.find_elements(By.TAG_NAME, "tr")
-    productSet = set()
-    for row in prod_rows[1:]:
-        product = row.find_element(By.TAG_NAME,"td").text
-        productSet.add(product)
-    productHeader = prod_rows[0].get_attribute("outerHTML")
-
-    allReciprocal = getAllReciprocal(country_table)
-    countryReciprocal = getRecipricalByCountry(country_table, country)
+    allReciprocal = getAllReciprocal()
+    countryReciprocal = getRecipricalByCountry(country)
     prompt = f"""
     You are a classification assistant.
 
@@ -119,9 +125,8 @@ def getReciprocal(product_desc, country):
     if category == "Nothing":
         return [allReciprocal, countryReciprocal]
     
-    html = getReciprocalByProduct(prod_table, category)
+    html = getReciprocalByProduct(category)
     table = formatHTML(productHeader + html)
-    driver.quit()
     prompt = f""""
     You are a tariff data extractor.
 
@@ -155,3 +160,4 @@ def getReciprocal(product_desc, country):
     parsedStatus = status.split(':')[1]
     return [allReciprocal, countryReciprocal, (parsedTariff, category + " " + parsedStatus)]
 
+print(getReciprocal("pumps", "China"))
