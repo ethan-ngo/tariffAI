@@ -62,14 +62,17 @@ def getRecipricalByCountry(country) -> tuple[str, str]:
     rows = country_table.find_elements(By.TAG_NAME, "tr")
     for row in rows:
         cells = row.find_elements(By.TAG_NAME, "td")
-        if cells and cells[0].text == country:
+        if cells and cells[0].text.contains(country):
             countryCells = row.find_elements(By.TAG_NAME, "td")
             countryRate = countryCells[2].text.split("%")[0]
             status = countryCells[1].text.split("\n\n")[0].replace("\n", " ")
             if "Threatened" in status:
-                return (0, status + " - " + countryRate)
+                return ('0', status + " - " + countryRate)
             else:
-                return (countryRate, country + " " + status)
+                if countryRate:
+                    return (countryRate, country + " " + status)
+                else:
+                    return ('0', country)
 
 def getReciprocalByProduct(product):
     rows = prod_table.find_elements(By.TAG_NAME, "tr")
@@ -108,7 +111,9 @@ def formatHTML(tableHTML):
 def getReciprocal(product_desc, country):
 
     allReciprocal = getAllReciprocal()
+    print(allReciprocal)
     countryReciprocal = getRecipricalByCountry(country)
+    print(countryReciprocal)
     prompt = f"""
     You are a classification assistant.
 
@@ -159,5 +164,3 @@ def getReciprocal(product_desc, country):
     parsedTariff = tariffRate.split(':')[1]
     parsedStatus = status.split(':')[1]
     return [allReciprocal, countryReciprocal, (parsedTariff, category + " " + parsedStatus)]
-
-print(getReciprocal("pumps", "China"))
