@@ -77,21 +77,6 @@ def calcLanding():
         MRN_irregular_rate = -1.0
         MRN_total = -1.0
 
-        # # weight unit conversion
-        # converted_weight = 0
-        # if weight_unit == "kg":
-        #     converted_weight = weight
-        # elif weight_unit == "lb":
-        #     converted_weight = weight * 0.453592      # 1 lb = 0.453592 kg
-        # elif weight_unit == "g" or weight_unit == "gram":
-        #     converted_weight = weight / 1000          # 1 g = 0.001 kg
-        # elif weight_unit == "oz":
-        #     converted_weight = weight * 0.0283495     # 1 oz = 0.0283495 kg
-        # elif weight_unit == "ton":
-        #     converted_weight = weight * 1000          # 1 metric ton = 1000 kg
-        # else:
-        #     raise ValueError(f"Unsupported weight unit: {weight_unit}")
-
         # process the base duty rate
         if MRN == 'free':
             print("MRN is free, turning it to 0.0")

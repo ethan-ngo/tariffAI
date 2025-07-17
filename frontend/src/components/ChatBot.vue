@@ -191,6 +191,7 @@ onMounted(async () => {
 
   // listen for final compare countries result
   emitter.on('compareCountriesRes', async (data) => {
+    console.log("received compare results final: ", data)
     const pdfUrl = create_table_PDF(data);
     messages.value.push({ 
       from: 'bot', 

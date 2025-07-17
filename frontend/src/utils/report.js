@@ -50,7 +50,7 @@ function createPDF(items) {
     ['Landed Cost', item => item.landing_cost != null ? `$${item.landing_cost.toFixed(2)}` : '-'],
   ];
 
-  const chunkSize = 3; // max 3 products per table
+  const chunkSize = 5; // max 5 products per table
 
   for (let i = 0; i < items.length; i += chunkSize) {
     const chunk = items.slice(i, i + chunkSize);
@@ -76,10 +76,10 @@ function createPDF(items) {
       body: tableBody,
       margin: { left: margin, right: margin },
       styles: {
-        fontSize: 12,
+        fontSize: 8,
         font: 'times',
         fontStyle: 'normal',
-        cellPadding: { top: 4, right: 6, bottom: 4, left: 6 },
+        cellPadding: { top: 2, right: 2, bottom: 2, left: 2 },
         valign: 'middle',
         halign: 'center',
         lineColor: [220, 220, 220],
@@ -95,7 +95,7 @@ function createPDF(items) {
       },
       bodyStyles: {
         textColor: [30, 30, 30],
-        fontSize: 12,
+        fontSize: 8,
       },
       columnStyles: {
         0: { halign: 'center', fontStyle: 'bold' }, // Label column
@@ -186,7 +186,7 @@ function create_table_PDF(results) {
   ];
 
   // Split results into chunks of 5
-  const chunkSize = 3;
+  const chunkSize = 5;
   for (let i = 0; i < results.length; i += chunkSize) {
     const chunk = results.slice(i, i + chunkSize);
     const countryList = chunk.map(r => r.origin_country);
@@ -207,7 +207,7 @@ function create_table_PDF(results) {
       doc.addPage();
       y = 36;
       doc.setFont('times', 'normal');
-      doc.setFontSize(12);
+      doc.setFontSize(8);
       doc.text('Country Tariff Rates Comparison (continued)', margin, y);
       y += 10;
     }
@@ -218,8 +218,8 @@ function create_table_PDF(results) {
       startY: y,
       margin: { left: margin, right: margin },
       styles: {
-        fontSize: 12,
-        cellPadding: { top: 4, right: 6, bottom: 4, left: 6 },
+        fontSize: 8,
+        cellPadding: { top: 2, right: 2, bottom: 2, left: 2 },
         valign: 'middle',
         lineColor: [220, 220, 220],
         lineWidth: 0.2,
@@ -237,7 +237,7 @@ function create_table_PDF(results) {
       },
       bodyStyles: {
         textColor: [30, 30, 30],
-        fontSize: 12,
+        fontSize: 8,
       },
       alternateRowStyles: {
         fillColor: [245, 245, 245],   // light gray

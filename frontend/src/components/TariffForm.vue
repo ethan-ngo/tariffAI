@@ -434,6 +434,7 @@ export default {
           };
 
           compareResults.push(combinedData);
+          console.log("combinedData is ", combinedData);
 
         } catch (error) {
           this.result = { error: error.message };
@@ -442,6 +443,7 @@ export default {
       }
 
       // emit final array of all results to generate and output the pdf
+      console.log("compare results final is ", compareResults)
       emitter.emit('compareCountriesRes', compareResults);
     }
   }
