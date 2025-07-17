@@ -53,7 +53,7 @@ def getVAT(target_country: str) -> tuple[str, str]:
 
 def getVAT_AI(target_country: str, prod_desc: str) -> float:
     prompt = f"""
-    What is the best estimate of the VATrate in {target_country} for {prod_desc}?
+    What is the best estimate of the VAT rate in {target_country} for {prod_desc}?
     If multiple rates exist, choose the most typical or average one. The output should be a single number (e.g., 18.0) with no text or symbols.
     If the rate is not explicitly available, make a reasonable numeric estimate based on similar products or general VAT guidelines.
     """

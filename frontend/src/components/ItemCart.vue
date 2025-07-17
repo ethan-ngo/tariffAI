@@ -102,7 +102,7 @@ function updateQuantity(id, change) {
     if (item.id === id) {
       const newQuantity = Math.max(1, item.quantity + change);
       const landing = calcLanding(
-        item.prod_value || 0,
+        item.productValue || 0,
         newQuantity,
         item.shipping || 0,
         item.insurance || 0,
@@ -210,7 +210,7 @@ function downloadItems(){
 .remove-btn {
   position: absolute;
   top: 14px;
-  right: 14px;
+  left: 14px;
   background: #2d232a;
   border: none;
   border-radius: 50%;
