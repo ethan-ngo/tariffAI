@@ -164,6 +164,7 @@ def calcLanding():
             print("cleaned_code new: ", cleaned_code_new)
             tax301 = float(get301Percent(cleaned_code_new))
         
+        print(tax301)
         # get the VAT tax based on the country and prod description
         taxVAT = getVAT_AI(country, prod_desc)
         if not taxVAT:
@@ -172,9 +173,13 @@ def calcLanding():
         print("VAT", taxVAT)
 
         # VAT source
-        res = getVAT(country)
+        formattedCountry = country[0].upper() + country[1:].lower()
+        res = getVAT(formattedCountry)
         print("res is ", res)
-        VAT_link = res[1]
+        if res:
+            VAT_link = res[1]
+        else:
+            VAT_link = ""
 
         print("VAT_link is", VAT_link)
 
@@ -186,7 +191,7 @@ def calcLanding():
             tax_float = float(pair[0].strip('%'))
             if tax_float != 0.0:
                 taxes_float_date.append((tax_float,pair[1]))
-        print(taxes_float_date)
+        print("taxes_float:" , taxes_float_date)
 
         # convert other values to float
         prod_value = float(data.get('prod_value', 0))
