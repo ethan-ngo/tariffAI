@@ -4,8 +4,6 @@ from dotenv import load_dotenv
 import requests
 import chromadb
 import re
-import openai 
-import csv
 
 # Load environment variables from .env file
 load_dotenv()
@@ -51,32 +49,6 @@ def get_top_n_codes(product_description, hts_chapter, n):
 
     return documents
 
-def get_top_n_codes_from_chap99(product_description, official_description, country, htsus_code, n):
-    # Get or create the collection for that product chapter
-    collection_name = f"htsus_chapter_99"
-    chapter_collection = chroma_client.get_or_create_collection(name=collection_name)
-
-    query_string = f"origin country is {country}. production description is {product_description} for htsus code is {htsus_code} with official product description is {official_description}"
-
-    results = chapter_collection.query(
-        query_texts=[query_string],
-        n_results=n
-    )
-
-    documents = results.get('documents', [[]])[0]
-
-    if not documents:
-        print("No relevant HTSUS codes found.")
-        return
-    
-    print(f"Retrieved {len(documents)} HTSUS codes from chap 99.")
-
-    with open("chap_99_codes.txt", "w") as f:
-        for doc in documents:
-            f.write(str(doc) + "\n")
-
-    return documents
-
 # Get the keywords from the product description
 def semantically_process_product_description(product_description):
     prompt_semantics_path = os.path.join(BASE_DIR, "prompts", "prompt_semantics.txt")
@@ -103,9 +75,6 @@ def semantically_process_product_description(product_description):
     if response.status_code == 200:
         response_json = response.json()  # Parse the JSON response
         chatbot_output = response_json.get("text", "")  # Get the "text" field safely
-
-        # with open("txt_outputs/semantics.txt", "w", encoding="utf-8") as f:          
-        #     f.write(str(chatbot_output))
 
         return chatbot_output
     else:
@@ -162,53 +131,17 @@ def get_final_duty_hts_rates(classification_text):
     for block in blocks:
         # Add back "HTSUS Code:" prefix removed by split
         block = "HTSUS Code:" + block
-        print("block is ", block)
 
         # Extract HTSUS Code (number pattern after "HTSUS Code:")
         code_match = re.search(r'HTSUS Code:\s*([\d.]+)', block)
         total_rate_match = re.search(r'Total HTS Duty Tax Rate:\s*(Free|[\d.]+%)', block, re.IGNORECASE)
-
-        print("code_match is ", code_match, " and total rate match is ", total_rate_match)
 
         if code_match and total_rate_match:
             code = code_match.group(1)
             total_rate = total_rate_match.group(1)
             results.append((code, total_rate))
 
-    print("returning results: ", results)
-
     return results
-
-def ask_assistant_about_chap99(htsus_code, country, file_id):
-    question = f"What Chapter 99 codes apply to HTSUS {htsus_code} from {country}?"
-
-    thread = openai.beta.threads.create()
-    openai.beta.threads.messages.create(
-        thread_id=thread.id,
-        role="user",
-        content=question,
-        file_ids=[file_id]
-    )
-
-    run = openai.beta.threads.runs.create(
-        thread_id=thread.id,
-        assistant_id=YOUR_ASSISTANT_ID
-    )
-
-    while run.status not in ["completed", "failed"]:
-        time.sleep(1)
-        run = openai.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
-
-    messages = openai.beta.threads.messages.list(thread_id=thread.id)
-    return messages.data[-1].content[0].text.value
-
-def find_description_by_hts_code(csv_filepath, search_code):
-    with open(csv_filepath, newline='', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            if row['HTS_Number'] == search_code:
-                return row['Description']
-    return None  # not found
 
 # Main logic: classify the product_description by HTSUS codes 
 # Returns chatbot output with HTSUS code, taxes, descriptions
@@ -265,17 +198,13 @@ def classify_htsus(product_description, country, weight, weight_unit, quantity):
         "text": full_prompt
     }
 
-    print("Sent request to OpenAI to retrieve final codes and duty tax...")
     response = requests.post(url, headers=headers, json=data)
 
     # Handle OpenAI response
     if response.status_code == 200:
         response_json = response.json()  # Parse the JSON response
         chatbot_output = response_json.get("text", "")  # Get the "text" field safely
-        # print("Simplified result:", chatbot_output)
         print("received the top HTSUS codes!")
-        with open("final_output.txt", "w", encoding="utf-8") as f:          
-            f.write(str(chatbot_output))
         return chatbot_output
     else:
         print("Error:", response.status_code, response.text)
@@ -283,10 +212,11 @@ def classify_htsus(product_description, country, weight, weight_unit, quantity):
 
 # Test cases
 if __name__ == "__main__":
-    prod_des = "steel"
-    country = "China"
+    pass
+    # prod_des = "steel"
+    # country = "China"
 
-    res = (classify_htsus(prod_des, country, 1, "kg", 1))
+    # res = (classify_htsus(prod_des, country, 1, "kg", 1))
 
     
     # classify_htsus("Men 100 cotton denim jeans") # WRONG! it outputted 6203.42.4011 & 16.6%; WRONG SHUD BE 6203.42.07.11

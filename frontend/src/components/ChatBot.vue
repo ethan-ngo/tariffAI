@@ -46,6 +46,7 @@
 
 import { ref, nextTick, onMounted  } from 'vue'
 import emitter from '../eventBus' 
+import { create_table_PDF } from '@/utils/report'
 
 const input = ref('')
 const messagesContainer = ref(null)
@@ -54,17 +55,6 @@ const messages = ref([
 ])
 
 const hoverIndex = ref(null)
-
-function copyMessage(text) {
-  // Strip HTML tags if you want pure text
-  const el = document.createElement('div')
-  el.innerHTML = text
-  const plainText = el.textContent || el.innerText || ''
-
-  navigator.clipboard.writeText(plainText).then(() => {
-    console.log("copied to clipboard") // You can replace this with nicer UI if you want
-  })
-}
 
 async function sendMessage() {
   if (!input.value.trim()) return
@@ -124,58 +114,89 @@ async function scrollToTop() {
   container.scrollTop += offset;
 }
 
+// allows user to copy messages from the chatbot
+function copyMessage(text) {
+  // Strip HTML tags if you want pure text
+  const el = document.createElement('div')
+  el.innerHTML = text
+  const plainText = el.textContent || el.innerText || ''
+
+  navigator.clipboard.writeText(plainText).then(() => {
+    console.log("copied to clipboard") // You can replace this with nicer UI if you want
+  })
+}
+
+
 const classificationBlocks = ref([]); // changed to ref for reactivity
 const currentIndex = ref(0);
 
-// const hasMoreBlocks = computed(() => {
-//   return classificationBlocks.value.length > currentIndex.value;
-// });
-
 // Listen for emitted results
 onMounted(async () => {
-    emitter.on('sentUserPostRequest', async (data) => {
+  // listen if user sent request to classify a product
+  emitter.on('sentUserPostRequest', async (data) => {
     messages.value.push({ from: 'user', text: data });
     await scrollToBottom();
   });
 
+  // listen for if chatbot began classifying a product
   emitter.on('sentPostRequest', async (data) => {
     messages.value.push({ from: 'bot', text: data });
     await scrollToBottom();
   })
 
+  // listen for final classification output
   emitter.on('htsusResult', async ({ data, linksHtml }) => {
-    console.log('Received in chatbot:', data);
-    
-    console.log("links: ", linksHtml);
-
+    // get the top 3 options and format each block properly
     classificationBlocks.value = parseClassification(data.classification);
     currentIndex.value = 0;
-
     const firstBatch = getNextBlocks(3, linksHtml);
     const textToShow = firstBatch
       ? firstBatch : "No classification data found.";
-
-    console.log("text to show is ", textToShow)
 
     messages.value.push({ from: 'bot', text: textToShow });
 
     await scrollToTop();
   })
 
+  // listen for if user wants the final landing cost
   emitter.on('sentUserCalculationRequest', async (data) => {
     messages.value.push({ from: 'user', text: data });
     await scrollToBottom();
   })
   
+  // listen for if chatbot began the calculation
   emitter.on('sentCalculationRequest', async (data) => {
     messages.value.push({ from: 'bot', text: data });
     await scrollToBottom();
   })
 
+  // listen for final landing cost
   emitter.on('landedCostResult', async ( data ) => {
-    console.log("Received landing data: ", data) 
     const formatted2 = formatLandingBreakdown(data)
     messages.value.push({ from: 'bot', text: formatted2 });
+    await scrollToTop();
+  })
+
+  // listen for if user wants to compare countries
+  emitter.on('wantCompareCountriesRequest', async (data) => {
+    messages.value.push({ from: 'user', text: data });
+    await scrollToBottom();
+  }) 
+
+  // listen for if chatbot began processing countries
+  emitter.on('sentCompareCountriesRequest', async (data) => {
+    messages.value.push({ from: 'bot', text: data });
+    await scrollToBottom();
+  })
+
+  // listen for final compare countries result
+  emitter.on('compareCountriesRes', async (data) => {
+    const pdfUrl = create_table_PDF(data);
+    messages.value.push({ 
+      from: 'bot', 
+      text: `Download your country comparison report: <a href="${pdfUrl}" download="country_comparison.pdf" target="_blank">country_comparison.pdf</a>` 
+    });
+
     await scrollToTop();
   })
 
@@ -232,7 +253,6 @@ function formatBlock(block, linkHtml) {
 }
 
 function getNextBlocks(count = 3, links) {
-  console.log("LINKS ARE: ", links)
   const next = classificationBlocks.value.slice(currentIndex.value, currentIndex.value + count);
   const linksForNext = links.slice(currentIndex.value, currentIndex.value + count);
   currentIndex.value += count;
@@ -261,6 +281,7 @@ function formatLandingBreakdown(data) {
   const breakdown = data.breakdown;
   const VATLink = data.VAT_link;
   const htsLink = `https://hts.usitc.gov/search?query=${data.htsus_code}`
+  const country = data.origin_country
 
   // console.log("Vat Link", VATLink)
   // console.log("htsLink", htsLink)
@@ -335,7 +356,7 @@ function formatLandingBreakdown(data) {
         </tr>
         <tr>
           <td colspan="2" style="padding: 12px 6px 6px 6px; border-top: 1px solid #666;">
-            <div style="margin-bottom: 4px;">Calculation Breakdown</div>
+            <div style="margin-bottom: 4px;">Calculation Breakdown for ${country}</div>
             <ul style="margin: 0; padding-left: 18px; color: white; font-size: 0.9em;">
               ${breakdown.map(step => `<li>${step}</li>`).join("")}
             </ul>
@@ -523,6 +544,29 @@ function formatLandingBreakdown(data) {
 .bubble ::v-deep a:visited {
   color: #c084fc; /* light purple */
 }
+
+.country-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+.tag {
+  background: #e0e7ff;
+  border-radius: 4px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+}
+.remove-btn {
+  background: none;
+  border: none;
+  margin-left: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #4f46e5;
+}
+
 
 /* Tablet styles */
 @media (max-width: 1024px) {
