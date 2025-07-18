@@ -184,12 +184,12 @@ def workflow(query):
         """
         output = callOpenAI(prompt)
 
-    elif "vat rate" in userIntent:
+    elif "vat" in userIntent:
         country = userIntent.split(',')[1]
         res = getVAT(country)
         output = f'{res[0]}<br><br>Source: <a href="{res[1]}" target="_blank">{res[1]}</a>'
     
-    elif "301 rate" in userIntent:
+    elif "301" in userIntent:
         code = userIntent.split(',')[1]
         res = get301Desc(code)
         output = res[0]
