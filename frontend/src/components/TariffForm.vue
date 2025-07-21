@@ -212,8 +212,9 @@ export default {
     // from the tariff form country input, add the country to the countries list to be used later
     addCountry() {
       const trimmed = this.countryInput.trim();
-      if (trimmed && !this.countries.includes(trimmed)) {
-        this.countries.push(trimmed);
+      const formatted = trimmed.charAt(0).toUpperCase() + trimmed.slice(1).toLowerCase();
+      if (formatted && !this.countries.includes(formatted)) {
+        this.countries.push(formatted);
       }
       this.countryInput = '';
     }, // remove country from countries list
