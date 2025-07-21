@@ -12,7 +12,7 @@
         <!-- HTSUS Code -->
         <div class="form-row form-row-wide">
           <label for="code">HTSUS Code (for calculation):</label>
-          <input type="text" id="code" v-model="code">
+          <input type="text" id="code" v-model="code" placeholder="ex) 0000.00.0000">
           <p v-if="errors.code" class="error-message">{{ errors.code }}</p>
         </div>
 
@@ -141,8 +141,11 @@ export default {
       image: null,
       imagePreviewUrl: '',
       isProcessingImage: false,
-      quantity: 1,
+      quantity: 0,
       weight: 0,
+      productValue: 0,
+      shippingCost: 0,
+      insuranceCost: 0,
       weightUnit: 'kg',
       result: null,
       errors: {
@@ -173,9 +176,6 @@ export default {
       reader.onload = async () => {
         this.image = reader.result
         
-        // Emit to chatbot that image is being processed
-        emitter.emit("image_upload", `<i>🖼️ Image uploaded, processing...</i><br><img src="${reader.result}" style="max-width: 200px; height: auto; border-radius: 4px;">`);
-
         try {
           // Call your image-to-text API
           const response = await fetch('http://127.0.0.1:5000/image-to-description', {
@@ -193,8 +193,8 @@ export default {
           }
 
           const data = await response.json();
-          
           this.productDesc = data.description; // Adjust based on your API response structure
+          emitter.emit("image_upload", `<i>🖼️ Image upload proccessed!</i><br><img src="${reader.result}" style="max-width: 200px; height: auto; border-radius: 4px;">`);
 
         } catch (error) {
           console.error('Image processing error:', error);
@@ -257,7 +257,7 @@ export default {
         return;
       }
 
-      const userMsg = `I want to classify "${this.productDesc}," from "${this.country}" with quantity: ${this.quantity} and weight: ${this.weight} ${this.weightUnit}`;
+      const userMsg = `I want to classify "${this.productDesc}," from "${this.countries[0]}" with quantity: ${this.quantity} and weight: ${this.weight} ${this.weightUnit}`;
       emitter.emit('sentUserPostRequest', userMsg);
   
       // gets the top htsus codes and outputs it in the chatbot
