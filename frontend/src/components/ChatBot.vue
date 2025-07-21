@@ -9,7 +9,7 @@
         <img
           v-if="msg.from === 'bot'"
           class="avatar"
-          src="https://randomuser.me/api/portraits/men/32.jpg"
+          :src="botAvatar"
           alt="Bot"
         />
         <div class="bubble" @mouseenter="hoverIndex = idx" @mouseleave="hoverIndex = null">
@@ -41,6 +41,17 @@
     </form>
   </div>
 </template>
+<script>
+import botAvatar from '@/assets/robot.jpg'
+
+export default {
+  data() {
+    return {
+      botAvatar
+    }
+  }
+}
+</script>
 
 <script setup>
 
@@ -370,7 +381,6 @@ function formatLandingBreakdown(data) {
     </table>
   `;
 }
-
 </script>
 
 <style scoped>
@@ -419,6 +429,7 @@ function formatLandingBreakdown(data) {
   background: #18181b;
   border: 2px solid #353545;
   flex-shrink: 0;
+  object-position: center center; /* Adjust these values */
 }
 
 .bubble {
