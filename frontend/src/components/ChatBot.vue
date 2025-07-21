@@ -158,6 +158,10 @@ onMounted(async () => {
     await scrollToTop();
   })
 
+  emitter.on('image_upload', async (data) => {
+    messages.value.push({ from: 'user', text: data });
+    await scrollToBottom();
+  })
   // listen for if user wants the final landing cost
   emitter.on('sentUserCalculationRequest', async (data) => {
     messages.value.push({ from: 'user', text: data });

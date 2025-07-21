@@ -19,8 +19,23 @@
         <!-- Product Description -->
         <div class="form-row form-row-wide">
           <label for="productDesc">Product Description:</label>
-          <textarea id="productDesc" v-model="productDesc" rows="2" placeholder="Enter product description..."></textarea>
-          <p v-if="errors.productDesc" class="error-message">{{ errors.productDesc }}</p>
+  <div class="desc-with-upload">
+    <textarea
+      id="productDesc"
+      v-model="productDesc"
+      rows="2"
+      placeholder="Enter product description or upload image..."
+    ></textarea>
+    <label class="upload-icon-btn">
+      <input type="file" accept="image/*" @change="handleImageUpload" hidden />
+      <img
+        src="@/assets/image_upload.png"
+        alt="Upload"
+        class="upload-icon-img"
+      />
+    </label>
+  </div>
+  <p v-if="errors.productDesc" class="error-message">{{ errors.productDesc }}</p>
         </div>
 
         <!-- Origin Country -->
@@ -30,7 +45,7 @@
               type="text"
               id="countries"
               v-model="countryInput"
-              placeholder="Type and press Enter to add country"
+              placeholder="Type and press enter to add"
               @keyup.enter.prevent="addCountry"
             />
             <div class="country-tags">
@@ -61,28 +76,28 @@
         <!-- Quantity -->
         <div class="form-row">
           <label for="quantity">Quantity (number of units):</label>
-          <input type="number" id="quantity" v-model="quantity" min="1" required>
+          <input type="number" id="quantity" v-model="quantity" min="0" required>
           <p v-if="errors.quantity" class="error-message">{{ errors.quantity }}</p>
         </div>
 
         <!-- Product Value -->
         <div class="form-row">
           <label for="productValue">Product Value (per unit):</label>
-          <input type="number" id="productValue" v-model="productValue" min="0" step="0.01" placeholder="Enter product value">
+          <input type="number" id="productValue" v-model="productValue" min="0" step="0.01">
           <p v-if="errors.productValue" class="error-message">{{ errors.productValue }}</p>
         </div>
 
         <!-- Shipping Cost -->
         <div class="form-row">
           <label for="shippingCost">Shipping Cost (total cost):</label>
-          <input type="number" id="shippingCost" v-model="shippingCost" min="0" step="0.01" placeholder="Enter shipping cost">
+          <input type="number" id="shippingCost" v-model="shippingCost" min="0" step="0.01">
           <p v-if="errors.shippingCost" class="error-message">{{ errors.shippingCost }}</p>
         </div>
 
         <!-- Insurance Cost -->
         <div class="form-row">
           <label for="insuranceCost">Insurance Cost (total cost):</label>
-          <input type="number" id="insuranceCost" v-model="insuranceCost" min="0" step="0.01" placeholder="Enter insurance cost">
+          <input type="number" id="insuranceCost" v-model="insuranceCost" min="0" step="0.01">
           <p v-if="errors.insuranceCost" class="error-message">{{ errors.insuranceCost }}</p>
         </div>
       </div>
@@ -123,6 +138,9 @@ export default {
       countryInput: '',
       countries: [], // store multiple countries
       productDesc: '',
+      image: null,
+      imagePreviewUrl: '',
+      isProcessingImage: false,
       quantity: 1,
       weight: 0,
       weightUnit: 'kg',
@@ -145,6 +163,52 @@ export default {
     }
   },
   methods: {
+    async handleImageUpload(event) {
+      const file = event.target.files[0]
+      if (!file) return
+
+      this.isProcessingImage = true;
+      
+      const reader = new FileReader()
+      reader.onload = async () => {
+        this.image = reader.result
+        
+        // Emit to chatbot that image is being processed
+        emitter.emit("image_upload", `<i>🖼️ Image uploaded, processing...</i><br><img src="${reader.result}" style="max-width: 200px; height: auto; border-radius: 4px;">`);
+
+        try {
+          // Call your image-to-text API
+          const response = await fetch('http://127.0.0.1:5000/image-to-description', {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              image: reader.result
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to process image');
+          }
+
+          const data = await response.json();
+          
+          this.productDesc = data.description; // Adjust based on your API response structure
+
+        } catch (error) {
+          console.error('Image processing error:', error);
+          
+          // Set error message
+          this.errors.productDesc = 'Failed to process image. Please enter description manually.';
+          
+        } finally {
+          this.isProcessingImage = false;
+        }
+      }
+      reader.readAsDataURL(file)
+    },
+
     // from the tariff form country input, add the country to the countries list to be used later
     addCountry() {
       const trimmed = this.countryInput.trim();
@@ -455,6 +519,40 @@ export default {
 </script>
 
 <style scoped>
+.desc-with-upload {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.desc-with-upload textarea {
+  flex: 1;
+}
+
+.upload-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e5e7eb;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 20px;
+  width: 40px;
+  min-width: 40px;
+  transition: background-color 0.2s ease;
+}
+
+.upload-icon-img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.upload-icon-btn:hover {
+  background-color: #d1d5db;
+}
 .tariff-form-container {
   height: 100%;
   display: flex;

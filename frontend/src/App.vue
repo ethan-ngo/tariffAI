@@ -86,9 +86,12 @@ html, body {
 
 .left-panel,
 .right-panel {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center; /* centers chatbot horizontally */
+  justify-content: center;
+  margin-right: 5%;
+  max-width: fit-content;
+  height: 100%;
   min-height: 600px;
 }
 
