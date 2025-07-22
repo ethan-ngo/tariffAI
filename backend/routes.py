@@ -7,11 +7,36 @@ from htsus_classification.get_hts import get_final_HTS_duty
 from htsus_classification.chatbot import workflow
 from htsus_classification.chapter99 import getReciprocal
 from flask import Flask, request, jsonify
+from htsus_classification.image_upload import predictImage
+import base64
+import io
 
 from htsus_classification.htsus_classifier_openai import classify_htsus, get_final_duty_hts_rates
 
 main = Blueprint('main', __name__)
 
+@main.route('/image-to-description', methods=['POST'])
+def image_to_description():
+    try:
+        data = request.get_json()
+        
+        image_data = data['image']
+        
+        image_data = image_data.split(',')[1]
+        image_bytes = base64.b64decode(image_data)
+        
+        image_file = io.BytesIO(image_bytes)
+        
+        result = predictImage(image_file)
+        
+        return jsonify({'description': str(result)})
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+    
 @main.route('/scraper/vat/<country>', methods=['GET'])
 def scraper_vat(country):
     if not country:
@@ -76,6 +101,21 @@ def calcLanding():
         MRN_rate = -1.0
         MRN_irregular_rate = -1.0
         MRN_total = -1.0
+
+        # # weight unit conversion
+        # converted_weight = 0
+        # if weight_unit == "kg":
+        #     converted_weight = weight
+        # elif weight_unit == "lb":
+        #     converted_weight = weight * 0.453592      # 1 lb = 0.453592 kg
+        # elif weight_unit == "g" or weight_unit == "gram":
+        #     converted_weight = weight / 1000          # 1 g = 0.001 kg
+        # elif weight_unit == "oz":
+        #     converted_weight = weight * 0.0283495     # 1 oz = 0.0283495 kg
+        # elif weight_unit == "ton":
+        #     converted_weight = weight * 1000          # 1 metric ton = 1000 kg
+        # else:
+        #     raise ValueError(f"Unsupported weight unit: {weight_unit}")
 
         # process the base duty rate
         if MRN == 'free':

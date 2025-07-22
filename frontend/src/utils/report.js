@@ -147,15 +147,38 @@ function create_table_PDF(results) {
   doc.text('Country Tariff Rates Comparison', margin, y);
   y += 10;
 
+  const item = results[0]; // Use first item for header values
+  
+  doc.setFontSize(10);
+  doc.setFont('times');
+  
+  // Create simple header text
+  const headerText = `HTSUS Code: ${item.htsus_code || '-'} | Product Description: ${item.prod_desc || '-'} | Quantity: ${item.quantity || '-'} | Weight: ${item.weight || '-'} ${item.weightUnit || ''} | Product Value: $${item.productValue?.toFixed(2) || '0.00'} | Shipping: $${item.shipping?.toFixed(2) || '0.00'} | Insurance: $${item.insurance?.toFixed(2) || '0.00'} | Subtotal: $${item.subtotal?.toFixed(2) || '0.00'}`;
+  
+  // Split into lines if too long
+  const maxLength = 90;
+  const words = headerText.split(' ');
+  let currentLine = '';
+  
+  words.forEach(word => {
+    if (currentLine.length + word.length + 1 > maxLength) {
+      doc.text(currentLine, margin, y);
+      y += 5;
+      currentLine = word;
+    } else {
+      if (currentLine) currentLine += ' ';
+      currentLine += word;
+    }
+  });
+  
+  if (currentLine) {
+    doc.text(currentLine, margin, y);
+    y += 5;
+  }
+  
+  y += 8;
+
   const fields = [
-    ['HTSUS Code', item => item.htsus_code],
-    ['Product Description', item => item.prod_desc],
-    ['Quantity', item => item.quantity],
-    ['Weight', item => `${item.weight} ${item.weightUnit}`],
-    ['Product Value', item => `$${item.productValue.toFixed(2)}`],
-    ['Shipping', item => `$${item.shipping.toFixed(2)}`],
-    ['Insurance', item => `$${item.insurance.toFixed(2)}`],
-    ['Subtotal', item => `$${item.subtotal.toFixed(2)}`],
     ['Base Duty Rate', item => {
       const rate = item?.mrn_rate;
       if (rate === null || rate === undefined || rate === '') return '-';
@@ -164,21 +187,23 @@ function create_table_PDF(results) {
     }],
     ['301 Duty Rate', item => `${item.tax301_rate}%`],
     ['Reciprocal Rate', item => `${item.reciprocal_total_rate}%`],
-    ['Total Duty Rates', item => {
+    ['VAT Rate', item => `${item.vat_rate}%`],
+    ['Effective Rate', item => {
       const mrn = item.mrn_rate ?? 0;
       const tax301 = Number(item.tax301_rate ?? 0);
       const reciprocal = Number(item.reciprocal_total_rate ?? 0);
+      const VAT = Number(item.vat_rate ?? 0);
       const isCompoundRate = typeof mrn === 'string' && (mrn.includes('/') || mrn.includes('c'));
       if (!isCompoundRate) {
         const base = Number(mrn ?? 0);
-        const total = base + tax301 + reciprocal;
+        const total = base + tax301 + reciprocal + VAT;
         return `${total.toFixed(2)}%`;
       } else {
-        const total = tax301 + reciprocal;
+        const total = tax301 + reciprocal + VAT;
         return `${total.toFixed(2)}% + ${mrn}`;
       }
     }],
-    ['VAT Rate', item => `${item.vat_rate}%`],
+    ['Landing Cost', item => `$${item.landing_cost.toFixed(2)}`],
   ];
 
   // Split results into chunks of 5
@@ -256,7 +281,26 @@ function create_table_PDF(results) {
         }
       },
     });
+    
+    y = doc.lastAutoTable.finalY + 15;
   }
+
+  // Add least cost country analysis at the bottom
+  const leastCostAnalysis = results.reduce((min, current) => {
+    return current.landing_cost < min.landing_cost ? current : min;
+  });
+
+  doc.setFontSize(14);
+  doc.setFont('times', 'bold');
+  doc.text('Cost Analysis Summary', margin, y);
+  y += 8;
+
+  doc.setFontSize(10);
+  doc.setFont('times', 'normal');
+  doc.text(`Lowest Cost Country: ${leastCostAnalysis.origin_country}`, margin, y);
+  y += 6;
+  doc.text(`Landing Cost: $${leastCostAnalysis.landing_cost.toFixed(2)}`, margin, y);
+  y += 6;
 
   const blob = doc.output('blob');
   const pdfUrl = URL.createObjectURL(blob);

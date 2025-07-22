@@ -9,7 +9,7 @@
         <img
           v-if="msg.from === 'bot'"
           class="avatar"
-          src="https://randomuser.me/api/portraits/men/32.jpg"
+          :src="botAvatar"
           alt="Bot"
         />
         <div class="bubble" @mouseenter="hoverIndex = idx" @mouseleave="hoverIndex = null">
@@ -41,6 +41,17 @@
     </form>
   </div>
 </template>
+<script>
+import botAvatar from '@/assets/robot.jpg'
+
+export default {
+  data() {
+    return {
+      botAvatar
+    }
+  }
+}
+</script>
 
 <script setup>
 
@@ -158,6 +169,10 @@ onMounted(async () => {
     await scrollToTop();
   })
 
+  emitter.on('image_upload', async (data) => {
+    messages.value.push({ from: 'bot', text: data });
+    await scrollToBottom();
+  })
   // listen for if user wants the final landing cost
   emitter.on('sentUserCalculationRequest', async (data) => {
     messages.value.push({ from: 'user', text: data });
@@ -366,7 +381,6 @@ function formatLandingBreakdown(data) {
     </table>
   `;
 }
-
 </script>
 
 <style scoped>
@@ -415,6 +429,7 @@ function formatLandingBreakdown(data) {
   background: #18181b;
   border: 2px solid #353545;
   flex-shrink: 0;
+  object-position: center center; /* Adjust these values */
 }
 
 .bubble {
