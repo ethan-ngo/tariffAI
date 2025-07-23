@@ -1,4 +1,4 @@
-<h1 align="left">🧠📊 Tariff AI</h1>
+###🧠📊 Tariff AI
 ---
 
 ## 🗂️ Overview
