@@ -1,4 +1,4 @@
-### 🧠📊 Tariff AI
+# 🧠📊 Tariff AI
 
 ---
 
@@ -67,5 +67,5 @@ npm run serve
 
 ### 4. Access the Application
 
-Visit [http://localhost:3000](http://localhost:8080) in your browser.
+Visit [http://localhost:8080](http://localhost:8080) in your browser.
 ---
