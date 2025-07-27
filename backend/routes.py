@@ -214,7 +214,7 @@ def calcLanding():
 
         # VAT source
         formattedCountry = country[0].upper() + country[1:].lower()
-        res = getVAT(formattedCountry)
+        res = getVAT("United States")
         print("res is ", res)
         if res:
             VAT_link = res[1]
