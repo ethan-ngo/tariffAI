@@ -52,16 +52,15 @@ def getVAT(target_country: str) -> tuple[str, str]:
     return None
 
 def getVAT_AI(target_country: str, prod_desc: str) -> float:
-    prompt = f"""
-    What is the best estimate of the VAT rate in {target_country} for {prod_desc}?
-    If multiple rates exist, choose the most typical or average one based on similar products or general VAT rules.
+    return 0.0
+    # prompt = f"""
+    # What is the best estimate of the VAT rate in {target_country} for {prod_desc}?
+    # If multiple rates exist, choose the most typical or average one based on similar products or general VAT rules.
 
-    Always return a number only (e.g., 18.0). If the country does not charge VAT, return 0.
+    # Always return a number only (e.g., 18.0). If the country does not charge VAT, return 0.
 
-    Do not include any text, explanation, or symbols — only the number.
-    """
-    res = callOpenAI(prompt)
-    print(res)
-    return float(res.strip())
-
-getVAT_AI("China", "test")
+    # Do not include any text, explanation, or symbols — only the number.
+    # """
+    # res = callOpenAI(prompt)
+    # print(res)
+    # return float(res.strip())
