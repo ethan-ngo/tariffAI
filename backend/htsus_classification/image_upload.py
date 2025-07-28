@@ -23,3 +23,4 @@ def predictImage(file):
         return response.json()['predictions'][0]
     else:
         return ("Error:", response.status_code, response.text)
+

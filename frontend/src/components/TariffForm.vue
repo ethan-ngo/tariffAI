@@ -10,32 +10,39 @@
 
       <div class="form-grid">
         <!-- HTSUS Code -->
-        <div class="form-row form-row-wide">
+        <div class="form-row form-row">
           <label for="code">HTSUS Code (for calculation):</label>
           <input type="text" id="code" v-model="code" placeholder="ex) 0000.00.0000">
+          <p v-if="errors.code" class="error-message">{{ errors.code }}</p>
+        </div>
+
+        <!-- HTSUS Code -->
+        <div class="form-row form-row">
+          <label for="code">HTSUS Chapter (optional but improves classification):</label>
+          <input type="text" id="code" v-model="code" placeholder="ex) 05">
           <p v-if="errors.code" class="error-message">{{ errors.code }}</p>
         </div>
 
         <!-- Product Description -->
         <div class="form-row form-row-wide">
           <label for="productDesc">Product Description:</label>
-  <div class="desc-with-upload">
-    <textarea
-      id="productDesc"
-      v-model="productDesc"
-      rows="2"
-      placeholder="Enter product description or upload image..."
-    ></textarea>
-    <label class="upload-icon-btn">
-      <input type="file" accept="image/*" @change="handleImageUpload" hidden />
-      <img
-        src="@/assets/image_upload.png"
-        alt="Upload"
-        class="upload-icon-img"
-      />
-    </label>
-  </div>
-  <p v-if="errors.productDesc" class="error-message">{{ errors.productDesc }}</p>
+          <div class="desc-with-upload">
+            <textarea
+              id="productDesc"
+              v-model="productDesc"
+              rows="2"
+              placeholder="Enter product description or upload image..."
+            ></textarea>
+            <label class="upload-icon-btn">
+              <input type="file" accept="image/*" @change="handleImageUpload" hidden />
+              <img
+                src="@/assets/image_upload.png"
+                alt="Upload"
+                class="upload-icon-img"
+              />
+            </label>
+          </div>
+          <p v-if="errors.productDesc" class="error-message">{{ errors.productDesc }}</p>
         </div>
 
         <!-- Origin Country -->
@@ -137,6 +144,7 @@ export default {
     return {
       countryInput: '',
       countries: [], // store multiple countries
+      chapter: '',
       productDesc: '',
       image: null,
       imagePreviewUrl: '',
@@ -278,7 +286,8 @@ export default {
             origin_country: formatted_country,
             weight: this.weight,
             weight_unit: this.weightUnit,
-            quantity: this.quantity
+            quantity: this.quantity,
+            chapter: this.chapter || null
           })
         });
         const data = await response.json();

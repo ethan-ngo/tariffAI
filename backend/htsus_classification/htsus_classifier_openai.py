@@ -145,27 +145,33 @@ def get_final_duty_hts_rates(classification_text):
 
 # Main logic: classify the product_description by HTSUS codes 
 # Returns chatbot output with HTSUS code, taxes, descriptions
-def classify_htsus(product_description, country, weight, weight_unit, quantity):
+def classify_htsus(product_description, country, weight, weight_unit, quantity, chapter):
     # Step 1: Process and simplify the product_description into keywords
     # product_simplified = semantically_process_product_description(product_description)
     # if not product_simplified: 
     #     print("Failed to process product description semantics. Exiting classification.")
     #     return
     
-    # Step 2: Get the HTSUS chapter number based on the simplified product description
-    product_chapter = get_chapter_number(product_description)
-    if not product_chapter:
-        print("Failed to retrieve HTSUS chapter number. Exiting classification.")
-        return
+    print("Chapter is ", chapter)
+    product_chapter = chapter
+
+    if product_chapter == None or product_chapter.strip() == "": 
+        # Step 2: Get the HTSUS chapter number based on the simplified product description
+        print("No chapter provided, attempting to retrieve chapter number from product description...")
+        product_chapter = get_chapter_number(product_description)
+        if not product_chapter:
+            print("Failed to retrieve HTSUS chapter number. Exiting classification.")
+            return
     
-    product_chapter = extract_chapter_number(product_chapter)
+        product_chapter = extract_chapter_number(product_chapter)
 
     if not product_chapter:
         print("Failed to extract HTSUS chapter number. Exiting classification.")
         return
     if len(product_chapter) == 1:
         product_chapter = "0" + product_chapter 
-    print(f"HTSUS Chapter Number: {product_chapter}")
+
+    # print(f"HTSUS Chapter Number: {product_chapter}")
 
     # Step 3: Get the top n HTSUS codes based on the product description and chapter
     top_40_codes = get_top_n_codes(product_description, product_chapter, 40)
@@ -215,8 +221,8 @@ if __name__ == "__main__":
     # prod_des = "steel"
     # country = "China"
 
-    # res = (classify_htsus(prod_des, country, 1, "kg", 1))
-
+    # res = (classify_htsus(prod_des, country, 1, "kg", 1, ""))
+    # print(res)
     
     # classify_htsus("Men 100 cotton denim jeans") # WRONG! it outputted 6203.42.4011 & 16.6%; WRONG SHUD BE 6203.42.07.11
     # classify_htsus("Leather handbag") # works! it outputted the 3 possibilities shown in few_shot.txt
