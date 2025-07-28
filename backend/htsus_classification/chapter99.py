@@ -11,8 +11,7 @@ from selenium.webdriver.chrome.service import Service
 
 options = Options()
 options.add_argument('--headless')
-service = Service(executable_path='.\htsus_classification\chromedriver.exe')
-driver = webdriver.Chrome(service=service, options=options)
+driver = webdriver.Chrome(options=options)
 driver.get("https://www.tradecomplianceresourcehub.com/2025/07/14/trump-2-0-tariff-tracker/")
 time.sleep(2)
 
