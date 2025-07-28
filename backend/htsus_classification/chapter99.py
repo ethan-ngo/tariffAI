@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 import requests
 import re
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 
 options = Options()
 options.add_argument('--headless')
@@ -26,6 +25,41 @@ for row in prod_rows[1:]:
     product = row.find_element(By.TAG_NAME,"td").text
     productSet.add(product)
 productHeader = prod_rows[0].get_attribute("outerHTML")
+
+allRow = country_table.find_elements(By.TAG_NAME, "tr")[1]
+allCells = allRow.find_elements(By.TAG_NAME, "td")
+allRate = allCells[2].text.split("%")[0]
+allStatus = allCells[1].text.split("\n\n")[0].replace("\n", " ")
+allReciprocal = (allRate, "Baseline " + allStatus)
+
+countryMap = {}
+rows = country_table.find_elements(By.TAG_NAME, "tr")
+for row in rows[1:]:
+    cells = row.find_elements(By.TAG_NAME, "td")
+    if cells:
+        country = cells[0].text
+        countryRate = cells[2].text.split("%")[0]
+        status = cells[1].text.split("\n\n")[0].replace("\n", " ")
+
+        if "Threatened" in status:
+            countryTuple = ('0', status + " - " + countryRate)
+        else:
+            if countryRate:
+                countryTuple = (countryRate, country + " " + status)
+            else:
+                countryTuple = ('0', country)
+        
+        countryMap[country] = countryTuple
+
+productMap = {}
+rows = prod_table.find_elements(By.TAG_NAME, "tr")
+for row in rows:
+    cells = row.find_elements(By.TAG_NAME, "td")
+    if cells:
+        product = cells[0].text
+        productMap[product] = row.get_attribute("outerHTML")
+
+driver.quit()
 
 load_dotenv()
 url = os.getenv("OPENAI_URL")
@@ -50,36 +84,6 @@ def callOpenAI(query: str) -> str:
     else:
         return ("Error:", response.status_code, response.text)
 
-def getAllReciprocal() -> tuple[str, str]:
-    allRow = country_table.find_elements(By.TAG_NAME, "tr")[1]
-    allCells = allRow.find_elements(By.TAG_NAME, "td")
-    allRate = allCells[2].text.split("%")[0]
-    allStatus = allCells[1].text.split("\n\n")[0].replace("\n", " ")
-    return (allRate, "Baseline " + allStatus)
-
-def getRecipricalByCountry(country) -> tuple[str, str]:
-    rows = country_table.find_elements(By.TAG_NAME, "tr")
-    for row in rows:
-        cells = row.find_elements(By.TAG_NAME, "td")
-        if cells and country in cells[0].text:
-            countryCells = row.find_elements(By.TAG_NAME, "td")
-            countryRate = countryCells[2].text.split("%")[0]
-            status = countryCells[1].text.split("\n\n")[0].replace("\n", " ")
-            if "Threatened" in status:
-                return ('0', status + " - " + countryRate)
-            else:
-                if countryRate:
-                    return (countryRate, country + " " + status)
-                else:
-                    return ('0', country)
-
-def getReciprocalByProduct(product):
-    rows = prod_table.find_elements(By.TAG_NAME, "tr")
-    for row in rows:
-        cells = row.find_elements(By.TAG_NAME, "td")
-        if cells and cells[0].text == product:
-            return(row.get_attribute("outerHTML"))
-        
 def formatHTML(tableHTML):
     soup = BeautifulSoup(tableHTML, 'html.parser')
     headerRow, prodRow = soup.find_all("tr")
@@ -106,13 +110,9 @@ def formatHTML(tableHTML):
         prodDict[cell] = formatted
     return prodDict
 
-
 def getReciprocal(product_desc, country):
 
-    allReciprocal = getAllReciprocal()
-    print(allReciprocal)
-    countryReciprocal = getRecipricalByCountry(country)
-    print(countryReciprocal)
+    countryReciprocal = countryMap[country]
     prompt = f"""
     You are a classification assistant.
 
@@ -129,7 +129,7 @@ def getReciprocal(product_desc, country):
     if category == "Nothing":
         return [allReciprocal, countryReciprocal]
     
-    html = getReciprocalByProduct(category)
+    html = productMap[category]
     table = formatHTML(productHeader + html)
     prompt = f""""
     You are a tariff data extractor.
