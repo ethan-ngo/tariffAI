@@ -1,13 +1,37 @@
 <template>
   <div class="tariff-form-container">
 
+    <h1>Landifly</h1>
     <form class="tariff-form">
       <p class="description-text">
-        If you have the HTSUS code, 
-        Enter all details and click Submit Calculation to estimate landed 
-        cost. If you don’t know the HTSUS code, use Submit Classification.
-        Use Compare Countries to get the estimated duties for multiple countries.
+        Welcome! Please click <a href="#" id="openModalLink"> here</a> to learn how to use Landifly! 
       </p>
+
+      <div id="modalOverlay" class="modal-overlay">
+        <div class="modal-content">
+          <span class="close-button" id="closeModal">&times;</span>
+          <ul class="description-text">
+            <li>
+              If you have the HTSUS code, enter all the details in the <strong>form</strong> below and click <strong>"Submit Calculation"</strong> to get a breakdown of the landed cost.
+            </li>
+            <li>
+              If you don’t know the HTSUS code, enter the HTSUS chapter (if known), product description, origin country, weight, and quantity, 
+              then click <strong>"Submit Classification"</strong> to get recommended HTSUS codes for your product.
+            </li>
+            <li>
+              To get the estimated landed cost for multiple countries, use <strong>"Compare Countries"</strong>.
+            </li>
+            <li>
+              To get the total landed cost for multiple products you plan to import, download the PDF in <strong>"Open Items"</strong>. 
+              For products to show up in this PDF, you must first submit the calculation for the product.
+            </li>
+            <li>
+              All results will be displayed in the <strong>chatbot</strong> on the right side of the screen. You may use the chatbot
+              to ask about general HTS classification and tariff rates.
+            </li>
+          </ul>
+        </div>
+      </div>
 
       <div class="form-grid">
         <!-- HTSUS Code -->
@@ -143,6 +167,29 @@ function buildHTSUSLinksFromDutyRates(dutyRates) {
       return `"https://hts.usitc.gov/search?query=${encodeURIComponent(code)}"`;
     });
 }
+
+// handles the instructions pop up 
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('modalOverlay');
+    const openBtn = document.getElementById('openModalLink');
+    const closeBtn = document.getElementById('closeModal');
+
+    openBtn.addEventListener('click', (e) => {
+      console.log("clicked here to open the instructions");
+      e.preventDefault();
+      modal.style.display = 'block';
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  });
 
 export default {
   name: 'TariffForm',
@@ -681,8 +728,8 @@ export default {
   align-items: center;
 }
 h1 {
-  font-size: 1.50rem;
-  margin-bottom: 20px;
+  font-size: 1.75rem;
+  margin-bottom: 4px;
 }
 .tariff-form {
   width: 100%;
@@ -702,12 +749,12 @@ h1 {
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px 24px;
+  gap: 4px 24px;
 }
 .form-row {
   display: flex;
   flex-direction: column;
-  gap: 1%;
+  gap: 0px;
 }
 .form-row-wide {
   grid-column: 1 / 3;
@@ -741,7 +788,7 @@ h1 {
 }
 button {
   margin-top: 0%;
-  padding: 10px 20px;
+  padding: 6px 16px;
   background-color: #4f46e5;
   color: white;
   border: none;
@@ -820,6 +867,43 @@ button:hover {
   gap: 10px; /* Adds space between country tags */
   justify-content: center;
   margin-top: 6px;
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(1px);
+}
+
+.modal-content {
+  background: white;
+  width: 90%;
+  max-width: 600px;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modal-content ul {
+  padding-left: 20px;
+}
+
+.modal-content li {
+  margin-bottom: 10px;
+  line-height: 1.4;
 }
 
 
