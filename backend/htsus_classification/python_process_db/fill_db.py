@@ -2,10 +2,17 @@ from langchain_community.document_loaders import CSVLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import chromadb
 import csv
+import os
 
 # setting the environment
-DATA_PATH = r"data/htsus_flattened_with_chapters.csv"
-CHROMA_PATH = r"chroma_db"
+
+# 1) Get the folder this script lives in (process/)
+BASE_DIR = os.path.dirname(__file__)
+
+# 2) Go up one level (to project/) and into data/
+DATA_PATH = os.path.abspath(os.path.join(BASE_DIR, os.pardir, "data", "htsus_flattened_with_chapters.csv"))
+
+CHROMA_PATH = os.path.abspath(os.path.join(BASE_DIR, os.pardir, "chroma_db"))
 chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
 # collection = chroma_client.get_or_create_collection(name="htsus_codes")
 collections_by_chapter = {} # Dictionary to track chapter collections
