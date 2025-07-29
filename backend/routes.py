@@ -284,7 +284,7 @@ def classify_htsus_path():
         if not quantity:
             return jsonify({"error": "Missing 'quantity' in JSON data"}), 400  
         
-        chapter = data.get('chapter', None)  # optional
+        chapter = data.get('chapter') 
         
         result = classify_htsus(product_description, origin_country, weight, weight_unit, quantity, chapter)
 

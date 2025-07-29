@@ -3,6 +3,7 @@
 
     <form class="tariff-form">
       <p class="description-text">
+        If you have the HTSUS code, 
         Enter all details and click Submit Calculation to estimate landed 
         cost. If you don’t know the HTSUS code, use Submit Classification.
         Use Compare Countries to get the estimated duties for multiple countries.
@@ -10,17 +11,25 @@
 
       <div class="form-grid">
         <!-- HTSUS Code -->
-        <div class="form-row form-row">
+        <div class="form-row form-row-wide">
           <label for="code">HTSUS Code (for calculation):</label>
           <input type="text" id="code" v-model="code" placeholder="ex) 0000.00.0000">
           <p v-if="errors.code" class="error-message">{{ errors.code }}</p>
         </div>
 
-        <!-- HTSUS Code -->
-        <div class="form-row form-row">
-          <label for="code">HTSUS Chapter (optional but improves classification):</label>
-          <input type="text" id="code" v-model="code" placeholder="ex) 05">
-          <p v-if="errors.code" class="error-message">{{ errors.code }}</p>
+        <!-- HTSUS Chapter -->
+        <div class="form-row-wide form-row">
+          <label for="chapter">HTSUS Chapter (optional but improves classification):</label>
+          <select id="chapter" v-model="chapter">
+            <option value="">Select a chapter</option>
+            <option
+              v-for="(name, number) in htsusChapters"
+              :key="number"
+              :value="String(number).padStart(2, '0')"
+            >
+              {{ number }}: {{ name }}
+            </option> 
+          </select>
         </div>
 
         <!-- Product Description -->
@@ -144,6 +153,105 @@ export default {
     return {
       countryInput: '',
       countries: [], // store multiple countries
+      htsusChapters: {
+        1: "Live animals",
+        2: "Meat and edible meat offal",
+        3: "Fish and Crustaceans, molluscs and other aquatic invertebrates",
+        4: "Dairy produce; birds eggs; natural honey; edible products of animal origin, not elsewhere specified or included",
+        5: "Products of animal origin, not elsewhere specified or included",
+        6: "Live trees and other plants; bulbs, roots and the like; cut flowers and ornamental foliage",
+        7: "Edible vegetables and certain roots and tubers",
+        8: "Edible fruit and nuts; peel of citrus fruit or melons",
+        9: "Coffee, tea, maté and spices",
+        10: "Cereals",
+        11: "Products of the milling industry; malt; starches; inulin; wheat gluten",
+        12: "Oil seeds and oleaginous fruits; miscellaneous grains, seeds and fruits; industrial or medicinal plants; straw and fodder",
+        13: "Lac; gums, resins and other vegetable saps and extracts",
+        14: "Vegetable plaiting materials; vegetable products not elsewhere specified or included",
+        15: "Animal or vegetable fats and oils and their cleavage products prepared edible fats; animal or vegetable waxes",
+        16: "Preparations of meat, of fish or of crustaceans, molluscs or other aquatic invertebrates",
+        17: "Sugars and sugar confectionery",
+        18: "Cocoa and cocoa preparations",
+        19: "Preparations of cereals, flour, starch or milk; bakers' wares",
+        20: "Preparations of Vegetables, Fruit, Nuts",
+        21: "Miscellaneous edible preparations",
+        22: "Beverages, spirits and vinegar",
+        23: "Residues and waste from the food industries; prepared animal feed",
+        24: "Tobacco and manufactured tobacco substitutes",
+        25: "Salt; sulfur; earths and stone; plastering materials, lime and cement",
+        26: "Ores, slag and ash",
+        27: "Mineral fuels, mineral oils and products of their distillation; bituminous substances; mineral waxes",
+        28: "Inorganic chemicals; organic or inorganic compounds of precious metals, of rare-earth metals, of radioactive elements or of isotopes",
+        29: "Organic chemicals",
+        30: "Pharmaceutical products",
+        31: "Fertilizers",
+        32: "Tanning or dyeing extracts; dyes, pigments, paints, varnishes, putty and mastics",
+        33: "Essential oils and resinoids; perfumery, cosmetic or toilet preparations",
+        34: "Soap, surfactants, cleaning and lubricating preparations, waxes (artificial/prepared), polishes, candles, modeling pastes, and dental preparations",
+        35: "Albuminoidal substances; modified starches; glues; enzymes",
+        36: "Explosives; pyrotechnic products; matches; pyrophoric alloys; certain combustible preparations",
+        37: "Photographic or cinematographic goods",
+        38: "Miscellaneous chemical products",
+        39: "Plastics and articles thereof",
+        40: "Rubber  and articles thereof",
+        41: "Raw hides and skins (other than furskins) and leather",
+        42: "Articles of leather; saddlery and harness; travel goods, handbags and similar containers; articles of animal gut (other than silkworm gut)",
+        43: "Furskins and artificial fur; manufactures thereof",
+        44: "Wood and articles of wood; wood charcoal",
+        45: "Cork and articles of cork",
+        46: "Manufactures of straw, of esparto or of other plaiting materials; basketware and wickerwork",
+        47: "Pulp of wood or of other fibrous cellulosic material; waste and scrap of paper or paperboard",
+        48: "Paper and paperboard; articles of paper pulp, of paper or of paperboard",
+        49: "Printed books, newspapers, pictures and other products of the printing industry; manuscripts, typescripts and plans",
+        50: "Silk",
+        51: "Wool, fine or coarse animal hair; horsehair yarn and woven fabric",
+        52: "Cotton",
+        53: "Other vegetable textile fibers; paper yarn and woven fabric of paper yarn",
+        54: "Man-made filaments",
+        55: "Man-made staple fibers",
+        56: "Wadding, felt and nonwovens; special yarns, twine, cordage, ropes and cables and articles thereof",
+        57: "Carpets and other textile floor coverings",
+        58: "Special woven fabrics; tufted textile fabrics; lace, tapestries; trimmings; embroidery",
+        59: "Impregnated, coated, covered or laminated textile fabrics; textile articles of a kind suitable for industrial use",
+        60: "Knitted or crocheted fabrics",
+        61: "Articles of apparel and clothing accessories, knitted or crocheted",
+        62: "Articles of apparel and clothing accessories, not knitted or crocheted",
+        63: "Other made up textile articles; sets; worn clothing and worn textile articles; rags",
+        64: "Footwear, gaiters and the like; parts of such articles",
+        65: "Headgear and parts thereof",
+        66: "Umbrellas, sun umbrellas, walking sticks, seatsticks, whips, riding-crops and parts thereof",
+        67: "Prepared feathers and down and articles made of feathers or of down; artificial flowers; articles of human hair",
+        68: "Articles of stone, plaster, cement, asbestos, mica or similar materials",
+        69: "Ceramic products",
+        70: "Glass and glassware",
+        71: "Pearls, gemstones, precious metals (incl. clad), articles thereof; imitation jewelry; coins",
+        72: "Iron and steel",
+        73: "Articles of iron or steel",
+        74: "Copper and articles thereof",
+        75: "Nickel and articles thereof",
+        76: "Aluminum and articles thereof",
+        78: "Lead and articles thereof",
+        79: "Zinc and articles thereof",
+        80: "Tin and articles thereof",
+        81: "Other base metals; cermets; articles thereof",
+        82: "Tools, implements, cutlery, spoons and forks, of base metal; parts thereof of base metal",
+        83: "Miscellaneous articles of base metal",
+        84: "Nuclear reactors, boilers, machinery and mechanical appliances; parts thereof",
+        85: "Electrical machinery and equipment; sound recorders and reproducers, TVs, and parts and accessories of such articles",
+        86: "Railway or tramway locomotives; track fixtures; mechanical (including electro-mechanical) traffic signalling equipment",
+        87: "Vehicles other than railway or tramway rolling stock, and parts and accessories thereof",
+        88: "Aircraft, spacecraft, and parts thereof",
+        89: "Ships, boats and floating structures",
+        90: "Optical, photographic, cinematographic, measuring, checking, precision, medical or surgical instruments; parts thereof",
+        91: "Clocks and watches and parts thereof",
+        92: "Musical instruments; parts and accessories of such articles",
+        93: "Arms and ammunition; parts and accessories thereof",
+        94: "Furniture; bedding, mattresses, cushions & similar furnishings; lamps, lighting fittings; illuminated signs; prefab buildings",
+        95: "Toys, games and sports requisites; parts and accessories thereof",
+        96: "Miscellaneous manufactured articles",
+        97: "Works of art, collectors' pieces and antiques",
+        98: "Special classification provisions"
+      },
       chapter: '',
       productDesc: '',
       image: null,
@@ -278,6 +386,8 @@ export default {
         const country = this.countries[0]
         const formatted_country = country.charAt(0).toUpperCase() + country.slice(1).toLowerCase();
 
+        console.log("chapter is ", this.chapter);
+
         const response = await fetch('http://127.0.0.1:5000/classifier/htsus', {
               method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -287,7 +397,7 @@ export default {
             weight: this.weight,
             weight_unit: this.weightUnit,
             quantity: this.quantity,
-            chapter: this.chapter || null
+            chapter: this.chapter || ''
           })
         });
         const data = await response.json();
@@ -609,6 +719,7 @@ h1 {
 }
 .form-row input,
 .form-row select,
+.form-row-wide select,
 .form-row textarea {
   padding: 7px;
   border: 1px solid #ccc;
