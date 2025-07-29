@@ -146,10 +146,10 @@ def workflow(query):
     duty_keywords = ["duty rate", "duty", "duty tariff", "base duty", "mrn rate", "mrn", "rate"]
 
     if userIntent.startswith("hts_classification"):
-        _, prod_desc, country, weight, weight_unit, quantity = [x.strip() for x in userIntent.split(',')]
+        _, prod_desc, country, weight, weight_unit, quantity, chapter = [x.strip() for x in userIntent.split(',')]
         print("prod_desc is ", prod_desc, " country is ", country, " weight is ", weight, " weight unit is ", weight_unit, " quantity is ", quantity)
 
-        classification_result = classify_htsus(prod_desc, country, weight, weight_unit, quantity)
+        classification_result = classify_htsus(prod_desc, country, weight, weight_unit, quantity, chapter)
         output = generate_classification_html(classification_result, prod_desc, country)
 
     elif userIntent == "general hts questions":
@@ -206,3 +206,4 @@ def workflow(query):
 
     return output
 
+print(callOpenAI("white cotton tshirt"))
