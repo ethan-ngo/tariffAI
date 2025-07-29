@@ -12,7 +12,7 @@
           <span class="close-button" id="closeModal">&times;</span>
           <ul class="description-text">
             <li>
-              If you have the HTSUS code, enter all the details below and click <strong>"Submit Calculation"</strong> to get a breakdown of the landed cost.
+              If you have the HTSUS code, enter all the details in the <strong>form</strong> below and click <strong>"Submit Calculation"</strong> to get a breakdown of the landed cost.
             </li>
             <li>
               If you don’t know the HTSUS code, enter the HTSUS chapter (if known), product description, origin country, weight, and quantity, 
@@ -26,7 +26,7 @@
               For products to show up in this PDF, you must first submit the calculation for the product.
             </li>
             <li>
-              All results will be displayed in the chatbot on the right side of the screen. You may use the chatbot
+              All results will be displayed in the <strong>chatbot</strong> on the right side of the screen. You may use the chatbot
               to ask about general HTS classification and tariff rates.
             </li>
           </ul>
@@ -728,8 +728,8 @@ export default {
   align-items: center;
 }
 h1 {
-  font-size: 1.50rem;
-  margin-bottom: 20px;
+  font-size: 1.75rem;
+  margin-bottom: 4px;
 }
 .tariff-form {
   width: 100%;
@@ -749,12 +749,12 @@ h1 {
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px 24px;
+  gap: 4px 24px;
 }
 .form-row {
   display: flex;
   flex-direction: column;
-  gap: 1%;
+  gap: 0px;
 }
 .form-row-wide {
   grid-column: 1 / 3;
@@ -788,7 +788,7 @@ h1 {
 }
 button {
   margin-top: 0%;
-  padding: 10px 20px;
+  padding: 6px 16px;
   background-color: #4f46e5;
   color: white;
   border: none;
