@@ -4,7 +4,7 @@
 
 ## 🗂️ Overview
 
-**Tariff AI** is a tool for helping international sellers using SellingPilot better understand their total import costs to the United States by:
+**Landifly** is a tool for helping international sellers using SellingPilot better understand their total import costs to the United States by:
 
 - Classifying products into the correct HTS/HS codes from text or image input.
 - Determining applicable base duty rates and additional tariffs (e.g., Section 301).
