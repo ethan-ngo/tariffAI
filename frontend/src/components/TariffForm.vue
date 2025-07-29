@@ -22,7 +22,8 @@
               To get the estimated landed cost for multiple countries, use <strong>"Compare Countries"</strong>.
             </li>
             <li>
-              To get the total landed cost for multiple products you plan to import, download the PDF in <strong>"Open Items"</strong>.
+              To get the total landed cost for multiple products you plan to import, download the PDF in <strong>"Open Items"</strong>. 
+              For products to show up in this PDF, you must first submit the calculation for the product.
             </li>
             <li>
               All results will be displayed in the chatbot on the right side of the screen. You may use the chatbot
