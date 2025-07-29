@@ -146,12 +146,6 @@ def get_final_duty_hts_rates(classification_text):
 # Main logic: classify the product_description by HTSUS codes 
 # Returns chatbot output with HTSUS code, taxes, descriptions
 def classify_htsus(product_description, country, weight, weight_unit, quantity, chapter):
-    # Step 1: Process and simplify the product_description into keywords
-    # product_simplified = semantically_process_product_description(product_description)
-    # if not product_simplified: 
-    #     print("Failed to process product description semantics. Exiting classification.")
-    #     return
-    
     print("Chapter is ", chapter)
     product_chapter = chapter
 
@@ -170,8 +164,6 @@ def classify_htsus(product_description, country, weight, weight_unit, quantity, 
         return
     if len(product_chapter) == 1:
         product_chapter = "0" + product_chapter 
-
-    # print(f"HTSUS Chapter Number: {product_chapter}")
 
     # Step 3: Get the top n HTSUS codes based on the product description and chapter
     top_40_codes = get_top_n_codes(product_description, product_chapter, 40)

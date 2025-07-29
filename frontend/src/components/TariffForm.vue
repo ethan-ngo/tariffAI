@@ -3,6 +3,7 @@
 
     <form class="tariff-form">
       <p class="description-text">
+        If you have the HTSUS code, 
         Enter all details and click Submit Calculation to estimate landed 
         cost. If you don’t know the HTSUS code, use Submit Classification.
         Use Compare Countries to get the estimated duties for multiple countries.
@@ -186,7 +187,7 @@ export default {
         31: "Fertilizers",
         32: "Tanning or dyeing extracts; dyes, pigments, paints, varnishes, putty and mastics",
         33: "Essential oils and resinoids; perfumery, cosmetic or toilet preparations",
-        34: "Soap, organic surface-active agents, washing preparations, lubricating preparations, artificial waxes, prepared waxes, polishing or scouring preparations, candles and similar articles, modeling pastes, dental waxes and dental preparations with a basis of plaster",
+        34: "Soap, surfactants, cleaning and lubricating preparations, waxes (artificial/prepared), polishes, candles, modeling pastes, and dental preparations",
         35: "Albuminoidal substances; modified starches; glues; enzymes",
         36: "Explosives; pyrotechnic products; matches; pyrophoric alloys; certain combustible preparations",
         37: "Photographic or cinematographic goods",
@@ -223,7 +224,7 @@ export default {
         68: "Articles of stone, plaster, cement, asbestos, mica or similar materials",
         69: "Ceramic products",
         70: "Glass and glassware",
-        71: "Natural or cultured pearls, precious or semi-precious stones,precious metals, metals clad with precious metal and articles thereof; imitation jewelry; coin",
+        71: "Pearls, gemstones, precious metals (incl. clad), articles thereof; imitation jewelry; coins",
         72: "Iron and steel",
         73: "Articles of iron or steel",
         74: "Copper and articles thereof",
@@ -236,16 +237,16 @@ export default {
         82: "Tools, implements, cutlery, spoons and forks, of base metal; parts thereof of base metal",
         83: "Miscellaneous articles of base metal",
         84: "Nuclear reactors, boilers, machinery and mechanical appliances; parts thereof",
-        85: "Electrical machinery and equipment and parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles",
-        86: "Railway or tramway locomotives, rolling-stock and parts thereof; railway or tramway track fixtures and fittings and parts thereof; mechanical (including electro-mechanical) traffic signalling equipment of all kinds",
+        85: "Electrical machinery and equipment; sound recorders and reproducers, TVs, and parts and accessories of such articles",
+        86: "Railway or tramway locomotives; track fixtures; mechanical (including electro-mechanical) traffic signalling equipment",
         87: "Vehicles other than railway or tramway rolling stock, and parts and accessories thereof",
         88: "Aircraft, spacecraft, and parts thereof",
         89: "Ships, boats and floating structures",
-        90: "Optical, photographic, cinematographic, measuring, checking, precision, medical or surgical instruments and apparatus; parts and accessories thereof",
+        90: "Optical, photographic, cinematographic, measuring, checking, precision, medical or surgical instruments; parts thereof",
         91: "Clocks and watches and parts thereof",
         92: "Musical instruments; parts and accessories of such articles",
         93: "Arms and ammunition; parts and accessories thereof",
-        94: "Furniture; bedding, mattresses, mattress supports, cushions and similar stuffed furnishings; lamps and lighting fittings, not elsewhere specified or included; illuminated sign illuminated nameplates and the like; prefabricated buildings",
+        94: "Furniture; bedding, mattresses, cushions & similar furnishings; lamps, lighting fittings; illuminated signs; prefab buildings",
         95: "Toys, games and sports requisites; parts and accessories thereof",
         96: "Miscellaneous manufactured articles",
         97: "Works of art, collectors' pieces and antiques",
