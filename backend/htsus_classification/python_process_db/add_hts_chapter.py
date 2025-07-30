@@ -15,5 +15,7 @@ df["HTS_Chapter"] = df["HTS_Number"].astype(str).apply(extract_chapter)
 cols = ["HTS_Chapter"] + [col for col in df.columns if col != "HTS_Chapter"]
 df = df[cols]
 
-# Save to new CSV
+# Save to new CSV with the chapters column
+# htsus_flattened_with_chapters.csv must be the only file saved in the data directory
+    # htsus_flattened_with_chapters.csv is used as input to fill_db.py
 df.to_csv("htsus_flattened_with_chapters.csv", index=False)

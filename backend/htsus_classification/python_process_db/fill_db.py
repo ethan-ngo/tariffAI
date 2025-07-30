@@ -6,15 +6,18 @@ import os
 
 # setting the environment
 
-# 1) Get the folder this script lives in (process/)
+# Get the folder this script lives in (process/)
 BASE_DIR = os.path.dirname(__file__)
 
-# 2) Go up one level (to project/) and into data/
+# Go up one level (to project/) and into data/
 DATA_PATH = os.path.abspath(os.path.join(BASE_DIR, os.pardir, "data", "htsus_flattened_with_chapters.csv"))
 
+# initialize ChromaDB client
 CHROMA_PATH = os.path.abspath(os.path.join(BASE_DIR, os.pardir, "chroma_db"))
 chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
-# collection = chroma_client.get_or_create_collection(name="htsus_codes")
+
+# db is stored as a dict with the keys being the chapter numbers
+# and values being the codes under the respective chapter
 collections_by_chapter = {} # Dictionary to track chapter collections
 
 print("Finish env setup.")
@@ -22,6 +25,8 @@ print("Finish env setup.")
 BATCH_SIZE = 5000
 batches = {}
 
+# read in the CSV file in the data directory
+# upload the CSV file to the directory in batches of BATCH_SIZE and by chapter
 with open(DATA_PATH, newline='', encoding="utf-8-sig") as csvfile:
     reader = csv.DictReader(csvfile)
 
