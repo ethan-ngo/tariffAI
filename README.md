@@ -48,7 +48,7 @@ cd backend
 pip install -r requirements.txt
 ```
 
-### 3. Create the local database.
+### 3. Create the local database
 1. Go to https://www.usitc.gov/harmonized_tariff_information/hts/archive/list and download the most recent CSV file.
 2. Rename the CSV file to "htsus.csv"
 3. Upload "htsus.csv" to the backend/htsus_classification/python_process_db directory
