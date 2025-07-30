@@ -48,7 +48,16 @@ cd backend
 pip install -r requirements.txt
 ```
 
-### 3. Start the Application
+### 3. Create the local database.
+1. Go to https://www.usitc.gov/harmonized_tariff_information/hts/archive/list and download the most recent CSV file.
+2. Rename the CSV file to "htsus.csv"
+3. Upload "htsus.csv" to the backend/htsus_classification/python_process_db directory
+4. Run flatten_htsus.py
+5. Run add_hts_chapter.py
+6. Run fill_db.py (note that this step may take a while due to the large CSV file)
+7. At the end, there should be a new directory called crhoma_db under the htsus_classification directory
+
+### 4. Start the Application
 
 Open two separate terminal windows:
 
@@ -65,7 +74,7 @@ Navigate to the front-end directory and run the following command:
 npm run serve
 ```
 
-### 4. Access the Application
+### 5. Access the Application
 
 Visit [http://localhost:8080](http://localhost:8080) in your browser.
 ---
